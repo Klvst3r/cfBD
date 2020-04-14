@@ -1,0 +1,165 @@
+Temario del Curso Profesional de Base de Datos
+
+1.- Introdución
+    Introducción
+    check_circle
+    ¿Qué son las bases de datos?
+    check_circle
+    Modelo relacional
+    check_circle
+    Lenguaje SQL
+    check_circle
+    Instalación MySQL windows
+    check_circle
+    Instalación MySQL Linux
+    check_circle
+    Instalación MySQL Mac OS
+    check_circle
+    Restablecer contraseña root MySQL
+    check_circle
+
+
+2.- Servidor de base de datos
+    Realizar conexión con el servidor
+    check_circle
+    Declarar variables
+    Crear base de datos
+
+
+3.- Base de datos y tablas
+    Crear tablas
+    Tipos de datos
+    Listar y eliminar tablas
+    Obtener información de una tabla
+    Crear tablas a partir de otras
+    Insertar registros
+    Insertar múltiples registros
+    Ejecutar archivos .SQL
+    Condicionar sentencias
+    Consultas rápidas
+
+
+3.- Base de datos y tablas
+    Crear tablas
+    Tipos de datos
+    Listar y eliminar tablas
+    Obtener información de una tabla
+    Crear tablas a partir de otras
+    Insertar registros
+    Insertar múltiples registros
+    Ejecutar archivos .SQL
+    Condicionar sentencias
+    Consultas rápidas
+
+
+4.- Restricciones
+    Restricciones
+    Valores únicos y nulos
+    Valores por defualt
+    Números positivos
+    Tipo Enum
+    Llaves primarias
+    Llaves Foraneas
+    Implementación de restricciones
+
+
+5.- Modificar tablas
+    Modificar tablas
+    Modificar tablas
+
+
+6.- Sentencias basicas
+    ¿Cómo se ejecutan las sentencias SQL?
+    Obtener registros mediante condiciones
+    Operadores lógicos
+    Registros nulos
+    Registros mediante rangos
+    Búsqueda por listas
+    Registros unicos
+    Alías
+    Actualizar registros
+    Eliminar registros
+    Eliminación en cascada
+    Restaurar definición de una tabla
+
+
+7.- Funciones
+    Funciones en SQL
+    Funciones sobre strings
+    Funciones sobre números
+    Funciones sobre fechas
+    Funciones sobre condiciones
+    Crear función
+    Listar funciones
+    Ejecutar sentencias dentro de funciones
+
+
+8.- Sentencias avanzadas
+    Búsqueda mediante strings
+    Expresiones regulares
+    Ordenar registros
+    Limitar registros
+    ¿Qué son las funciones de agreación?
+    Funciones de agregación
+    Agrupamiento
+    Condiciones bajo agrupamiento
+    Unir resultados
+    Sub consultas
+    Validar registros
+    Ejercicios
+
+
+9.- Joins
+    Trabajo con múltiples tablas
+    Inner join
+    Sub clausula using
+    Left Join
+    Right Join
+    Múltiples joins
+    Productos cartesianos
+
+
+10.- Vistas
+    Vistas
+    Crear vistas
+    Editar vistas
+    Ejercicios parte 2
+
+
+11.- Procedimientos
+    Procedimientos almacenados
+    Crear procedimientos
+    Eliminar procedimientos
+    Obtener valores
+    Condicionales
+    Casos
+    Ciclos
+
+
+12.- Transacciones
+    Bloqueo de tablas
+    Transacciones
+    Implementar transacciones
+    Transacciones y store procedures
+
+
+13.- Extras
+    Motores de almacenamiento en MySQL
+    Eventos MySQL
+    Cursores MySQL
+    Respaldo de información
+    Asignar permisos a usuarios MySQL
+
+
+14.- Triggers
+    Triggers Mysql
+    Creación de Triggers
+    Evento Delete
+    Evento Update
+    Listado y eliminación de Triggers
+
+
+15.- Examen del curso
+    Examen del curso
+
+
