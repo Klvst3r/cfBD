@@ -1,0 +1,35 @@
+¿Qué son las bases de datos?
+
+Tutor
+Eduardo García
+@eduardo_gpg
+
+ Bd
+ Sistemas de Bd
+ BD relacionales
+
+Una Bd es conjunto de datos que poseen una relacion entre si,
+
+por ejemplo una guia telefonica es una Bd con nombres, numeros telefonicos y nombres.
+
+Aunque es una BD posee muchos problemas, por que para encontrar una persona absoervera mucho tiempo sin una guia
+
+Si un usuario modifica su direccion pero al ser impresa no podra mostrar los datos mas actuales y generara errores a una busqueda
+
+Una lista de alumnos 
+horarios de clase
+cartelera de cine
+
+Por ello se crearion los SBD conocidos gestores de bd
+
+son un conjunto de programas que permiten trabajar con bd
+agregando actualizando y borrando datos
+
+mysql
+postgresql
+sql server
+
+
+un bd es un conjutno de datos organizada y relacionadad entre si
+
+y un gestor de BD es el programa que nos permite trabajar con bd
