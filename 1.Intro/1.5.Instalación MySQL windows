@@ -1,0 +1,45 @@
+Instalación MySQL windows
+
+1. Dirigirnos a la pagina:
+https://dev.mysql.com/downloads/
+
+2. Seleccionar
+MySQL Installer 
+
+3. Download
+
+4. Iniciar el Instalador
+	Abrir el wizar para instalar MySQL
+		Aceptar la licencia
+
+5. Seleccionar
+	Developer Defaiult
+	Esta opcion instala todas las aplicaciones necesarias
+
+6. Por ellos cambiamos a Costum
+Parsamos al apartado para seleccionar solamente lo necesario:
+
+
+	MySQL Server 5.7.21	
+	MySQL Shell 1.0.11
+
+
+7. Type and Networking
+	Configurar como:
+	Development Machine Port 3306
+
+8. Accounts and roles Form
+Mysql root Password
+
+
+9. SeccionMySQL user acounts
+	Execute Intall
+
+10. Finish configurations
+
+MySQL Command Line
+ 
+
+ Test 
+ 	Select 1;
+

@@ -2,26 +2,17 @@ Temario del Curso Profesional de Base de Datos
 
 1.- Introdución
     Introducción
-    check_circle
     ¿Qué son las bases de datos?
-    check_circle
     Modelo relacional
-    check_circle
     Lenguaje SQL
-    check_circle
     Instalación MySQL windows
-    check_circle
     Instalación MySQL Linux
-    check_circle
     Instalación MySQL Mac OS
-    check_circle
     Restablecer contraseña root MySQL
-    check_circle
 
 
 2.- Servidor de base de datos
     Realizar conexión con el servidor
-    check_circle
     Declarar variables
     Crear base de datos
 
