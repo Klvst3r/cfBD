@@ -1,0 +1,19 @@
+Instalacion en Linux
+
+Es un sistema operativo basado en Unix
+
+
+1. Abrir Terminal
+
+	# sudo apt-get update
+
+	# sudo apt-get install mysql-server
+
+2. Visualizar una pantalla para escribir la constraseña de root
+
+	Aceptamos y el proceso de instalacion continuara
+
+3. Listo Para ejecutar.
+
+
+	
