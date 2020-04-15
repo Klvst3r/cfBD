@@ -1,0 +1,57 @@
+Modelo relacional
+
+Base de datos relacional
+Simplemente es un conjunto de información almacenada en una tabla de datos que tiene puntos claves en común con otra tabla...
+Ejemplo:
+Tabla de datos de clientes de X empresa, la tabla puede contener: 
+ID de usuario, nombre, dirección, números de contacto, dirección de correo electrónico.
+Tabla de datos de pedidos de productos, la tabla puede contener:
+ID de usuario, ID de producto, cantidad, fecha de pedido, fecha de entrega, fecha de pago.
+-La base de datos asignará un ID único a cada cliente y ambas tablas estarán conectadas por esa ID única y ALLÍ ESA ES LA RELACIÓN LA ID EN AMBAS TABLAS. 
+
+Hay diferentes tipos de bases de datos:
+
+---> Base de Datos Relacional
+---> BD NO Relacional
+
+BD Relacional: es una colección de tablas que almacena dichos registros de forma estructural.
+
+Se componen de columnas y filas.
+
+> Un modelo relacional, es una coleccion de tablas las cuales se almacenan informacion estructurada.
+> Una tabla posee Columnas y Filas.
+> Los Atributos pueden datos del tipo: Numericos, flotantes, alfanumericos, fechas, etc.
+> Una base de datos relacional es un cojunto de tablas, que almacena Entidades y estas entidades a la vez poseen atributos que se representan mediante Columnas.
+
+
+Actualmente existen dos vertientes
+
+Bd relacionales y No relacionales
+
+Bd relacionales enfocadas
+
+un bd relacional una colecicon de tablas donde se almacena informacion estructurada
+Una tabla poseera filas y columnas 
+en las columnas estara una entidad
+
+alumnos
+id_alumno	nombre		apellido	edad
+1			Luis		García 		24
+2			Fernando	Pérez		21
+3			Mariana		López		24
+4			Claudia		Hernández	27
+
+Almacena diferentes alumons cada columna es un atributo de la tabla alumno, los atributos puedes ser de tipo numerico, flotante caracter
+
+a las filas las conoceremos como filas o tuplas
+
+Cada tabla tendra un registro unico, este es conocido ocmo llave primaria
+
+En el modelo relacional lastablas deben de compartir datos redundasts de manera que puedan compartir datos redundantes
+
+Entonces podemos concluir:
+
+Una Bd es un conjunto de tablas que alacenan registros y entidades
+
+Cada entidad debe poseer un atributo que lo hace unico
+Para que las tablas tengan relacion entre si deben tener una clave unica llama clave primaria

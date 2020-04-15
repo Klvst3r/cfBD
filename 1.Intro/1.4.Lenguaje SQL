@@ -1,0 +1,37 @@
+Lenguaje SQL
+
+Para trabajar con Bd Relacionales hay que trabajar con un Gestor de BD
+
+Se utilizara el lenguaje MySQL
+
+En cada impleentacion de gestores se han dado modificaciones en sus sintaxis
+
+SQL ha sifrido cambios de acuerdo con el lenguaje SQL
+/*SQL Server*/
+SELECT titulo FROM libros ORDER BY autor_id;
+
+/*MySQL*/
+SELECT titulo FROM libros ORDER BY autor_id;
+
+Observamos que la sintaxis es parecida, en el siguiente caso debemos contar 
+
+/*SQL Server*/
+SELECT 
+	col1
+	ROW_NUMBER()
+	OVER (PARTITION BY col1 ORDER BY col1 DESC) AS intRow
+	 FROM Table1
+
+/*MySQL*/
+SELECT tabla0.col3
+FROM table AS tabla0 
+LEFT JOIN table as tabla1 ON tabla0.col1=tabl1.col1
+	AND tabla0.col2=tabla1.col2
+	AND tabla1.col3>tabla0.col3
+WHERE table1.col1 IS NULL;
+
+Se trabajara con clausulas, sentencias
+
+Para llevar el conocimiento a cualquier gestor de BD
+
+
