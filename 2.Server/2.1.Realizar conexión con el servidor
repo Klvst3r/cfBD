@@ -1,0 +1,102 @@
+2.1.Realizar conexión con el servidor
+
+
+La gestión de base de datos es una de las tareas más comunes en pequeñas, medianas y grandes empresas ya que estas permiten un control mucho más detallado y directo sobre los datos que deben ser registrados, así como la estructura que se le debe dar a los mismos.
+
+ 
+
+Aunque existen diversas opciones a nivel de base de datos, una de las más populares y usadas por miles de administradores es MySQL el cual nos permite contar con un servidor de bases de datos SQL (Structured Query Language - Lenguaje de consulta estructurado) con funciones y característica sobresalientes como lo son la seguridad, velocidad de acceso, escalabilidad, soporte de múltiples usuarios y ejecución de diversos procesos de forma simultánea.
+
+De manera general deberia de servir esto:
+
+
+Arranque del servicio MySQL
+Veamos 3 opciones dependiendo de tu versión, es necesario anteponer el comando sudo para las tareas administrativas.
+
+/etc/init.d/mysqld start
+service mysqld start
+service mysql start
+
+ 
+
+Detener el servicio MySQL
+Tenemos 3 opciones según la versión.
+
+/etc/init.d/mysqld stop
+service mysqld stop
+service mysql stop
+
+ 
+
+Reiniciar el servicio MySQL
+
+/etc/init.d/mysqld restart
+service mysqld restart
+service mysql restart
+
+
+
+
+Es posible que el servidor inicie con el arranque del sistema operativo Mac Os.
+
+
+Pero podemos inicializarlo desde la terminal con:
+
+mysql.serevr
+
+Localizado en:
+Inizializar Mysql
+
+# sudo /usr/local/mysql/support-files/mysql.server start
+
+
+
+Conectarnos al Servidor:
+
+Podemos hacer esta tarea de manera grafico con PhpMyAdmin, Workbench, aunque se recomienda trabajar en terminal.
+
+
+
+mysql -h localhost -u dev -p
+password:
+
+
+Considerando que el usuario dev tenga contraseña y entonces deberemos utuluizar la bandera -p
+
+
+la bandera -h apunta al servidor de conexion:
+pudiendo ser:
+localhost
+127.0.0.1
+
+
+si vemos el promt
+
+mysql>
+
+Habremos logrado la conexion de manera exitosa.
+
+Para salir podremos utilizar el comando 
+
+exit
+
+Para detener el servidor en Mac OS:
+
+
+# sudo /usr/local/mysql/support-files/mysql.server stop
+
+Para reiniciar el servidor
+
+
+# sudo /usr/local/mysql/support-files/mysql.server restart
+
+Notas:
+Como muchos han tenido dificultades para hacer esto, tal vez por algún despiste de los que imparten el curso, y gracias a un colega les dejo denuevo este link; 
+
+https://www.youtube.com/watch?v=UsMLwGEycbo&list=PL-Mlm_HYjCo-T8_c4cq_Turulaizs4tgj&index=2
+
+
+Referencias:
+
+https://www.digitalocean.com/community/tutorials/como-instalar-mysql-en-ubuntu-18-04-es
+
