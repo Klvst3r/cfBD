@@ -1,0 +1,60 @@
+En Mysql podemos declarar variables de la siguiente manera.
+
+1. Inicializar sesion con el cliente:
+
+	mysql -h localhost -u dev -p
+
+Para limpiar pantalla utilizamos
+
+mysql>system clear
+
+
+Declarar Variables
+
+mysql> SET @<nombre_var> = "valor"
+
+
+Ej:
+mysql> SET @nombre = "Klvst3r";
+
+A todas las variables es necesario anteponer @
+
+
+Podemos utilizar variables en cualquier lugar, en las sencencias SQL, en funciones en Store Procedures.
+
+
+
+ej:
+@suma = @val1 + val2;
+
+
+Otra estructura para declarar variables donde colocamos : y posteriormente se coloca el signo igual
+
+@variable := @valor;
+
+
+ej:
+mysql> SET @nombre := "Klvst3r";
+
+De ambas formas se pueden declarar variables.
+
+En lo personal utilizaremos la primera forma.
+
+Si es necesario declarar una linea de N variables lo podemos hacer: 
+
+SET @v1, @v2, @v3..;
+
+SET @curso = "Base de Datos", @gestor = "MySQL";
+
+
+Si queremos obtener el valor de una variable almacenada podemos utilizar la clausula SELECT
+
+SELECT @nombre;
+
+La clkausula SELECT devilvemos el valor desde el servidor, si pedimos variables;
+
+SELECT @nombre, @curso, @gestor;
+
+
+Las variables creadas solo le perteneceran a la sesion, otros usuarios autenticados en el servidor y no podran trabajar, utilizarlas, visualizarlas o borrarlas, por lo que al cerrar la sesion se habran perdido.
+
