@@ -1,0 +1,36 @@
+2.3. Crear Base de Datos
+
+Para crear nuestra BD seguiremos una estructura sencilla:
+
+CREATE DATABASE libreria_cf;
+
+Para visualizar la BD:
+
+SHOW DATABASES;
+
+En el listado estara las Bd del Sistema:
+
+information_schema:
+
+	
+
+libreria_cf
+mysql
+performance_schema
+sys
+
+Estas Bd son de suma importancia que almacenan datos sensibles:
+
+Por Ejemplo los usuarios, las contraseñas, la forma de almacenar los datos, la forma en que se extraen los datos, los indices, las funciones, los store procedures.
+
+Si queremos eliminar una Base de Datos.
+
+Es importante mencionar que al ejecutar el comando no hay vuelta atras, los datos se eliminaran de manera permanente.
+
+DROP DATABASE libreria_cf;
+
+si visualizamos notaremos que ya no existe:
+
+SHOW DATABASES;
+
+
