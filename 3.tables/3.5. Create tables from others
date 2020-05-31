@@ -1,0 +1,31 @@
+Cuanto tenemos la necesiodad de crear tablas muy parecidas a otras con algunas diferencias con columnas mas, columnas menos o con columnas con otros nombres.
+
+Si queremos hacer esto debemos seguir la siguiente estructura
+
+shot tables;
+
+autores
+
+Entonces vamos a generar otra a partir de esta.
+
+Para ello utilizamos
+
+ej.
+create table usuarios like <nombre_tabla_a_basar>
+
+
+>CREATE TABLE usuarios LIKE autores;
+
+Si nuevamente listamos ahora visualizaremos dos tablas.
+
+Si visualizamos la definicion de cada una.
+
+DESC autores;
+
+DESC usuarios
+
+
+Todos tienen el mismo nombre y tienen el mismo tipo de datos.
+
+De esta forma podremos generar un tabla a partir de otras.
+

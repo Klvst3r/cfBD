@@ -1,0 +1,121 @@
+Especificar con que _Bd trabajar
+
+
+
+1. Crear Base de Datos:
+
+	CREATE DATABASES libreria_cf;
+
+
+2. Cambiar a la Bd
+
+	USE libreria_cf;
+
+
+3. Generar nuestra tabla.
+
+Lo que debemos hacer es apoyarse de un aditor.
+
+sentencias.sql
+
+Para llevar registro de las sentencias sobre la BB.
+
+Generar nueva tabla:
+
+/*
+
+ */	
+
+Despues generar una lluvia de ideas sobre que infgormacion vamos a almacenar de la entidad.
+
+
+Los datos por ahora son:
+
+Nombre
+Genero
+Fecha de nacimiento 
+Pais de Origen
+
+Se puede agregar mas información a la lista.
+
+
+
+4. Generar las columnas de la tabla a partir de la lista
+
+Los tipos de datos seran los siguientes con sus tipos
+
+nonmbre VARCHAR()
+
+Varchar permite almacenar desde 0 hasta 65535 caracteres. es decir 2 exp 16
+
+
+genero CHAR()}
+
+CHAR permite almacenar tambien cadenas alfanumericas, la defirencia es la longitud de caracteres con este tipo de datos
+
+de 0 a 255 caracteres.
+
+en el formato sql podemos hacerlo con el sombolo
+
+-- M o F
+
+
+fecha_nacimiento DATE
+
+Con DATE indicamos que almacenaremos una fecha el formato es Año-mes-dia
+
+pais_origen(40)
+
+
+5. El siguiente paso es la normalización
+
+El proceso de normalizacion nos asegura que no tendremos datos duplicados o columnas compuestas en nuestras tablas.
+
+6. normalizar las columnas que sean compuestas.
+
+7. Agregar un campo on identificador unico que identifique al autor.
+
+autor_id INT
+
+INT PUEDE ALMACENAR DE -2147483648 A 2147483647
+
+Esta columna solo podra almacenar numeros enteros.
+
+Esta sera nuestra llave primaria posteriormente se definira.
+
+8. Generar nuestra tabla
+
+CREATE TABLE autores(
+	autor_id INT,
+	nombre VARCHAR(20),
+	appaterno VARCHAR(25),
+	apmaterno VARCHAR(25),
+	genero CHAR(1), -- M O F
+	fecha_nacimiento DATE,
+	pais_origen VARCHAR(40)
+);-- 
+
+
+La Bd fue creada satisfactoriamente en la terminal.
+
+9. Es necesario tomar tiempo para revisar la estructura por que a lo largo del desarrollo impactara en el desarrollo mismo.
+
+Esto es la definicion de nuestra tabla.
+
+
+
+
+
+
+Notas:
+Según la documentación entendí lo siguiente sobre CHAR Y VARCHAR...
+
+VARCHAR -> Se adapta a la memoria según el tamaño del string
+CHAR -> Aqui es lo contrario, si indicas que usas 10 caracteres CHAR(10), los va usar aunque tu string solo tenga 5 caracteres.
+
+https://dev.mysql.com/doc/refman/8.0/en/char.html
+
+Hola, estoy comenzando el curso, y el ejemplo de la TABLA "autores" de la Base de Datos "libreria_cf" se le debería agregar las columnas segundo_nombre y segundo_apellido, ya que muchos autores se identifican con sus dos nombres ("Juan Luis Arsuaga" ó "Miguel Ángel Asturias") o dos apellidos ("Gabriel García Marquez" ó "Mario Vargas Llosa") o incluso con los dos nombres y los dos apellidos (María Elvira Roca Barea). ¿se puede modificar esta estructura?
+
+
+

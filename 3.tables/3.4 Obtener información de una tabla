@@ -1,0 +1,20 @@
+si queremos obtener información de nuestra tabla, por ej.
+
+que columas contiene, que tipo de valores acepta.
+
+Podemos hacerlo por medio de dos sentencias.
+
+1. show columns from <nombre_tabla>
+
+> show columns from autores;
+Encontraremos las columnas y el tipo de dato de las columnas.
+
+2. Podemos visualizar la definicion de nuestra tabla.
+
+Utilizando desc <nombre_tabla>
+
+> desc autores;
+
+Desc es una abreviación de
+
+describe <nombre_tabla>

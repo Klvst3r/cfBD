@@ -1,0 +1,32 @@
+database() es una funcion
+
+Si queremos conocer las tablas que poseemos en una base de datos
+Ejecutaresmos:
+
+showtables
+
+Nos dara un listado de todos las tablas.
+
+Si queremos en que base de datos estamos trabajando
+
+select database()
+
+Nos retornara la base de datos en la que estamos trabajando.
+
+Si queremos finalizar una tabla.
+
+
+drop table <nombre_tabla>
+
+Ej.
+
+>drop table autores;
+
+
+Se eleiminatar todos los resgistros que la tabla posea.
+
+show tables;
+
+
+no hay tabla alguna.
+
