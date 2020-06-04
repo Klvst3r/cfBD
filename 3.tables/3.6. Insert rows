@@ -1,0 +1,30 @@
+INSERT INTO nombre_tabla
+
+
+INSERT INTO autores ()
+
+INSERT INTO autores (autor_id, nombre, apellido, genero, fecha_nacimiento, pais_origen)
+
+No importa el orden
+
+posteriormente 
+
+VALUES ()
+
+Donde se colocaran los valores asignados a cada columna respeto a cada posicion.
+
+
+INSERT INTO autores (autor_id, nombre, apellido, genero, fecha_nacimiento, pais_origen) VALUES (1, 'Test autor', 'Test_autor','M', '2018-01-3', 'México');
+
+
+Para insertar valores
+
+mysql> INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (1, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+No es necesario llenar valores en todas las columnas.
+
+Podemos insertar registros con algunas colamnas solamente
+
+SELECT * FROM autores;
+
+INSERT INTO autores (autor_id, nombre) VALUES ('2', 'Segundo Autor');  
