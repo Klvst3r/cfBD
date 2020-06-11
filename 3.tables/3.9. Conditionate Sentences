@@ -1,0 +1,62 @@
+Si una Bd o una tabla existen 
+podemos condicionar su creación o su eliminacion.
+
+Se ejecutara la sentencia 
+
+mysql> DROP DATABASE libraria_cd;
+
+La Bd se elimino correctamente, ahora ejecutaremos la sentencia
+
+sentences.sql
+
+Utilizando SOURCE
+
+mysql> SOURCE curso_db/sentences.sql
+
+Ejecutamos y si visualizamos las salidas encontraresmo un error.
+
+
+ERROR 1008: Can't drop database 'libreria_cf'; database doesn't EXIST
+
+Debido  que no existe por haberse eliminado antes.
+
+Para poder utilizar el archivo .sql
+
+Debemos de condicionar unas lineas.
+
+La linea 1 donde se elimina la Bd.
+
+Quedando:
+
+
+DROP DATABASE IF EXIST libreria_cf;
+
+Con esta nueva sentencia que elimina la Bd solo si esta existe.
+
+Eliminamos la Bd con las modificaciones.
+
+Si ejecutamos no existira error alguno.
+
+
+El IF EXIST lo podremos utilizar para condicionar una sentencia.
+
+Podemos colocar 
+IF NOT EXIST 
+
+CREATE DATABASE IF NOT EXISTS libreria_cf;
+
+basta con negar.
+
+Para un create table basta con:
+
+CREATE TABLE IF NOT EXISTS `autores` (
+  `autor_id` int(11) DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
