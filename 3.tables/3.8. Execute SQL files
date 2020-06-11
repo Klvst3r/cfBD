@@ -1,0 +1,113 @@
+Una de las desventajas de trabajar en terminal es que una vez cerrada esta, todas las sentencia SQL se perderan.
+
+Afortunadamente podremos al macenar las sentencias con extencion .sql
+
+
+Tal como lo hemos estado haciendo.
+
+Cuando poseamos un archivo con esta extencion podremos ejecutar estas sentencias en el archivo.
+
+Hay dos formas de hacerlo.
+
+
+1. 
+
+DROP DATABASE libreria_cf;
+
+CREATE DATABASE libreria_cf;
+
+USE libreria_cf;
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`) VALUES
+(1, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-03', 'México'),
+(2, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-03', 'México'),
+(3, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-03', 'México'),
+(4, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-03', 'México'),
+(5, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-03', 'México');
+
+
+SELECT * FROM AUTORES;
+
+Guardando todo en un archivo "sentences.sql"
+
+
+La forma mas optima que podemos ejecutar un archivo .sql es sin iniciar sesion.
+
+2. 
+
+mysql -h localhost -u root -p < sentencias.sql
+
+Debemos de anotar la ruta
+
+Por ejemplo mi archivo esta dentro de doucmentos.
+
+Asi que unicamente coloco
+
+mysql -h localhost -u root -p < curso_db/sentencias.sql
+
+Coloco la contraseña y se visualizara la salida
+
+al select * from autores;
+
+Con esto nos serciramos que nuestras 5 sentencias se ejecutaron correctamente.
+
+
+3.
+
+Las instrucciones para hacerlo en Windows es con el siguiente comando en terminal:
+
+	SOURCE C:/Users/WINDOWS/Desktop/curso_sql/tablas.sql;
+
+
+Apoyo:
+
+¿COMO DEBO HACER ,SI LA UBICACIÓN DE MI ARCHIVO ES LA SIGUIENTE? C:\Users\ALEXANDER\Desktop\curso_db Gracias :-)
+
+CON ESTA OPCION ME SALE ERROR source C:\Users\ALEXANDER\Desktop\curso_db;
+
+
+ERROR: Unknown command '\U'. ERROR: Unknown command '\A'. ERROR: Unknown command '\D'. ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'urso_db' at line 1 .
+
+
+CON ESTA source C:\Users\ALEXANDER\Desktop\curso_db ME SALE
+
+
+Failed to open file 'C:\Users\ALEXANDER\Desktop\curso_db', error: 13
+
+
+
+Compañeros si estan en windows tienen que mirar que ninguna carpeta en la ruta tenga espacios, ejemplo:  curso base de datos   (esta mal)
+curso_base_de_datos(esta bien)
+U otra forma en que no les quede espacios, ese era un problema que tenia yo.
+
+
+
+Forma 2:
+-----------------------
+La segunda forma de hacer
+
+Es mediante el comando aource
+
+Necesitamos estar autenticados:
+
+mysql -h localhost -u root -p 
+
+mysql> SOURCE ruta/archivo.sql
+
+Ej.
+
+surso_db/sentences.sql;
+
+La salida sera mediante visualizacion de cada sentencia, la base de datos se eleimino, se creo la Bd, se utilizo la Bd, se insertaron los registros y por ultimo visualizaron los datos.
+
+
