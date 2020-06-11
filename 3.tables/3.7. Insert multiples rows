@@ -1,0 +1,43 @@
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (1, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (2, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (3, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (4, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (5, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+En cada sentencia SQL al servidor le toma tiempo parsear la sentencia y registrar los datos.
+
+La mejor forma de insertar multiples registros es con un solo INSER INTO
+
+
+Cada registro se le conocera como una tupla, ahora podremos insertar varias tuplas, separandolas mediante una coma:
+
+Dejando una sola sentencia:
+
+
+INSERT INTO autores (autor_id, nombre, appaterno, apmaterno,  genero, fecha_nacimiento, pais_origen) VALUES (1, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México'),
+(2, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México'),
+(3, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México'),
+(4, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México'),
+(5, 'Test autor_nombre', 'Test_autor_appaterno', 'autor_apmaterno', 'M', '2018-01-3', 'México');
+
+
+Reemplazamos los puntos por comas a excepcion de la ultima tupla.
+
+Aunque son varias lineas es una sola sentencia.
+
+
+SELECT * FROM AUTORES;
+
+De esta forma insertamos multiples registros.
+
