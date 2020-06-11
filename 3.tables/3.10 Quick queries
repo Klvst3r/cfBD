@@ -1,0 +1,22 @@
+Ago interesante de MySQL es que podemos ejecutar sentencias sin la necesidad de iniciar sesion con el servidor.
+
+Basta con colocar la bandera de -e 
+
+Para que esto funcione:
+
+Serrar sesion.
+
+Limpiamos consola y ejecuytamos:
+
+mysql -u deb -p <nombre_bd> -e "sentencia"
+
+Ej.
+
+mysql -u dev -p libreria_cf -e "SELECT * FROM autores"
+
+Ejecutamos despues de colocar la contraseña.
+
+En este caso se ejecuta son problema alguno.
+
+Con esto podemos ejecutar sentencias SQL son ingresar a la consola de MysQL.
+
