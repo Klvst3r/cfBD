@@ -1,0 +1,42 @@
+Restricciones
+
+Los constraits son restricciones que podemos colocar a nuestras tablas para que no se almacenen datos corruptos duros o vacios.
+
+Actualmente contamos con la tabla autores.
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+En nuestra tabla podemos almacenar textos, cadenas alfanumericas y fechas.
+
+Si intentamos insertar un string al autor id.
+
+INSERT INTO autores(fecha_nacimiento) VALUES ('String incorrecto');
+
+genera error por que no podemos almacenar string solo numeros enteros.
+
+Si queremos insertar un string invalido
+
+INSERT INTO autores(autor_id) VALUES ('String');
+Incorrect integer value: 'String' for column 'autor_id' at row 1
+
+Recordamos que la definicion es año mes dia, pero si no colocamos ningun valor a insertar  
+
+ INSERT INTO autores() VALUES ();
+ no genera error se inserta el registro se insterta el registro con valores nulos;
+
+
+Podemos decir que nuestra tabla cuenta con ciertas restricciones, sin embargo no son suficientes para garantizar que nuestra BD se consistente.
+
+PAra lograr esto utilizaremos constrict, ayudaran principalmente a evitar valores nulos, insertar valores unicos, establecer llaves privadas y llaves foranesa, ademas de proveernos de ciertas validaciones.
+
+Las restricciones aplicadas seran a cualquier tipo de tabla que deseemos construir.
+
