@@ -1,0 +1,2 @@
+mysql -h localhost -u dev -p 
+desarrollo

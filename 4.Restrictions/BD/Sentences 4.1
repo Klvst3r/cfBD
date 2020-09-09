@@ -1,0 +1,23 @@
+CREATE TABLE `autores` (
+  `autor_id` int(11) DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+USE libreria_cf;
+
+DESC autores;
+
+INSERT INTO autores(fecha_nacimiento) VALUES ('String incorrecto');
+
+
+INSERT INTO autores(autor_id) VALUES ('String');
+Incorrect integer value: 'String' for column 'autor_id' at row 1
+
+ INSERT INTO autores() VALUES ();
+
+ 
