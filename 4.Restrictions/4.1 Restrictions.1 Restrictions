@@ -15,7 +15,7 @@ CREATE TABLE `autores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-En nuestra tabla podemos almacenar textos, cadenas alfanumericas y fechas.
+En nuestra tabla podemos almacenar textos, cadenas alfanumericas y fechas marcara error.
 
 Si intentamos insertar un string al autor id.
 
