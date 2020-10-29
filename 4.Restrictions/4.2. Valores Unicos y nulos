@@ -1,0 +1,13 @@
+4.2. Valores Unicos.
+
+Si nosotrso queremos evitar que una columna almacene valores nulos, podemos especificarlo al momento de crear nuestra tabla, es decir al momento de la definición de la misma.
+
+ Basta con colocar despues del tipo NOT_NULL
+
+Por ejemplo, 
+
+...
+nombre VARCHAR(25) NOT NULL,
+...
+
+
