@@ -9,3 +9,8 @@ Por ejemplo,
 ...
 nombre VARCHAR(25) NOT NULL,
 ...
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 547388d736a8527e9dd052f5de0851438f5ef06c

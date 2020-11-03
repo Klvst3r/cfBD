@@ -38,6 +38,17 @@ Verificamos si se registro valores nulos.
 
 SELECT * FROM autores;
 
+<<<<<<< HEAD
+=======
+
+Podemos decir que nuestra tabla cuenta con ciertas restricciones, sin embargo estas no son suficientes para garantizar que nuestra BD se consistente.
+
+Para lograr esto utilizaremos constrict, Los constrict nos ayudaran principalmente a evitar valores nulos, validar columnas unicas, , establecer llaves privadas y llaves foranesa, ademas de proveernos de ciertas validaciones.
+
+A continuación generaremos restrccones hacia nuestras tablas autores.
+
+Estas restricciones aplicadas seran a cualquier tipo de tabla que deseemos construir.
+>>>>>>> 547388d736a8527e9dd052f5de0851438f5ef06c
 
 Podemos decir que nuestra tabla cuenta con ciertas restricciones, sin embargo estas no son suficientes para garantizar que nuestra BD se consistente.
 
