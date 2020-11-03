@@ -9,8 +9,78 @@ Por ejemplo,
 ...
 nombre VARCHAR(25) NOT NULL,
 ...
-<<<<<<< HEAD
-=======
+
+Con esto indico que nombre no puede almacenar valores nulos 
+
+si yo intento insertar un registro sin nombre obtendremos un error
+
+ejecutamos:
+
+...
+INSERT INTO autores (`autor_id`, genero, fecha_nacimiento, pais_origen) VALUES
+(10, 'M', '2018-01-01', 'México');
+... 
+
+El campo ya es obligatorio
+
+En nuestra tabla
+
+podemos especificar que todos nuestros campos sean obligatorios de la siguiente forma:
+
+Vamos a colocar NOT NULL en cada uno de ellos.
+
+4.2.
+
+CREATE TABLE `autores` (
+  autor_id int(11) NOT NULL,
+  nombre varchar(20) NOT NULL,
+  appaterno varchar(25) NOT NULL,
+  apmaterno varchar(25) NOT NULL,
+  genero char(1) NOT NULL,
+  fecha_nacimiento date DEFAUNOT 
+  pais_origen varchar(40) NOT NULL
+) ENGINE=InnoDB;
+ 
+Todos son abligatorios
+
+Ahora agregaremos un nuevo campo a la tabla, el campo pseudonimo
+
+4.2.
+
+CREATE TABLE `autores` (
+  autor_id int(11) NOT NULL,
+  nombre varchar(20) NOT NULL,
+  appaterno varchar(25) NOT NULL,
+  apmaterno varchar(25) NOT NULL,
+  pseudonimo varchar(50) UNIQUE,
+  genero char(1) NOT NULL,
+  fecha_nacimiento date DEFAUNOT 
+  pais_origen varchar(40) NOT NULL
+) ENGINE=InnoDB;
+ 
+
+ Aca estamo s agregando el campo pseudonimo que debe tener un valor unico, para ello utilizamos el constrait UNIQUE
+
+ aHORA INSERTEMOS UN REGISTRO CON PSEUDONIMO.
+
+ Ejecutamos la sentencias y revisamos el registro.
+
+ INSERT INTO autores (autor_id, nombre, apellido, pseudonimo, fecha_naciminto, genero, pais_origen ) VALUES (10, 'Sthepen Edwin', 'King', 'Richard Bachman', '1947-09-27','M', 'USA');
+
+ Si intentamos insertar el autor donde se indica que el pseudonimo se encuentra duplicado y generara un error.
+
+ Por ahora no se utilizara los constraits NOT NULL y UNIQUE juntos para el campo autor?id.
 
 
->>>>>>> 547388d736a8527e9dd052f5de0851438f5ef06c
+ Campo que como mencionamos representa la llave primaria.
+
+ CREATE TABLE `autores` (
+  `autor_id` int(11),
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB;
+
