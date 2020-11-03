@@ -15,7 +15,7 @@ CREATE TABLE `autores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-En nuestra tabla podemos almacenar textos, cadenas alfanumericas y fechas.
+En nuestra tabla podemos almacenar textos, cadenas alfanumericas y fechas marcara error.
 
 Si intentamos insertar un string al autor id.
 
@@ -34,9 +34,15 @@ Recordamos que la definicion es año mes dia, pero si no colocamos ningun valor 
  no genera error se inserta el registro se insterta el registro con valores nulos;
 
 
-Podemos decir que nuestra tabla cuenta con ciertas restricciones, sin embargo no son suficientes para garantizar que nuestra BD se consistente.
+Verificamos si se registro valores nulos.
 
-PAra lograr esto utilizaremos constrict, ayudaran principalmente a evitar valores nulos, insertar valores unicos, establecer llaves privadas y llaves foranesa, ademas de proveernos de ciertas validaciones.
+SELECT * FROM autores;
 
-Las restricciones aplicadas seran a cualquier tipo de tabla que deseemos construir.
 
+Podemos decir que nuestra tabla cuenta con ciertas restricciones, sin embargo estas no son suficientes para garantizar que nuestra BD se consistente.
+
+Para lograr esto utilizaremos constrict, Los constrict nos ayudaran principalmente a evitar valores nulos, validar columnas unicas, , establecer llaves privadas y llaves foranesa, ademas de proveernos de ciertas validaciones.
+
+A continuación generaremos restrccones hacia nuestras tablas autores.
+
+Estas restricciones aplicadas seran a cualquier tipo de tabla que deseemos construir.
