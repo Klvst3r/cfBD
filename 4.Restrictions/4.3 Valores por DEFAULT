@@ -1,0 +1,64 @@
+4.3. Valores por default
+
+Nosotros podremos establecer valores por defectoa a nuestros campos cuando estos no se especifiquen en el insert to:
+
+Modificaremos la tabla agregamos un nuevo campo fecha creación:
+
+(Nuestras tablas deben de poseer un campo que nos permita saber cuando fue creado el registro)
+
+CREATE TABLE `autores` (
+  autor_id int(11) NOT NULL,
+  nombre varchar(20) NOT NULL,
+  appaterno varchar(25) NOT NULL,
+  apmaterno varchar(25) NOT NULL,
+  genero char(1) NOT NULL,
+  fecha_nacimiento date DEFAUNOT,
+  pais_origen varchar(40) NOT NULL,
+  fecha_creacion DATETIME default '2021-01-01';
+);
+ 
+Todos son abligatorios, debemos saber en que fecha fue creado, para este campo sera de tipo date time, a diferencia de date, datetime, almacena a fecha exacta el año el mes, el dia la hora el munuto y el segundo exacto, 
+
+Para insertar un valor por default.
+
+Usamos:
+
+fecha_creacion DATETIME default '2021-01-01';
+
+Podemos poner una fecha prdeterminada o la fech actual exacta;
+
+Para poder obtener la fecha exacta se puede ahacer de dosa maneras:
+
+select current_timestamp;
+
+obtenmos la fecha exacta.
+
+La segunda es mediante la funcion now() para tener la fecha exacta;
+
+
+Para esta ocacion queda se l siguiente manera:
+
+
+CREATE TABLE `autores` (
+  autor_id int(11) NOT NULL,
+  nombre varchar(20) NOT NULL,
+  appaterno varchar(25) NOT NULL,
+  apmaterno varchar(25) NOT NULL,
+  genero char(1) NOT NULL,
+  fecha_nacimiento date DEFAUNOT,
+  pais_origen varchar(40) NOT NULL,
+  fecha_creacion DATETIME DEFAULT current_timestamp
+);
+
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`, `fecha_creacion`) VALUES ('1', 'Stephen ', 'Edwin', 'King', 'M', '1947-09-27', 'USA', current_timestamp()); 
+
+O bien
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`, `fecha_creacion`) VALUES ('1', 'Stephen ', 'Edwin', 'King', 'M', '1947-09-27', 'USA'; 
+
+Y se insertaran los valores por default, e valor es la fecha actual en la que se inserto el regisro.
+
+Asi podemos insertar valores default, y en todos tipos de campos se pueden insertar.
+
+
