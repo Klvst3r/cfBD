@@ -1,0 +1,39 @@
+4.4. Numeros positivos
+
+Regularmente cuando estemos trabajando con columnas de tipo if nos interesa almacenar numeros positivos, habra excepciones.
+
+Por nuestra parte nuestra calumna autor id, permite almacenar numeros negativos. si colocamos
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`) VALUES ('-10', 'Stephen', 'Edwin', 'King', 'M', '1947-09-27', 'USA');
+
+El valor de registro se inserta con el valor -10
+
+Esto es algo que se tiene que prevenir, para ello modificaremos la definicion de nuestra tabla.
+
+en la tabla y columna autor_id y se colocara un UNSIGNED:
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) UNSIGNED DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` char(1) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+Nosotros lo modificaremos con el siguiente codigo SQL:
+
+ALTER TABLE `autores` CHANGE `autor_id` `autor_id` INT(11) UNSIGNED NULL DEFAULT NULL;
+
+Y evitamos valores nulos para el ID
+
+ALTER TABLE `autores` CHANGE `autor_id` `autor_id` INT(11) UNSIGNED NOT NULL;
+
+
+De esta manera seevita almacenar numeros negativos y posiblemente ser considerado como error.
+
+
+La advertencia sera:
+
+ Warning: #1264 Out of range value for column 'autor_id' at row 1
