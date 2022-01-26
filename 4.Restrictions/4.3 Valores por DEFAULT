@@ -1,5 +1,3 @@
-4.3 Valores por DEFAULT
-
 4.3. Valores por default
 
 Nosotros podremos establecer valores por defectoa a nuestros campos cuando estos no se especifiquen en el insert to:
