@@ -1,0 +1,44 @@
+Tipo Enum
+
+Tipo Enum
+
+Es un alista de la cual una columna puede tomar el valor. En est caso en la columna genero.
+
+Genero para este curso almacenara M de masculino o F de femenino.
+
+Vamos a modificar la definicion de la tabla.
+
+Enum se coloca asi:
+
+`genero` ENUM('M','F'),
+
+
+
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) UNSIGNED DEFAULT NULL,
+  `nombre` varchar(20) DEFAULT NULL,
+  `appaterno` varchar(25) DEFAULT NULL,
+  `apmaterno` varchar(25) DEFAULT NULL,
+  `genero` ENUM('M','F'),
+  `fecha_nacimiento` date DEFAULT NULL,
+  `pais_origen` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+Estos son los unicos valores que puede almacenar el campo genero, no puede almacenar A, X Y o Z, solo puede almacenar M o F.
+
+Insertemos al autor con un autor en minuscula:
+
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`) VALUES ('14', 'Stephen', 'Edwin', 'King', 'm', '1947-09-27', 'USA');
+
+
+No es sensibles a mayusculas o munusculas al insertar datos.
+
+Si se inserta algo que no sea M o F por ejemplo una J, se obtendraun error.
+
+INSERT INTO `autores` (`autor_id`, `nombre`, `appaterno`, `apmaterno`, `genero`, `fecha_nacimiento`, `pais_origen`) VALUES ('14', 'Stephen', 'Edwin', 'King', 'j', '1947-09-27', 'USA');
+
+Warning: #1265 Data truncated for column 'genero' at row 1
+
