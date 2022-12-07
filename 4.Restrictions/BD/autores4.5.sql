@@ -32,11 +32,11 @@ CREATE TABLE `autores` (
   `nombre` varchar(20) NOT NULL,
   `appaterno` varchar(25) NOT NULL,
   `apmaterno` varchar(25) NOT NULL,
-  `seudonimo` varchar(50) NOT NULL,
-  `genero` char(1) NOT NULL,
+  `seudonimo` varchar(50) UNIQUE,
+  `genero` ENUM('M', 'F'),
   `fecha_nacimiento` date NOT NULL,
   `pais_origen` varchar(40) NOT NULL,
-  `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha_creacion` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
