@@ -1,0 +1,55 @@
+4.6 Llaves primarias
+
+Como se comento anteriormente cada registro debe contar con una columna qyue lo haga unico en la tabla, en nuestro caso la tabla autores la misma columna tiene por nombre "autor_id". Esta columna es nuestra llave primaria, no se ha tratado esta columna como la llave primaria,
+
+contar con una llave primaria tiene muchas ventajas, principalmente al momento de realizar busquedas, debido a que la busqueda se hara rapidamente si es bajo este campo.
+
+Siempre que definimos una llave primaria debemos hacerlo con el tipo de datos INT ya que es el mas optimo.
+
+En nuestro caso nombramos a nuestra llave primaria ocmo "autor_id", es importante seguir un estandar en todas las tablas, 
+
+La estructura para definir un campo como llave primaria es la siguiente:
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `nombre` varchar(20) NOT NULL,
+  `appaterno` varchar(25) NOT NULL,
+  `apmaterno` varchar(25) NOT NULL,
+  `seudonimo` varchar(50) UNIQUE,
+  `genero` ENUM('M', 'F'),
+  `fecha_nacimiento` date NOT NULL,
+  `pais_origen` varchar(40) NOT NULL,
+  `fecha_creacion` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+
+
+cuando renombramos ha
+
+	  `autor_id` int(11) UNSIGNED PRIMARY KEY NOT NULL,
+
+Indicamos a nuestro gestor de Bd que bajo esta columna se almacene y se ordenen los datos de esta tabla, de igual forma indicamos que el campo debe ser unico y no permitir nulos. Es iportante mencionar que solo se pueden tene un allave primaria por tabla, AUTO_INCREMENT es opcional, con auto increment nos aseguramos que si el campo autor.id no cuenta con un valor se le asigne un valor numeroco autoincremnetable, cada vez que se inserta un nuevo registro en la tabla. el id del nuevo registro aumentara en 1, asi que los registros no compartiran vaalores.
+
+De esta forma es como se define nuestra llave primaria colocamos su nobre, el tipo, unsigned, primary key, auto increment.
+
+al moento de insertar un registro como nuestro campo autor_id ya es llave primaria y ya cuenta con un valor por default podemos omitr el campo en la sentencia insert
+
+la sentencia puede quedar de la siguiente manera:
+
+
+INSERT INTO `autores` (`nombre`, `appaterno`, `apmaterno`, `seudonimo`, `genero`, `fecha_nacimiento`, `pais_origen`, `fecha_creacion`) VALUES
+('Stephen', 'Edwing', 'Smith', 'King Stephen', 'M', '1947-09-27', 'USA', '2022-12-06 18:16:11');
+
+
+el autor contara con el Id 1
+
+si se inserta un segundo autor.
+
+INSERT INTO `autores` (`nombre`, `appaterno`, `apmaterno`, `seudonimo`, `genero`, `fecha_nacimiento`, `pais_origen`, `fecha_creacion`) VALUES
+('Joanne', 'Rowling', 'Lewis', 'J.K. Rowling', 'F', '1947-09-27', 'Inglaterra', '2022-12-06 18:16:11');
+
+SELECT * FROM `autores` WHERE 1
+
+El Id del autor es el numero consecutivo e incrementando el valor en 1, de esta forma es como se crean llaves primarias a nuestras tablas.
+
