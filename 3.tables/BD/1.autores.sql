@@ -24,6 +24,10 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+/*CREATE DATABASE `libreria_cf`;*/
+
+USE `libreria_cf`;
+
 --
 -- Table structure for table `autores`
 --
@@ -36,7 +40,7 @@ CREATE TABLE `autores` (
   `genero` char(1) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
   `pais_origen` varchar(40) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `autores`

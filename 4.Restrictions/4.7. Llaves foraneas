@@ -1,0 +1,123 @@
+4.7. Llaves foraneas
+
+ 
+Para que las tablas tangan relación una con otra cada una de ellas almacenara datos redundantes a esto lo conocemos como llaves foraneas, 
+
+
+
+Las llaves foraneas sirven para hacer referencia entre tablas, solo que debemos de usar la palabra clave: FOREING KEY 
+
+A diferencia de las llaves primarias, en una tabla podemos tener N cantidad de llaves foranes. Para que quede mas claro
+
+Ej.
+
+Vamos a generar nuestra segunda tabla:
+
+Tendra por nombre, "libros"
+
+
+
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `pagina` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+
+Lo que se sabe es que un autor puede tener muchos libros y que un libro le pertenece a un autor. Podemos decir que la relacion autor-libro es de uno a muchos, un autor puede tener muchos libros, y un libro le pertenece a un autor.
+
+Si se insertan registros a la tabla, nosotros no sabremos que autor a escrito cada libro, como tampoco podemos conocer que libro fue escrito por que autor, para resolver esta problematica nos apoyaremos de las llaves foraneas.
+
+Como la relación es de uno a muchos, debemos colocar la llave foranea en la tabla de pertenencia. Es decir en la tabla "libros", se agrega una nueva columna.
+
+La convención para nombrar a una llave foranea es la siguiente:
+
+Nuestra entidad_id.
+
+En nuestro caso el nombre de la llave foranea es el mismo nombre de la llave primaria.
+UNSIGNED NO PERMITE NUMEROS NEGATIVOS 
+NOT NULL -> Obligatorio.
+
+---
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `autor_id` INT UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `pagina` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+---
+
+Por temas de visualización se coloca la llave foranea despues de la llave primaria. No influye absolutamente en nada, solo es ordenamiento.
+
+enl a parte final, se agrega o siguiente:
+
+FOREING KEY (columna) REFERENCES tabla_referencia(llave_primaria)   
+
+Ej.
+
+FOREING KEY (autor_id) REFERENCES autores(autor_id)   
+
+---
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `autor_id` INT UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `paginas` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREING KEY (autor_id) REFERENCES autores(autor_id)   
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+---
+
+Esta estructura es importante para crear la tabla autores, y posteriormente la tabla libros, si cambiamos el orden tendremos problemas.
+
+
+Se introducen las sentencias despues de crear la tabla autores, y posterior a ellos insertar los campos de la primera tabla.
+
+SHOW TABLES;
+
+DESC libros;
+
+Se insertan registros
+
+---
+
+INSERT INTO `libros` (`autor_id`, `titulo`, `fecha_publicacion`) VALUES
+(1, 'Carrie', '1974-01-01'),
+(1, 'El misterio de Salmes Lot', '1975-01-01'),
+(1, 'El resplandor', '1977-01-01'),
+(2, 'Harry Potter y la Piedra Filosofal', '1997-06-30'),
+(2, 'Harry Potter y la Cámara Secreta', '1998-07-02'),
+(2, 'Harry Potter y el prisionero de Azkaban', '1999-07-08'),
+(2, 'Harry Potter y el cáliz de fuego', '2000-03-20'),
+(2, 'Harry Potter y la Orden del Fénix', '2003-06-21'),
+(2, 'Harry Potter y el Misterio del Príncipe', '2005-06-16'),
+(2, 'Harry Potter y las Reliquias de la Muerte', '2007-07-21');
+
+---
+
+Si queremos insertar un libro con un Id inexistente.
+
+Ej.
+---
+
+INSERT INTO `libros` (`autor_id`, `titulo`, `fecha_publicacion`) VALUES (100, 'Prueba', '2007-07-21');
+---
+
+Lo cual generara un error 
+
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`libreria_cf`.`libros`, CONSTRAINT `libros_ibfk_1` FOREIGN KEY (`autor_id`) REFERENCES `autores` (`autor_id`))
+
+
+Debido a que no podemos insertar un libro que no le pertenece a un autor, a esto lo conoceremos como integridad referencial, es decir la llave foranea de un regristro siempre debe de ser una llave primaria valida. En este caso no contamos con un autor con Id 100.
+
+Una llave foranea no es mas que una columna en una tabla que hace referencia a la llave primaria, de otra tabla.
+

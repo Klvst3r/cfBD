@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `autores` (
-  `autor_id` int(11) NOT NULL,
+  `autor_id` int(11) UNSIGNED NOT NULL,
   `nombre` varchar(20) NOT NULL,
   `appaterno` varchar(25) NOT NULL,
   `apmaterno` varchar(25) NOT NULL,
