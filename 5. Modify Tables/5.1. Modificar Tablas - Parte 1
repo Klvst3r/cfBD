@@ -1,0 +1,48 @@
+5.1. Modificar Tablas - Parte 1
+
+Una vez que tengamos una tabla creada, es posible modificar su definición mediante la definición
+	
+	ALTER TABLE
+
+Comunmente se modificara la tabla, cuando esta ya posea registros en ella. Las modificaciones que podemos hacer a una tabla son muchas y varias.
+
+Desde agregar o eliminar columnas pasando por modificar el tipo de dato hasta crear o eliminar indices.
+
+Vamos a agrgar un par de columnas a nuestra tabla "libro"	
+
+1. En terminal:
+	Para limpiar pantalla
+		system clear;
+
+2. ALTER TABLE <nombre_tabla_a_modificar> ADD <nombre_nueva_columna> <tipo_dato>
+
+	
+	Para agrgegar columna
+		ALTER TABLE libros ADD ventas INT UNSIGNED NOT NULL;
+
+
+Visualizar definición
+	DESC Libros;
+
+	SELECT * FORM libros;
+
+La columna tiene ceros por el tipo de dato con valor por default, por contar ya con registros previos. pero si se inserta un nuevo registro.
+
+Podemos agregar columnas con valores por default.
+
+	ALTER TABLE libros ADD stock INT UNSIGNED NOT NULL DEFAULT 10;
+
+	SELECT * FROM libros;
+
+
+
+3. Eliminar columna
+
+	ALTER TABLE <tabla> DROP COLUMN <nombre_columna>
+
+	 DESC libros;
+
+Hay que tener cuidado con la clausula DROP.
+
+
+
