@@ -1,0 +1,37 @@
+6.3. Operadores lógicos.
+
+Se pueden utilizar operadores logicos en nuestras condiciones, lo que permitira comparar multiples columnas en una misma senetencia.
+
+Los operadores son.
+	AND
+	OR
+	NOT
+
+AND todas las condiciones necesitan ser verdaderas para obtener un resultado,
+
+Obtener todos los libros cuyo titulo sea igual a Carriey su autor id sea el 1
+
+	SELECT * FROM libros WHERE titulo = 'Carrie' AND autor_id = 1;
+
+
+Se agrega otra condicion dodne sus ventas sean = 0
+
+	SELECT * FROM libros WHERE titulo = 'Carrie' AND autor_id = 1 AND ventas=0;
+
+
+	SELECT * FROM libros WHERE titulo = 'Carrie' AND autor_id = 10;
+
+No se visualiza ningun registro.
+
+
+El operador OR basta con que una condición se cumpla, para poder visualizar un resultado.
+
+	SELECT * FROM libros WHERE titulo = 'Carrie' OR autor_id = 1 OR ventas=10;		
+
+La información es abundandte ya que por lo menos alguna cumple con alguna de las condiciones.
+
+Se pueden combinar los operadores AND Y OR, 
+	SELECT * FROM libros WHERE (AUTOR_ID = 1 AND itutlo = 'Carrie')	 OR (autor_id = 5 AND titulo = 'el hobbit');
+
+	
+
