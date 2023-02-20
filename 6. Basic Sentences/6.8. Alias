@@ -1,0 +1,49 @@
+6.8. Alias
+
+Los alias no son mas aue sobrenombres que podemos asignar a tablas, columnas o funciones.
+
+Una vez que se establezcan los alias se dejara a un lado el nombre original, y se comenzara a trabajr con el alias.
+
+Es utl trabajar con alias cuando estemos trabajando con nombnres complejos, ganando tiempo en la escritura del Query. Podemos hacer que este sea mas legible.
+
+Establecer alias a las columnas:
+
+	SELECT auto_id, titulo FROM libros;
+
+En la parte superior de la consulta se eneucnetyran los encabezados, autor_id y titulo. que hacen referencia a las columnas.
+
+si queremos colocar un alias a la columna 
+
+ AS <nombre-alias>
+
+ Ej. 
+ 	SELECT auor_id AD autor, titulo AS nombre from libros.
+
+
+Podemos colocar alias a todas las columnas
+
+	SELECT 9 * 10;
+
+podemos hacer:
+	
+	SELECT *.10 AS resultadoo;
+
+algo importante a mencionar es que podemos colocar alias sin la necesidad de colocar AS	
+
+	SELECT 9 * 10 resultado;
+
+No es recoendable en queries muy grandes, ya que la legibilidad es difilcil de hacer, se recomienda autilizar AS.
+
+
+Alias a Tablas
+
+	SELECT autor_id AS autor, titulo AS nombre FROM LIBROS as books;
+
+Es importante mencionar que al realizar un select podemos especificar el origin de la columna basta con colocar el nombre de la tabla 	
+
+
+	SELECT books.autor_id AS autor, books.titulo AS nombre FROM libros AS books;
+
+
+Esto es util cuando se trabajan con varias tablas.	
+
