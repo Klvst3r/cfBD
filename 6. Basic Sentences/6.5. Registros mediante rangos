@@ -1,0 +1,13 @@
+6.5. Registros mediante rangos
+
+Si queremos obtener registros a partir de un rango, basta con trabajar con la clausula BETWEN
+
+Obtener el titulo de todos los libros, cuya fecha de publicación se encuentre entre enero 1995y enero 2015.
+
+	SELECT  titulo FORM libros WHERE fecha_publicación BETWEEN '1995-01-01' AND '2015-01-31';
+
+	
+
+	SELECT  titulo, fecha_publicacion FORM libros WHERE fecha_publicación BETWEEN '1995-01-01' AND '2015-01-31';	
+
+	
