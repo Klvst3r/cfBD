@@ -1,0 +1,39 @@
+6.4. Registros Nulos
+
+Un Null es la ausencia de valor, no respresenta ningun tipo de datos.
+
+	SELECT * FROM autores;
+
+Existen muchos valores nulos, si queremos obtener todos los autores que no cuenten con un pseudonimo.
+
+	select * from autores WHERE seudonimo = NULL;
+
+No se obtiene ningun registro, ya que a NULL no lo podemos tratar como un tipo de dato.
+
+Si queremos condicionar columnas con valores nulos, se puede hacer de dos maneras;
+
+	SELECT * FROM autores WHERE seudonimo IS NULL;
+
+Con esto ahora si podemos visualizar toso los autores que no cuenten con un pseudonimo,
+
+Se puede negarutilizando el operador logico != (NOT)
+
+Este operador niega una afirmación. 
+Donde:
+	Si es verdadero sera falso y viceversa.
+
+			SELECT * FROM autores WHERE seudonimo IS NOT NULL;
+
+Con esto estamos indicando que todos los autores, que si cuenten con un pseudonimo.
+
+esta es la prim era forma condicionando nulos.
+
+La segunda forma es utilizando un operador especial.
+
+	SELECT * FROM autores WHERE seudonimo <=> NULL;			
+
+Visualizamos a todos los autores que no cuenten con un pseudonimo, este es un operado de seguridad, ya que on este estamos limitando a solo condicionar nulos, con este se pueden condicionar enteros flotantes, alfanumericos.
+
+Se recomiena el uso de IS, por la sintaxis mas legible
+La segunda es la flexibilidad, nosotros podemos utilizar el NOT junto con el IS.
+
