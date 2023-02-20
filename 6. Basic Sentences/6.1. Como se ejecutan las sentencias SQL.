@@ -1,0 +1,31 @@
+6.1. Como se ejecutan las sentencias SQL.
+
+Tema de sentencias
+
+Para ejecuctar sentencias SQL, debemos estar autenticados con el servidor y generado una sesion.
+
+Para ingresar al servidor debemos en terminal ejecutar:
+	mysql -u root -p
+
+Cuando se validan las credenciales se genera una nueva conexion con el cliente. en Mysql cada conexion se asigna un identificar unico.
+
+ya establicda la conexion se puede ejecutar M sentencias 
+
+Las sentencias comprneden por lo menos una clausula SQL.
+
+Las as comunes son:
+
+Select, 
+
+Permite obtener valores del servidor, el clinete toma la sentencias hasta el ;
+
+lo envia en el Servidor, ya validada la conexion para ejecutar dicha sentencia. Valida que el cliente tenga los permisos para acceder a los datos de la base de datos. Validando enre ello la sintaxis de cada sentencia.
+
+Optimización
+
+Para determinar la forma mas eficiente el query, ordenando las tablas, se busca por indices, trabajo con llaves foranesa etc. Posterior a ello se ejecuta el query.
+
+Una vez la ejecución se muestra el result set, o resultado en si para enviar al cliente. el formato es enviado en un formato de tablas.
+
+A grandes rasgos es como las sentecnias son ejecutadas.
+
