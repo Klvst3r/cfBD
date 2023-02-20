@@ -1,0 +1,28 @@
+6.6. Busquedas por listas.
+
+Para obtener registros a partir de una lista. 
+
+Partiendo que se cuenta con una lista la cual posee cuatro strings
+	'Ojos de fuego', 'Cujo', 'El hobbit', 'La torre oscura 7'
+
+Si quisiera obtener la información de los libros cuyo titulo se encuentren dentro de esta lista.
+
+	SELECT * FROM libros WHERE titulo = "Ojos de fuego"	 OR
+							   titulo = "Cujo" OR
+							   titulo = "El hobbit" OR
+							   titulo = "La torre oscura 7";
+
+La sentencia funciona aunque no es nada amigable, de hecho es dificil de mantener.
+
+Ya que si a la tabla se agregan 100 titulos. en este caso tendremos que agregar N cantidad de OR y complicaria la senetencia.
+
+si queremos buscar registros en particular a partir de una lista se omitiran los OR, y se vana a utlizar:
+
+	SELECT * FROM <tabla> WHERE <columna> IN (<lista>);
+
+	SELECT * FROM libros WHERE titulo IN ('Ojos de fuego', 'Cujo', 'El hobbit', 'La torre oscura 7');
+
+
+El resultado es el mismo, pero la sentencia es mas legible optimizando la busqueda.
+
+	
