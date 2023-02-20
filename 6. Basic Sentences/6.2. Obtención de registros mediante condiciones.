@@ -1,0 +1,52 @@
+6.2. Obtención de registros mediante condiciones.
+
+Para realizar consultas a las tablas, se sigue una estructura muy sencilla
+
+	SELECT * FROM <tabla>
+
+Ej. 
+	SELECT * FROM libros;
+
+
+Con SELECT se obtienen los valores del servidor.
+
+* hace referencia a que queremos todas las columnas de los registros,
+
+FROM se indican el origen de los datos.
+
+Si ejecutamos
+
+ 	SELECT * FROM libros\G;
+
+La visualización de os registros con un formato diferente, ahora las columnas son en forma vertical en formato de carta.
+
+Este formato es util cuando necesitemos muchas columnas, 10 20 o mas. Una buena practica es que solo se pida al servidor los datos que realemente necesitamos, para optimzar el tiempo de respuesta y tener una aplicación rapida.
+
+Para tener ello
+	
+Reemplazamos * por las columnas necesarias separadas por una ,
+	
+	SELECT libro_id, titulo FROM libros;
+
+Con esto tenedremos todos los registros con las columnas especificadas, es necesario condicionar los resultados.
+
+Para obtener regsitros mediante condiciones nos apoyamos de la clausula WHERE con la condicion a la columna.
+
+	SELECT * FROM libros WHERE titulo = 'Carrie';
+
+En las condiciones se pueden utilizar los operadores relacionales,
+
+	<, >, <=, >=, !=, =
+
+Para diferente podemos expresarlo de dos maneras
+
+	!=   <>
+
+De ambas formas se puede condicionar diferente.
+
+	SELECT <columnas> FROM <tabla> WHERE <condición>
+
+	
+
+
+
