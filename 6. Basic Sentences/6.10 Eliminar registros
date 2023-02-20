@@ -1,0 +1,30 @@
+6.10 Eliminar registros
+
+
+Esta sentencia a difirencia de la sentencia UPDATE es mas sencilla. Para eliminar un grupo de registros.
+
+	DELETE FROM <tabla>;
+
+Ej.
+
+	DELETE FROM libros;
+
+Si ejecutamos esta sentencia, se eliminaran todos los libros de la tabla, debido a que no estamos colocando nigun tipo de condición.
+
+Siq weueremos eliminar un libro en concreto o un gripo de ellos, nos apopyaremos de la clausula WHERE.-
+
+	Ej. 
+
+	borrar todos los libros excritos por UN autor ESPECIFICO;
+	
+		DELETE FROM libros WHERE autor_id = 1;
+
+Si queremos eliminar un reghistro en particular se puede hacer de igual forma:
+
+	Eliminar libro con el Id 55
+		DELETE from libros WHERE libro_id = 55;
+
+
+Hayq eu tener cuidado al ejecutar este sentencia ya que de no hacerlo correctamente si borrara información sensible sin aviso alguno de advertencia.
+
+		
