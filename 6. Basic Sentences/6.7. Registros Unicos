@@ -1,0 +1,24 @@
+6.7. Registros Unicos
+
+Para trabajar con una clausula que permite obtener valores unicos de una consulta, 
+	DISTINCT
+
+Es facil de utilizar, listando todos los titulos de la tablalibros.
+
+	SELECT titulo FROM libros;
+
+Existen dos titulos con el nombre repetido, 
+
+Ya que existen libros con titulos repetidos,
+
+Asiq eu para no ver datos repetidos en una consulta,  		
+
+DISTINCT se coloca despues del SELECT y antes de especificar la culumna:
+
+	SELECT DISTINCT titulo FROM libros;
+
+
+Ahora se pueden visalizar todos los titulos pero sin repetir titulos.
+
+
+
