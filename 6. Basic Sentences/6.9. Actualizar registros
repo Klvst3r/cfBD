@@ -1,0 +1,30 @@
+6.9. Actualizar registros
+
+
+Para poder actualizar uno o mas registros se necesita una estructura un poco compleja:
+
+UPDATE <nombreTabla> SET <columnas-a-actualizar> <nuevo_valor>;
+
+	SET permite estalecer valores 
+
+Ej
+	UPDATE libros SET descripcion = 'Nueva descripcion', ventas = 100;
+
+Esto modifica todos los registros.
+
+Esto sucede por que al momento de actualizar no se coloco ninguna condicion y por ende se aplica a todos. 
+
+Si queremos actualziar un gruipo de registros o un registro , debemos apoyarnos de la clausula WHERE.
+
+
+	UPDATE libros SET descripcion = 'Nueva descripcion', ventas = 100 WHERE titulo = 'El hobbit';
+
+ Esto aplica solo a un resgistro que cumpla con la condición.
+
+Lo recomendable es colocar la condicion bajo la llave primaria 
+	
+	UPDATE libros SET descripcion = 'Nueva descripcion', ventas = 50 WHERE libro_id = '51';
+
+Asi es como se actualiza un registro a un grupo a un regsitro en particular.
+
+	
