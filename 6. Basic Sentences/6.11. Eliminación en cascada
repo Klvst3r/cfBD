@@ -1,0 +1,27 @@
+6.11. Eliminación en cascada
+
+Hasta este punto nosotros como funcionan las restricciones, tomando como ejemplo insertar un registro invalido con una llave foranea 
+
+	Si tenemos un archivo con sentencias SQL las podemos ejecutar com
+
+		SOURCE curso_db/sentencias.sql;
+
+Existe un error en la integridad referencial.
+
+Nosotros no podemos insertar registros sin una referencia, no podemos eliminar registros dejando referencias huerfanas 		
+
+Por ejemplo intentemos eliminar el autor 'Sthepen King' con al autor_id = 1
+
+	Teniendo todos los regsitros.
+
+	DELETE FROM autores WHERE autor_id = 1;
+
+
+Esta senetencia no es posible, y marcara un error tal como:
+
+	cannot delete or update a parent row: a foreing key constratit fails ('libreria_cf' . 'libros', CONSTRAIT 'libros_ibfk_1' FORENG KEY ('autor_id') REFERENCES 'autores' ('auor_id'))
+
+
+
+0.55
+
