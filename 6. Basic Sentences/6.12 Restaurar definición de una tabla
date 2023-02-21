@@ -1,0 +1,32 @@
+6.12. Restaurar definición de una tabla
+
+
+Existe una senetencia que nos permite borarr todos los registros de nuestra tabla mucho mas rapida que utilizando la sentencia DELETE.
+
+Se esta hablando de TRUNCATE TABLE.
+
+Si queremos eliminar todos los regitros de una tabla 
+	TRUNCATE TABLE <tabla>
+
+EJ.
+	TRUNCATE TABLE libros;
+
+Pero antes 	revisamos contenido de la tabla.
+
+La tabla se vacia, este es el mismo resultado 	
+	DELETE FROM libros;
+
+La diferencia entre estas dos sentencias es que TRUNCATE no puede ser usada con la clasula WHERE a diferencia de DELETE, ademas la sentencia TRUNCATE resetea la definición de nuestra tabla, con lo cual los registros y los metadatos que posean la tabla se vana a eliminar.
+
+Si nosotros insertamos un nuevo registro despues de haber ejecutado TRUNCATE  a una tabla, todos los campos auto increment empezaran nuevamente en uno.
+
+TRUNCATE resetea la definición de la tabla, estableciendo la tabala en su punto inicial, otra diferencia es que en una transacción con DELETE  es poisble eliminar los datos, cosa que con TRUNCATE  es imposible.
+
+Algo que es importante comentar es que con TRUNCATE la tabla se bloquea con lo cual no es posible realizar operacion en esta al momento de la ejecución, ademas de que con TRUNCATE no dispara ningun trail.
+
+Resumiendo es importante utilizarla siempre que necesitemos restablecer la definición de la tabla.
+
+
+
+
+
