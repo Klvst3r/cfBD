@@ -22,6 +22,106 @@ Esta senetencia no es posible, y marcara un error tal como:
 	cannot delete or update a parent row: a foreing key constratit fails ('libreria_cf' . 'libros', CONSTRAIT 'libros_ibfk_1' FORENG KEY ('autor_id') REFERENCES 'autores' ('auor_id'))
 
 
+---
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `autor_id` INT UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `paginas` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (autor_id) REFERENCES autores(autor_id)   
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+---
 
-0.55
+
+Como vemos esta ejecución on es posible de completar esto se debe al CONSTRAIT, como su llave primaria dell autor esta siendo utilizada como llave foranea en otros registros, la operacion cno es posible de completarse:
+
+
+Preveemos un problema de integridad referencial.
+
+Para que nosotros puedamos eliminar el autor corretamente debemos de eliminar los registros que utilicen su llave primaria.
+
+Primero deberiamos de borrar todos los libros cuyo autor sea Sthepen King, colocarias:
+
+	DELETE FROM libros WHERE autor_id = 1;
+
+Elimiandose los registrros, posteriormente eliminamos al autor.
+
+	DELETE FROM autores WHERE autor_id = 1;
+
+Ahora se puede ejecutar correctamete.
+
+Esto implica ejecutar mas quieries en nuestro caso como nuestra base de datos posee pocas tablass los quieris son pocos, dons 2, pero si hablamos de base de datos con cientos de tablas. se complica la situacion.
+
+La opcion mas viable es modificar la definicion de niuestra tabla y habilitar la opcion de eliminacion en cascada.
+
+Podemos hacerlo desde su creación o con un ALTER TABLE.
+
+
+
+La primar opcion es: Desde su creación.
+----------------------------------
+
+Desd ela difinicion de la tabla libros-
+
+
+-------------
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `autor_id` INT UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `paginas` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (autor_id) REFERENCES autores(autor_id)   
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+------------
+
+donde colocamos nuesra llave foranea, se coloca lo siguiente:
+	FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE
+
+	Resultando:
+
+---
+CREATE TABLE libros(
+  `libro_id` INTEGER UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  `autor_id` INT UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250),
+  `paginas` INTEGER UNSIGNED,
+  `fecha_publicacion` DATE NOT NULL,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE   
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+---
+
+
+Nuevamente si ejecutamos:
+La restauracioin de los datos;
+
+1. eliminamos al autor.
+
+	DELETE FROM autores WHERE autor_id = 1;
+
+como se visualiza ahora el regostro se visualiza correctamente,
+
+si nosotros hacemos un select a la tabla libros.Vamos a visualizar quer todos los libros de dicho autor, se eliminarron satisfactoriamente.
+
+De igual forma al autor.
+
+La eliminación se hizo en cascada -
+
+Primero se eleiminarons los libros y posteriormente el autor.
+
+La otra opcion es
+
+colocando el ALTER TABLE
+-------------------------
+
+	ALTER TABLE libros ADD FOREIGN KEY (autor_id) REFERENCES autores(autor_id) ON DELETE CASCADE   
+
+De esta forma es como nostors podemos alterar registros sin alterar la integridad de nuestra base de datos.
 
