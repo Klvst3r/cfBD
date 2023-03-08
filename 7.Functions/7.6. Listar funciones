@@ -1,0 +1,32 @@
+7.6. Listar funciones
+
+Para listar las funciones, debemos ejecutar la siguiente consulta.
+
+	SELECT name FROM mysql.proc
+
+La tabla proc se encuentra dentro de la base de datos MySQL	base de datos que anteriormente se comento que no se usria, pero llego la hora, esta tabla almacena todos los procedures, y funciones que se encuentren en el equipo de computo, si se reuiqre listar unciasmnte las funciones de la Bd tendre que condicionarse la sentencia.
+
+	SELECT name FROM mysql.proc WHERE db = dtabase() AND type = 'FUNCTION';
+
+Puede listarse las dos fucnioones creadas.
+
+	agregar_dias
+	obtener_paginas
+
+Funciones que se han creado anteriormente.
+
+
+Si queremos eliminar una funcion nuevamente se utilizara
+
+	DROP FUNCTION nombre_funcon_a_eliminar>
+
+ej
+	DROP FUNCTION agregar_dias;
+
+
+Listamos nuevamente:
+		SELECT name FROM mysql.proc WHERE db = dtabase() AND type = 'FUNCTION';
+
+ahora yano esta mas.
+
+			
