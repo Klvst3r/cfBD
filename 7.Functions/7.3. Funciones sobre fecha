@@ -1,0 +1,69 @@
+7.3. Funciones sobre fecha
+
+NOW()
+-----
+Permite saber la fecha actual, 
+
+Ej. 
+	almacenar la fecha exacta en una variable llamada now
+
+		SET @nomw = NOW();
+
+	Ya con una fecha almacenada, podemos extrar varios valors de ella,.
+
+	Extraer els egtundo exacto de una varable
+
+		SELECT SECOND(@now), 
+		MINUTE(@now),
+		HOUR(@now,
+		MONTH(@now),
+		YEAR(@now);
+
+
+		SELECT SECOND(@now), MINUTE(@now), HOUR(@now), MONTH(@now), YEAR(@now);
+
+Se pueden extraer datos muy concretos, por ejemplo el dia de la semana, el dia del mes o el dia del aó.
+
+			SELECT DAYOFWEEK(@now), DAYOFMONTH(@now),DAYOFYEAR(@now);
+
+
+
+En ocaciones se necesitara convertir un tipo timestamp a un tipo date.
+
+DATE
+	
+SELECT @NOW;
+
+	SELECT DATE(@now);
+		Ahora la salida es date, que es util, cuando queremos tener información de un día concreto.
+
+
+	Ej.
+		Obtener todos los libros que fueron, creados hoy.
+
+			SELECT * FROM libros WHERE DATE(fecha_creacion) = CURDATE(),
+
+			SELECT CURDATE();
+
+
+
+
+Podemos agregar restar o sumar tiempo a una fecha.
+
+Con tiempo nos referimos a que se puede agragar desde sgundos hasta años.
+
+
+
+	SELECT @now;
+
+	Sumar días, INTERVAL puede hacer referencias a meses, años, segundos. Se neceta ser concreto.
+		SELECT @now + INTERVAL 30 DAY;
+
+		Visucalizamos la fecha de hoy + 30 dias.
+
+
+Si se quiere estarr se utilizar -, se debe especificar el operador concreto
+	Fecha operador (*/-)		 INTERVAL valor TIPO(SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, YEAR)
+
+
+	
