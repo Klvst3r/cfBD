@@ -1,0 +1,60 @@
+7.7. Ejecutar Sentencias dentro de funciones
+
+
+Dentro del cuerpo de una funcion podemos utilizar variables mandar a llamar otras funciones, incluso podemos ejecutar sentencia SQL
+
+Para este ejemplo se creara una funcion que permita establecer la cantidad de paginas de un libro.
+
+Mediante las clausilñas SELECT, UPDATE  y con RAD y ROUND.
+
+Lo primero que se debe hacer es reemplazar de manera temporal el delimitador.
+
+	DELIMITER //
+
+
+Ahora se puede generar el cuerpo de la funcion..
+
+	CREATE FUNCTION obtener_paginas()	
+	RETURNS INT
+	BEGIN
+		SET @paginas = SELECT (ROUND( RAND() * 100 ) * 4 )
+	END//
+
+	DELIMITER ;
+
+
+La senetencia retornara	un entero random, Par almacenar el resualtado en una variable se debe colocar entre parentesis.
+
+	CREATE FUNCTION obtener_paginas()	
+	RETURNS INT
+	BEGIN
+		SET @paginas = (SELECT (ROUND( RAND() * 100 ) * 4 ));
+		RETURN @paginas;
+	END//
+
+	DELIMITER ;
+
+
+Se copia y pega para generar la funcion con exito, para probarla.
+
+	SELECT obtener_paginas();
+
+Se obtendran diferentes valores.
+
+ahora se podran actualizar los libros con el numero de paginas para cada uno.
+
+	UPDATE libros SET paginas = obtener_paginas();
+
+Consultamos
+
+	SELECT 	* FROM libros;
+
+O bien
+	
+	SELECT * FROM libros\G;
+
+Ahora cada libro posee paginas random.
+
+De esta forma PODEMOS MANDAR A LLAMAR FUNCIONES DENTRO DE OTRAS FUNCIONES Y EJECUTAR SENTENCIAS.
+
+		
