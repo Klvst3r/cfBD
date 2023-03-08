@@ -1,0 +1,69 @@
+7.4. Funciones sobre condiciones
+
+
+Podemos obtener diferentes valores a partir de condiciones, MySQL puede condicionar mediante funciones.
+
+1. IF
+2. IF 
+
+IF
+Con la Funcion IF
+
+	SELECT IF(ARG1, ARG2, ARG3)
+
+	SELECT IF(CONDICION, VALOR_A_RETORNAR_SI_CUMPLE, VALOR_A_RETORNAR_NO_CUMPLE)
+
+
+	EJ.
+
+		SELECT IF(10>9, "El número si es mayor", "El número no es mayor");
+
+
+
+
+con la funcion If no se esta obligado a retornar un unico valor alfanumerico, puede retornar, string, fechas, numeros, flotantes, entre otros.
+
+SYSTEM CLEAR
+
+
+Con IF Podemos condicionar columnas:
+
+	condicionar la columnas páginas.
+
+Se agregar que páginas tenga un valor por default de 0,
+
+
+CREATE TABLE `libros` (
+  `libro_id` int(10) UNSIGNED NOT NULL,
+  `autor_id` int(10) UNSIGNED NOT NULL,
+  `titulo` varchar(50) NOT NULL,
+  `descripcion` varchar(250) DEFAULT NULL,
+  `paginas` int(10) UNSIGNED DEFAULT 0,
+  `fecha_publicacion` date NOT NULL,
+  `fecha_creacion` datetime DEFAULT current_timestamp(),
+  `ventas` int(10) UNSIGNED NOT NULL,
+  `stock` int(10) UNSIGNED NOT NULL DEFAULT 10
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+
+	SELECT IF(paginas = 0, "El libro no posee páginas", paginas) FROM libros;
+
+
+UPDATE libros SET paginas = 10 WHERE libro_id > 20;
+
+
+
+
+La segunda funcion es mas facil, recibe dos argumentos,
+
+
+	SELECT IFNULL()
+
+si pseudonimo es nulo,	 entonces retornar, "El autor no cuenta con un seudonimo"
+
+	SELECT IFULL(seudonimo, "El autor no cuenta con un seudonimo") FROM autores;
+
+Retornara el valor si no es nulo.
+
+	
