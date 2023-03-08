@@ -1,0 +1,97 @@
+7. Funciones en SQL
+
+
+Al igual que algunos lenguajes de programación, en SQL podemos trabajar con funciones, MySQL ya tiene definidas algunas.
+
+Las funciones en SQL todas necesitan retornar algun valor de cualquier tipo, string, int, boolean. Quiere decir que podemos ejecutar funciones dentro de sentencias y dentro clausulas, WHERE, SELECT, INSERT, entro otras.
+
+MySQL cuenta ya con funciones listas para usarse.
+
+1. Funciones para Strings
+2. funciones para numeros enteros o flotantes
+3. Funciones para efechas
+4. Funciones para condiciones
+
+
+
+1. Funciones para Strings
+
+Para iniciar se hara un select a la tabla Autores
+
+	SELECT * FROM autores;
+
+
+
+El nombre del autor ha sido dividido en dos campos nombre y apellido, lo cual esta bien, pero si queremos 
+Mostrar nombre comleto de un autor, se puede.
+
+CONCAT
+-------
+
+concatenar ambas cadenas, nombre y apellido.
+
+concat retornara un nuevo string, a partir de los argumentos colocados, uniciondo o contanenando.
+
+	SELECT CONCAT(argumentos) FROM origen
+
+ej.
+	SELECT CONCAT(nombre, appaterno. apmaterno)	FROM autores;
+
+Mejorando
+	SELECT CONCAT(nombre, " ",appaterno, " ", apmaterno) FROM autores;
+	SELECT CONCAT(nombre, " ",appaterno, " ", apmaterno) AS nombre_completo FROM autores;
+
+
+
+	LENGHT
+	--------
+Retorna la cantidad de caracteres que posse un string
+
+SELECT LENGHT("hola mundo");
+
+Con esta funcion podemos condicionar las busquedas, Por ejemplo: Obtener todos los autores, cuyo nombre contenga mas de 7 caracateres,
+	SELECT * FROM autores WHERE LENGHT(nombre) > 7;
+
+
+
+UPPER | LOWER
+---------------
+Reciben un argumento String, con UPPEr obtenemos un string con las letras en mayusculas y con LOWER la misma cadena en minusculos.
+
+
+	SELECT UPPER(nombre), LOWER(nombre) FROM autores;
+
+
+
+TRIMP
+-----
+Se eliminan los prefijos y subfijos de un String, por defecto los espacios	
+
+SELECT TRIMP("    cadena con espacios al inicio y al final      ");
+
+
+
+LEFT | RIGHT
+------------
+Devuelven un subestring de una cadena, las funciones tienen por nombre, reciben dos argumentos, el primero un string y el segundo un numero entero, haciendo referencia de este ultimo a cuantos caracteres necesitamos del estring original.
+
+	SELECT LEFT("Esta es una cadena de caracteres", 5) AS substring_izquierdo, 
+	RIGHT("Esta es una cadena de caracteres", 10) AS substring_derecho;
+
+
+Se observa la fuincion LEFT retorna los primeros 5 caracteres del esting original, comenzando de izquierda a derecha, por su parte RIHT nos retorna los primeros caracteres del string comenzando de derecha,
+
+
+LEFT y RIGHT, pueden ser utilizadas con columnas.
+
+	Obtener todos los registros, cuyos titulos comiencen la parabra Potter
+
+	Obtengamos todos los libros, que empiecen con la palabra Harry Potter
+	
+			SELECT * FROM libros WHERE LEFT(titulo, 12) = 'Harry Potter';
+
+	Si queremos que el titulo termine con substring 
+
+			SELECT * FROM libros WHERE RIGHT(titulo, 6) = 'anillo';		 		
+
+			
