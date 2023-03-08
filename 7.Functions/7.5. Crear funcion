@@ -1,0 +1,74 @@
+7.5. Crear funcion
+
+Para crear una nueva funcion se debe seguir una estructura bastante peculiar, 
+
+CREATE FUNCTION <nombre_funcion>(parametro1 tipo, parametro2 typo, parametro_N tipo_N)
+tipo_de_dato_a_retornar
+BEGIN
+	<logica_a_ejecutar>
+END;
+
+
+Ej. Agregar una funcion para agragr dias a una fecha.
+
+
+CREATE FUNCTION agregar_dias(fecha DATE, dias_a_sumar INT)
+RETURNS DATE 
+BEGIN
+	RETURN fecha + INTERVAL dias DAY;
+END;
+
+
+Esta funcion se habia utilizado anteriormente, una vez definida la funcion, se procede a copiar y pegar en la terminal de MySQL, se detectan unos errores.
+
+Por que no se a enviado como una sola sentencia, para ello hay que hacer un par de modificaciones a la sentencia;
+
+Hay que especificar que el punto y coma ya no delimite, el final de una sentencia, para ello se agrega
+DELIMITER con el simbolo que se quiera finalizar una sentencia ;, puede ser el que se elija o necesite. $%& etc
+
+
+	DELIMITER //
+	CREATE FUNCTION agregar_dias(fecha DATE, dias_a_sumar INT)
+	RETURNS DATE 
+	BEGIN
+		RETURN fecha + INTERVAL dias DAY;
+	END;
+
+ahora se copia la ilinea en la terminal
+
+	DELIMITER //	
+
+Con esta linea se ha modificado el ; por el /.ahora si se quiere ejecutar una sentencia ya no se terminara con ; sino con // ya que asi se ha especificado.
+
+y ahora se obtiene respuesta, como ya se ha hecho el cambio se procede a rremplazar el ; por //
+
+	CREATE FUNCTION agregar_dias(fecha DATE, dias_a_sumar INT)
+	RETURNS DATE 
+	BEGIN
+		RETURN fecha + INTERVAL dias DAY;
+	END//
+
+
+Se copia y pega en terminal y ahora toda la sentencia como una sola, y se puede establecer coo una conslata OK.
+
+El siguiente paso es poner el ; para indicar el final de una senetencia
+
+	DELIMITER ;
+
+
+Ahora podemos hacer uso de la funcion		
+
+Se genera un variable 
+
+	SET @now = CURDATE();
+
+	SELECT @now;
+
+	SELECT agregar_dias(@now, 60);
+
+Ahora podremos visualizar la fecha de hoy mas 60 dias.
+
+
+De esta forma se crean funciones.
+
+	
