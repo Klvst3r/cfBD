@@ -1,0 +1,32 @@
+8.2. Expresiones regulares
+
+
+Obtener todos los libros cuyo titulo comience con la letra H o con la letra L.
+
+Podemos utlizar dos senecentas
+
+	SELECT autor_id, titulo FROM libros WHERE titulo LIKE 'H%' OR titulo LIKE 'L%';
+
+	SELECT autor_id, titulo FROM libros WHERE LEFT(titulo,1) = 'H' OR LEFT(titulo,1) LIKE 'L';
+
+De ambas formas se obtiene el resultado.
+
+
+Ambas funcionan correctamente pero si se agregan mas condiciones, por ejemplo, que el titulo comience con H o con L o con A o con  V. En ese caso, se tendria que colocar N cantidad de OR lo cual fuera dificil de mantener. Esto no es nada practico, lo que se puede hacer es utilizar expresiones regulares para facilitar las consultas.
+
+Para utilizar expresiones regulares se trabaja con la clausula REGEXP
+
+
+Obtener todos los titulos cuyo titulo comiencen con la H o con L
+
+	SELECT titulo FROM libros WHERE titulo REGEXP '^[HL]';	
+
+Ahora la diferencia es que ahora como es una expresion regular se puede agregar mas condiciones.Por ejemplo
+
+	SELECT titulo FROM libros WHERE titulo REGEXP '^[HLAVTZ]';		
+
+Si queremos utilizar expresiones regulares para nuestras consultas no hay de dos, y hay que utilizar REGEXP.
+
+Podemos utilizar expresiones sencillas o expresiones complejas. Todo defepnde de las necesidades.
+
+	
