@@ -1,0 +1,33 @@
+8.4. Limitar registros
+
+
+En la mayoria de los casos nosotros no vamos a necesitar trabajar con todos los registros de una tabla, solo cno una porcion. los primeros 10. o los que necesditemos para ello utilizamos la claususla LIMIT
+
+
+Los diez primeros titulos de la tabla.
+
+
+		SELECT titulo FROM LIBROS LIMIT 10;
+
+Obtener el titulo de los primeros cinco libros escritos por el autori id 2.
+
+
+	 SELECT titulo FROM LIBROS where autor_id = 2 LIMIT 5;
+
+
+Si queremos utilizar una opcion de registros es necesario utilizar limit y un numero entero, ya quer con esto podemos paginar nuestros reasultados. Es decir ir obteniendo porciones de registros de poco a poco.
+
+Paginando
+
+	SELECT libros_id, titulo FROM libros LIMIT 0, 5 ;
+
+Para obtener los siguientes 5, se especificara el inicio y el limite de visualización.
+
+	SELECT libros_id, titulo FROM libros LIMIT 5, 5 ;		
+
+Y asi 
+
+	SELECT libros_id, titulo FROM libros LIMIT 10, 5 ;
+
+De esta forma es como podemos paginar los registros
+
