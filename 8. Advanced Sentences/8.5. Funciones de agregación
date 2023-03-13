@@ -1,0 +1,89 @@
+8.5. Funciones de agregación
+
+Las funciones de agrgación son funciones que se ejecutan en un grupo de datos, un grupo de dtos no es otra cosa que el resultado de una consulta. cuadno utilizamos funciones de agragación en una consultya ocurre lo siguiente:
+
+	Enviamos la consulta al servidor, el servidor procesa la sentencia, se procede a obtener el resultado, si la sentencia posee la clausula WHERE esta es implementada. Una vez con los datos obtenidos se procede a ejecutar las funciones de agrgación sobre los datos, es decir el resulatado aun no se envia al cliente. Una vez todas las funciones son ejecutadas y procesadas se estructura la respuesta, y una vez estructurada la respuesta se envia al cliente.Asi es como las funciones de agregación trabajan. Van a trabajr sobre un grupo de datos, esd grupo de datos se debe haber obtenido a partir de una sentencia es decir a partir de una consulta.
+
+En resulmen, consultamos, se obtienen los datos se ejecutan las funciones de agrgegación y se envia el resultado al cliente.
+
+Existen cinco funciones de agrgación que podemos encontrar todos los gestores de base de datos con las funciones
+
+	- COUNT
+	- MAX
+	- MIN
+	- AVG
+	- SUM
+
+COUNT permite contar registros. 
+
+Contar todos los registros
+	SELECT COUNT(*) FROM autores;
+
+Las funciones de agregación trabajan bajo un conjunto de datos, quiere decir que podemos agregar la clausula WHERE.
+
+Contar a todos los autores que tienen un seudonimo:
+	SELECT COUNT(*)	AS total FROM autores WHERE seudonimo IS NOT NULL;
+
+algo de la funcion COUNT es que se puede reemplazar el asterisco y colocar una columna
+
+	SELECT COUNT(seudonimo)	AS total FROM autores;		
+
+Sucede por lo siguiente, con las funciones de agregación se ponen a trabajar las columnas siempre y cuando el registro posea algun valor, si el registro no poeee valor, es decir tiene NULL el registro no es tomado en cuenta. con esto indicamos la cantidad de autores que posean un seudonimo, empieza el conteo y asi sucesivamente hasta obtener el resultado deseado.
+
+No es escluyente de COUNT, tambien para los demas funciones de agregación, si el registro posee nulo, no es tomado en cuenta.
+
+
+Funcion SUM
+Esta funcion permite sumar, con la tabla libros:
+
+Para esto se crea una nueva funcion:
+
+
+DELIMITER //
+CREATE FUNCTION obtener_ventas()
+RETURN INT 
+BEGIN SET @paginas = (SELECT (ROUND ( RAND() * 100 ) * 6));
+RETURN @paginas;
+END//
+
+DELIMITER ;
+
+	UPDATE libros SET paginas = obtener_paginasS();
+
+Posteriormente se hace un update hacia la tabla libros.De esta forma se ponene ventas a todos los libros al hazar.
+
+	UPDATE libros SET ventas = obtener_paginasS();
+
+Ahora lo que se va a hacer es sumar todas las ventas:
+
+	SELECT * form libros;
+
+
+	SELECT * FROM ventas;
+
+		SELECT SUM(ventas) FROM libros;
+
+La suma de tods los registros en el campo ventas es alto.
+
+
+Funciones MAX | MIN.
+
+Estas funciones son facies de comprender, se va a obtener el valor maximo de una ol
+
+	SELECT MAX(ventas) FROM Llibros;
+
+Con esto se obtiene el libro que mas se vendio.
+
+Obtener el libro que menos ejemplares vendio:
+
+	SELECT MIN(ventas) FROM Libros;
+
+
+Funcion AVG.
+
+Permite saber el promedio.
+
+	SELECT AVG(ventas) FROM libros;
+
+
+	
