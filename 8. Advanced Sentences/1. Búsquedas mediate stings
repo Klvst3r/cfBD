@@ -1,0 +1,49 @@
+1. Búsquedas mediate stings
+
+
+Mediante las busquedas avanzadas de registros mediante patrones en un string en una cadena alfanumerica, si queremos buscar que un string comience o termine son un substring lo que dbemos hace es utilizar las funciones right y left.
+
+Estas funciones cuentan con ciertas limitantes, por ejemplo. que pasa si queremos buscar un substring sin saber si este se encuentra al comeinzo o al final del texto original. 
+
+En SQL se cuentan con una clausula la cual permite hacer lo mencionado, buscar substring al principio al final o entre el texto original, la calusula tiene por nombre like;
+
+
+Nuevamente obtenemos todos los libros cuyo titulo comience con Harry Potter, pero ahora se usarla clausula like,
+
+	SELECT * FROM libros WHERE titulo LIKE 'Harry Potter%';
+
+O en formato de cartas
+
+	SELECT * FROM libros WHERE titulo LIKE 'Harry Potter%'\G;	
+
+Muetrando todos los titulos que comeincen con Harry Potter.
+
+Todos los libros que terminen con anillo.
+
+	SELECT * FROM libros WHERE titulo LIKE '%anillo';
+
+
+Para buscar un substring sin o sabemos donde se encuentra al principio o al final. Utilizamos.
+
+Todos los libros cuyo titulo tenga la palabra  la al principio o al final o en medio del texto.
+
+	SELECT * FROM libros WHERE titulo LIKE '%la%';
+
+Para obtener todos los libros cuyo titulo posea cinco caracteres y que ebn el tercer caracter cuente con la letra b. Esta ya es una condicon mas compleja.
+
+	SELECT * FROM libros WHERE titulo LIKE '__b__';
+
+
+Estos sinos no son excluyentes y se pueden utilizar en una misma condicion.
+
+Obtener todos los libros cuyo titulo tenga en su segundo caracter la letra a:
+
+	SELECT * FROM libros WHERE titulo LIKE '_a%';
+
+
+ 
+	SELECT * FROM libros WHERE titulo LIKE '_a__0%';
+
+
+
+	
