@@ -1,3 +1,28 @@
 8.7. Condiciones bajo agrupamiento.
 
+Se trabajara con la clausula HAVING
+
+Esta clausula nos permite apoyar a la clausula WHERE debido a que vamos a utilizar condiciones a traves de funciones de agragación.
+
+Como ejemplo tenemos:
+
+Obtener todos los autores que hayan vendido mas de 100 000 ejemplares. Tomando en consideración que la columna ventas se encuentra en libros
+
+
+	SELECT VENTAS from libros;
+
+	SELECT autor_id, SUM(ventas) AS total FROM libros GROUP BY autor_id;
+
+Agregando la condición:
+
+	SELECT autor_id, SUM(ventas) AS total FROM libros WHERE SUM(ventas) > 100 GROUP BY autor_id;
+
+Marca un error por que no podemos condicionar una funcion de agragación con la clausula WHERE, Ya que las funciones de agragación se van a ejecutar en un grupo o en un conjunto de datos y este conjunto de datos previamente se debio haber obtenido, eso quiere decir que la funcion WHERE se ejecuta antes que las funcuiones de agragación:
+
+
+Entonces lo que podemos hacer una vez obtenidos los datos, es filtrar mediante el HAVING
+
+	SELECT autor_id, SUM(ventas) AS total FROM libros GROUP BY autor_id HAVING(ventas) > 100;
+
+Recordando que la clausula HAVING sera una clausula de soporte a la clausula WHERE permitira realizar filtros sobre un grupo de datos, podemos utilizar las funciones de agragación.
 
