@@ -1,0 +1,26 @@
+8.8. Unir resultados
+
+El operador Union nos permitira combinar multiples datasets, es decir mukltiples resultados, para poder trabajar con este operador generaremos una nueva tabla.
+
+
+CREATE TABLE usuarios(
+	usuarios_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	nombre varchar(25) NOT NULL,
+	apellidos varchar(25),
+	username varchar(25) NOT NULL,
+	email varchar(50) NOT NULL,
+	fecha_creación DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+Esta nueva tabla nos permitira conocer que usuarios pueden rentar libros, prestar libros dentro de nuestra libreria.
+
+
+Ejecutamos 
+	SOURCE curso_db/sentencias.sql
+
+Para ejecutar el archivo de sentencias SQL.
+
+
+Insertamos registros
+
+		
