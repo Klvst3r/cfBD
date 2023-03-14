@@ -1,0 +1,25 @@
+8.6. Agrupamiento
+
+
+Como en la seccion anterior, las gfunciones de agregación son utilies en cuanto a trabajar en grupo dse refiere, sin embargo, por si solas tienen una limitante, nosotros no podemos trabajar con mas columnas en las consultas, 
+
+Que autor vendio mas libros
+	SELECT autor_id, SUM(ventas) FROM libros;
+
+Esto nos genera un error, y para que puedamos trabajar con un grupo debemos de utilizar la clausula GROUP BY, Lo que hace es agrupar los rergistros bajo un criterio.
+
+El agrupamiento se hara despues de obtener los datos
+
+La sentencia agrupada sera:
+	SELECT autor_id, SUM(ventas) FROM libros GROUP BY autor_id;
+
+Con esto se visualizara el autor y la cantidad de libros vendidos.
+
+si queremos consultar el autor que mas vendio, lo que se hace es:
+
+	SELECT autor_id, SUM(ventas) AS total FROM libros GROUP BY autor_id ORDER BY total DESC LIMIT 1;	
+
+Al limitar a solo uno nos arrojara solamente un registro que mas vendio.
+
+
+Si queremos agrupar registros se utilizara GROUP BY una vez agrupados los registros se podras utilizar las fuinciones de agregación
