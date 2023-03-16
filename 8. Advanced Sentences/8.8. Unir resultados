@@ -24,3 +24,67 @@ Para ejecutar el archivo de sentencias SQL.
 Insertamos registros
 
 		
+	INSERT INTO `usuarios` (`usuarios_id`, `nombre`, `apellidos`, `username`, `email`, `fecha_creación`) VALUES (NULL, 'Ozkar', 'Kozlov', 'kozlov', 'klzlov@email.com', current_timestamp()), (NULL, 'klvst3r', 'io', 'klvst3r', 'klvst3r@email.com', current_timestamp());
+
+
+Ahora ya se cuentan con tres tablas y diferentes registros, lo que ahora es obtener el nombre completo de los autores y de los usuarios:
+
+	SELECT CONCAT(nombre," ", appaterno, " ",apmaterno) AS nombre_completo FROM autores;
+
+Para los usuarios;
+
+	SELECT CONCAT(nombre," ", apellidos) AS nombre_completo FROM usuarios;
+
+Visualizamos los nombres completos de autores y de usuarios, se tienen dos queries por lo tanto son dos datasets o dos resultados. 
+
+si queremos unir ambos resultados, utilizaremos UNION, crearemos una sola sentenciam, para quedar mas claro vamos a apoyarnos de la conslta
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) FROM autores
+	UNION
+	SELECT CONCAT(nombre," ", apellidos) FROM usuarios;
+
+Todo esto es una sentencia.+
+
+Se visualizara el nombre completo de ambos dataset tanto de usuarios como de autores, nosottros podemos unir diferentes resultados, de dos consultas, de tres de 4 de N. Vamos a colocar un alias 
+
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) as nombre_completo FROM autores
+	UNION
+	SELECT CONCAT(nombre," ", apellidos) as nombre_completo FROM usuarios;
+ 
+
+Algo a considerar es que todas las columnas deben de retornar la misma cantidad de columnas, por ejemplo.
+
+En la anterior consulta se retorna una columna.
+
+si en un dado caso la segunda consulta retornara dos columnas, por ejemplo 
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) as nombre_completo FROM autores
+	UNION
+	SELECT CONCAT(nombre," ", apellidos) as nombre_completo, email FROM usuarios;
+
+En este caso existe un error debido a que no es la misma cantidad de columnas, que se estan retornando en cada consulta.
+
+como autores no tiene el campo email, lo que se puede hacer es colocar una columna vacia, de la siguiente forma.
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) as nombre_completo, "" FROM autores
+	UNION
+	SELECT CONCAT(nombre," ", apellidos) as nombre_completo FROM usuarios;
+
+De esta manera no tendremos ningun problema.
+
+Podemos visualizar que el encabezado no tiene nombre, si se coloca un alias a la primera consulta se va a poder visualizar el encabezado email.
+
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) as nombre_completo, "" as email FROM autores
+	UNION
+	SELECT CONCAT(nombre," ", apellidos) as nombre_completo, email FROM usuarios;
+
+asi sucesivamente:
+
+	SELECT CONCAT(nombre, " ", appaterno, " ", apmaterno) as nombre_completo, "" as email, pais_origen FROM autores 
+	UNION 
+	SELECT CONCAT(nombre," ", apellidos) as nombre_completo, email, "" as pais_origen FROM usuarios; 
+
+Siemrpe que unamos resultados, estos deben de poseer la misma cantidad de columnas.
+
