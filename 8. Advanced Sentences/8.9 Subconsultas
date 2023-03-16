@@ -1,0 +1,143 @@
+8.9 Subconsultas
+
+El tema de subconsultas es bastante sencillo de comprender las subconsutas no son otra cosa que consylas dentro de otras es decir consultas anidadas.
+
+Problematica 
+Obtener el nombre completo de todos los autors cuyas ventas hayan superado el promedio.
+
+Lo primero que debemos hacer es obtener el promedio.
+
+	SELECT AVG(ventas) FROM libros;
+
+Copiamos el resultado como un comentario
+
+
+	SELECT AVG(ventas) FROM LIBROS; --364.0000
+
+El Siguiente paso seria listar todos los autores cuyas ventas sean mayores 364.0000
+
+Sumando sus ventas, agrupando, y con la funcion de agragación SUM()
+
+	SELECT autor_id FROM libros GROUP BY autor_id HAVING SUM(ventas) > 364.0000; 
+
+Como se esta condicionando vamos a tener que utilizar la clausula HAVING 
+
+Se listan de todos los autores cutas netntas sean mayores que el promedio.
+
+Dando formato a la consulta:
+	
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > 364.0000; 
+
+Esta consulta funciona sin embargo tenemos en codigo duro el 364 y eso no esta nada bien, lo que podemos hacer para solucionarlo es declarar una variable por ejemplo promedio 
+
+y que promedio de la sentencia nos retorne
+
+	SELECT AVG(ventas) FROM libros:
+
+	SET @promedio = (SELECT AVG(ventas) FROM libros)
+
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > 364.0000; 
+
+
+
+Una vez la variable ha sido creada colocamos 
+
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > @promedio; 
+
+
+obteniendo el mismo resultado
+
+
+Estas dos sentencias anteriores funcionan, sin embargo aun podemos mejorarla, lo que podemos hacer es una subconuslta.
+
+Para que nosotros coloquemos una subconsuta anidada, vamos a colocar la subconsulta dentro de parentesis, en este caso la consulta sera la del promedio.
+
+
+	SET @promedio = (SELECT AVG(ventas) FROM libros);
+
+
+
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > (SELECT AVG(ventas) FROM libros); 
+
+Ejecutamos la anterior sentencia.
+
+
+Primero se obtiene el promedio, una vez con el promedio se procede a ejecutar la siguiente sentencia la del siguiente nivel.
+
+Obteniendose el mismo resultado 
+
+Entonces, para que puedamos trabajar con subconsultas, basta con colocar la subconsulta dentro de los parentesis.
+
+El orden en la que se ejecutan las subconsultas son del nivel mas bajo al nivel mas alto.
+
+Primero se ejecuta:
+
+	SELECT AVG(ventas) FROM libros
+
+y luego se ejecuta la siguiente.
+
+en la problematica se comantaba que necesitamos obtener el nombre completo de los autores.
+
+En este caso solo tenemos los ID no el nombre complto por lo que haremos es que:
+
+Esta consulta sea otra subconsulta para ello vamos a colocar
+
+	SELECT CONCAT(nombre, " ", appaterno, "", apmaterno)
+	FROM autores
+	WHERE autor_id IN (
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > (SELECT AVG(ventas) FROM libros));
+
+Ahora toda esta sentencia quedaria:
+	SELECT CONCAT(nombre, " ", appaterno, "", apmaterno)
+	FROM autores
+	WHERE autor_id IN (
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > (SELECT AVG(ventas) FROM libros));
+
+El resultado:
+	 CONCAT(nombre, " ", appaterno, "", apmaterno) 	
+	Test primer_nombre Test_autor_appaternoautor_apmat...
+	Test segundo_nombre Test_autor_appaternoautor_apma...
+
+
+Se obtiene el nombre completo de todos los autores cuyas ventas hayan superado el promedio.
+
+La primera subconsulta 
+	SELECT AVG(ventas) FROM libros)
+Retorna el promedio, las segunda subconulta, 
+
+	SELECT 
+	  autor_id 
+	FROM libros 
+	GROUP BY autor_id 
+	HAVING SUM(ventas) > (SELECT AVG(ventas) FROM libros)
+
+Retorna una lista de IDs y la consulta principal, retorna el nombre completo en base a una lista,
+
+Con esto se resulve la problematica de forma satisfactoria.
+
+Es importante mencionar que las subconsultas pueden ser bastante sencillas como este caso. O pueden ser tan complicadas como nosotros lo necesites.
+
