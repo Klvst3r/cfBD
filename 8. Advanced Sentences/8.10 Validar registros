@@ -1,0 +1,44 @@
+8.10 Validar registros
+
+_Un operador que nos ayudara a conocer si un registro o un grupo de registros que existen, es el operador EXIST
+
+Este operador evaluara a una consulta, si la consulta por lo menos retorna un tregistro, EXIST dara como resultado verdadero. en caso contrario sera falso
+
+Obtengamos el mensaje disponible, si el libro titula "el hobbit" se encuentra en nuestra tabla libros, en caso contrario obntenemos el mensaje "No disponible".
+
+	Disponible
+	No disponible
+		El hobbit
+
+La sentencia quedaria:
+
+	SELECT IF(
+		EXISTS(SELECT libro_id FROM libros WHERE titulo = 'El hobbit'),
+		'Disponible',
+		'No disponible'
+	);		
+
+La funcion If como sabemos recibe tres argumentos, el primer argumento es el valor a evaluar.
+siempre que vayamos a evaluar si existen registros de una consulta colocar la llave primaria, como se menciono anteriormente.
+
+Exists retronara verdadero si existe por lo menos un registro, es completamente indiferente si ese registro cuenta con un o mas valores o campos con que exista uno sera verdadero.
+
+Se puede utilizar en la onsulta dentro de EXIST(*), pero esto retornara todas las columnas, lo cual es contraproducente, la consulta sera más lenta.
+
+se puede agtragar otra columna, por ejemplo, titulo., sin embargo este campo no se encuentra indexado, asi que debemos de colocar para temas de optimización nuestra llave primaria.
+
+
+La consulta nos dara un rsultado de no disponible, 
+
+el formato esta un tatno extraño, asi que se colocara un alias:
+
+	
+	SELECT IF(
+		EXISTS(SELECT libro_id FROM libros WHERE titulo = 'El hobbit'),
+		'Disponible',
+		'No disponible'
+	) AS mensaje;	
+
+La saluda tiene un formato mas amigable, con esta forma sabremos si existen o no registros de una consulta.
+
+la consulta puede ser tan compleja, como se necesiote, eso si como en la conculta no nos interesan los camios en si. Debemos ser es si con que campo vamos a trabajar
