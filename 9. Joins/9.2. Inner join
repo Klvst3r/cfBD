@@ -1,0 +1,147 @@
+9.2. Inner join
+
+Que pasa si queremos obtener en un mismo resultado en un mismo dataset, diferentes valores de diferrentes tablas, en este caso trabajaremos con los JOINS
+
+Para esta sección se trabajara con el INNER JOIN
+
+			 A 				  B
+
+	     ------------    ------------
+		/			 \  /			 \	
+	   /	          \/			  \
+	  /               /\			   \
+	  |				 |//|			   |		
+	  |				 |//|			   |		
+	  |				 |//|			   |			  	  
+	   \			  \/			   /
+	   	\             /\			  /	 
+	   	 \			 /  \            /
+	     ------------    ------------	   	 
+
+
+El Inner join nos permitira obtener registros que se encuentren dentro de la intersección de la union de dos tablas, tal y como se muestra en la imagen anterior.
+
+Para que quede mas claro resulvamos la problematica:
+
+Obtener el titulo de todos los libros,  el nombre completo de su autor.
+
+1. Obtener el titulo de todos los libros.
+	SELECT titulo FROM libros;
+
+2. Ahora vamos a unir la tabla libros con la tabla autores
+
+	SELECT titulo FROM libros
+	...autores
+
+3. Para poder unir las dos tablas, vamos a colocar JOIN, pero como nos interesan los registros quie se encuentran en la intersección, vamos a colocar INNER JOIN
+
+	SELECT titulo FROM libros
+	INNER JOIN autores...
+
+4. Se debe colocar la condicional con la cual vamos a unir estas dos tablas, colocando la subcalusula ON, y colocamos nuestra condicion.
+
+Actualmente tenemos la tabla libros, y la tabla autores, en la tabla libros, que es nuestra tabla principal tenemos una llave foranea llamada autor_id, la cual no es mas que la llave primaria, de la tabla autores.
+
+entonces vamos a obtener todos los registros cuyos autor id de libros sea igual al autor id en esa intersección vamos a obtener los registros.
+	
+	SELECT titulo FROM libros
+	INNER JOIN autores ON autor_id = autor_id...
+
+En este caso como el nombre de las columnas son identicas, debemos especificar de que tabla viene la columna.
+
+El orden viene de la siguiente forma.
+
+	SELECT titulo FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id...
+
+En este caso como nos interesan los registros de la intersección el orden es indiferente.
+
+Podemos colocar autores en la parte izquierda y libros de la parte derecha:
+
+	SELECT titulo FROM libros
+	INNER JOIN autores ON autores.autor_id = libros.autor_id...	
+
+
+	SELECT titulo FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;
+
+
+Mostrando correctamente la información coincidente, la sentencia se ejecuta correctamente visualizando solam,ente titulo, por que es el dato que se esta solicitando.
+
+Una vez hayamos unido la tabla libros con la tabla autores, podemos hacer uso de las columnas de la tabla libros y de la tabla autores.
+
+Asi que podemos hacer lo siguiente:
+
+	SELECT 
+	  titulo,
+	  CONCAT(nombre, " ", appaterno, " ", apmaterno) AS nombre_autor 
+	FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;
+	
+Visualizando el resultado con dos columnas, el titulo y el nombre del autor.
+
+Cada libros tiene su autor. Y esto lo logramos uniondo dos tablas y colocando nuestra condición, donde autor_id de libros, sea igual a autor_id de autores.
+
+Ahora agragamos un campo mas a nuestra consulta, la fecha de creación del libro.
+
+
+	SELECT 
+	  titulo,
+	  CONCAT(nombre, " ", appaterno, " ", apmaterno) AS nombre_autor,
+	  fecha_creacion 
+	FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;
+
+Presentandose un error, ya que fecha de creación es un campo ambiguo, y esto se debe a que tanto la tabla autor, como libros posee el campo fecha_creacion, asi que se debe de especificar de que tabla es el campo.
+
+	SELECT 
+	  titulo,
+	  CONCAT(nombre, " ", appaterno, " ", apmaterno) AS nombre_autor,
+	  libros.fecha_creacion 
+	FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;
+
+Ahora si se obtiene el resultado deseado.
+
+5. La consulta funciona, sin embargo no esta bien escrita, por ejemplo.
+
+nosotros no sabemos si titulo, le corresponde a libros o a la tabla autores, de igual forma nombre y appaterno, apmaterno.
+
+si que lo quwe debemos hacer es siempre que estemos trabajando con JOINS es especificar el origen del campo.
+
+Ahora colcoamos:
+
+
+	SELECT 
+	  libros.titulo,
+	  CONCAT(autores.nombre, " ", autores.appaterno, " ", autores.apmaterno) AS nombre_autor,
+	  libros.fecha_creacion 
+	FROM libros
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;	
+
+
+Ahora tenemos una consulta mucho más legible.	
+
+
+6. Si estamos trabajando con nombres complejos en la tablas, recordemos que podemos colocar un alias, por ejemplo li o au o simplemente letras que hagan referencia a una tabla.
+
+
+	SELECT 
+	  li.titulo,
+	  CONCAT(au.nombre, " ", au.appaterno, " ", au.apmaterno) AS nombre_autor,
+	  li.fecha_creacion 
+	FROM libros as li
+	INNER JOIN autores as au ON li.autor_id = au.autor_id;	
+
+
+De esta forma es como nosotros vamos a unir dos tablas, y vamos a obtener los registros que se encuentren dentro de la intersección.
+
+Se utilizara
+
+INNER JOIN el nombre de nuestra tabla, colocamos la subclausula ON, y condicionamos bajo que terminos vamos a unir esas dos tablas.
+
+siempre que se obtengan vamores demas de una tabla, es buena practica que se especificque, el origen del valor, ya sea escribiendo el nombre completo de la tabla, o colocando un alias.
+
+nosotros no estamos limitados unicamente a unir dos tablas, se pueden unir tres diez el numero de tablas necesarias.
+
+
