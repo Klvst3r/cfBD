@@ -1,3 +1,13 @@
 9.1 Trabajo con multiples tablas
 
 
+En mas de una ocacion se tendra la necesidad de trabajar con mas de una tabla y la necesidad de trabajar con varios tipos de datos, los cuales no necesariamente tiene que estar en la misma tabla.
+
+Por ejemplo si queremos tener lt tiutulo de todos los libros justo por el nombre completo de cada autor, se tendrian que revisar dos tablas y por lo tanto dos tablas, para obtener un select para los titulos en la tabla libros y un selet para el nombre de los autores en la tabla autores. Una vez con lo representado se utilizaria un tipo de algoritmo que nor permita tener por cada libro su correspondencia en los autores. 
+
+A primera instancia tal vez o parezca un trabajo complicado algo que nuestro servidor puede realizar en poco tiempo y con pocas lineas e incluso se puede realizar con algun lenguaje de programación.
+
+Sin embargo no es la manera mas optima de trabajar con dos tablas y tampoco sera para dos o tres.
+
+Por ello si queremos trabajar con multiples tablas tabajaremos con los joins
+
