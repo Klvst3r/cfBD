@@ -1,0 +1,52 @@
+9.3 Subclausula USING
+
+
+Si el nombre de las columnas que estamos utilizando para unir las tablas tienen el mismo nombre, podemos reemplazar la subclausual ON por la subclausula USING,
+
+
+
+
+	SELECT 
+	  libros.titulo,
+	  CONCAT(autores.nombre, " ", autores.appaterno, " ", autores.apmaterno) AS nombre_autor,
+	  libros.fecha_creacion 
+	FROM libros 
+	INNER JOIN autores ON libros.autor_id = autores.autor_id;	
+
+
+En este caso como nuestras tablas libros y autores se encuentran normalizadas y hoemos seguido un estandar. Nuestra llave foranea tiene el mismo nombre que nuestra llave primaria, asi que el cambio lo podemos hacer muy facilmente.
+
+
+	SELECT 
+	  libros.titulo,
+	  CONCAT(autores.nombre, " ", autores.appaterno, " ", autores.apmaterno) AS nombre_autor,
+	  libros.fecha_creacion 
+	FROM libros 
+	INNER JOIN autores USING(autor_id);	 
+
+En este caso no es necesario especificar a que tabla pertenece este campo, debido a que se intuye que libros, autores comparten dicho campo.
+
+Si ejecutamos esto, obtenemos el resultado deseado.
+
+Utilizar USING  no es mas que utilizar un shortcut, nos estaremos ahorrando un poco de codigo, 	sin embargo, en la mayorias de las ocaciones, usaremos la clausula ON.
+
+Debido a que ON nos permite condicionar la union de tablas, por ejemplo:
+
+Obtengamos el titulo de todos los libros, el nombre completo de los autores siempre y cuando dicho autor cuente con un seudonimo.
+
+En este caso vamos a colcar ON 
+
+	SELECT 
+	  libros.titulo,
+	  CONCAT(autores.nombre, " ", autores.appaterno, " ", autores.apmaterno) AS nombre_autor,
+	  libros.fecha_creacion 
+	FROM libros 
+	INNER JOIN autores ON libros.autor_id = autores.autor_id 
+		AND autores.seudonimo IS NOT NULL;	
+
+Como observamos estamos condicionando aun mas la union de tablas. Esto nosotros no lo podemos hacer utilizando USING.
+
+De esta forma es como nosotros podemos unir dos tablas. Ya sea utilizando la subcalusula USING.
+
+Recordemos, con ON podemos condicionar más columnas. Algo que con USING no es posible hacer.
+
