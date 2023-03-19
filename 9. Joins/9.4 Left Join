@@ -1,0 +1,23 @@
+9.4 Left Join
+
+Para comenzar debemos dejar en claro que LEFT JOIN y LEFT OUTER JOIN son exactamente lo mismo, asi que nos referiremos a la union como LEFT JOIN.
+
+cuanod nosotros usamos LEFT JOIN, nosotros podemos obtener registros de la union de dos tablas, los registros pueden encontrarse, en la intersección de ambas, como solo la tabla A, la tabla del lado isquierdo.
+
+
+
+			 A 				  B
+
+	     ------------    ------------
+		/////////////\  /			 \	
+	   ///////////////\/			  \
+	  /////////////////\			   \
+	  |//////////////|//|			   |		
+	  |//////////////|//|			   |		
+	  |//////////////|//|			   |			  	  
+	   \//////////////\/			   /
+	   	\//////////////\			  /	 
+	   	 \////////////  \            /
+	     ------------    ------------	  
+
+Para quedar mas claro, generearemos una nueva tabla 	     
