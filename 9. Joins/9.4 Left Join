@@ -20,4 +20,47 @@ cuanod nosotros usamos LEFT JOIN, nosotros podemos obtener registros de la union
 	   	 \////////////  \            /
 	     ------------    ------------	  
 
-Para quedar mas claro, generearemos una nueva tabla 	     
+Para quedar mas claro, generearemos una nueva tabla, debido a que la libreria los usuarios pueden prestar libros, Un usuario podra prestar mas de un titulo, asi como un titulo podra ser prestado a mas de un usuario.
+
+Asi que la relación entre ambas tablas, usuarios - libros sera de muchoa muchos.
+
+Cuando nostros tengamos una relación de muchos a muchos es obligatorio que nosotros generemos una nueva tabla.
+
+En este caso la tabla tendra por nombre libros-usuarios. La definición queda de la siguiente manera:
+
+	CREATE TABLE libros_usuarios(
+		libro_id INT UNSIGNED NOT NULL,
+		usuario_id INT UNSIGNED NOT NULL,
+
+		FOREING KEY (libro_id) REFERENCES libros(libro_id),
+		FOREING KEY (usuario_id) REFERENCES usuarios(usuario_id),
+		fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+	);
+
+
+Esta tabla no posee una llave primaria, pero si posee dos llaves foraneas, libro_id y usuario_id. De esta forma nosotros podremos saber que libro fue prestado a que usuario. Y que usuario a prestado que libros.
+
+Tambien tiene una columna fecha_creacion la cual nos permite saber en que fecha el libro fue prestado.
+
+Es una definición bastante sencilla, se procede a copiar y a paras a la terminal de la base de datos.
+
+En el archivo de sentencias.sql se agrega esta nueva tabla.
+
+Cada vez que nosotros insertemos un registro en esta tabla vamos a disminuir en 1 el stock de los libros,
+
+se vana a insertar un par de registros:
+
+
+	INSERT INTO libros_usuarios(libro_id, usuario_id) 
+	VALUES (1,1), (2,1), (3,1) 
+
+
+Teniendo en cuenta que en la tabla usuarios existen dos registros , por lo que se va a registrar que Eduardo presto el titulo 1, y tambien presto el titulo 2, y el titulo 3.	
+
+Recordando que el primer valor es el de "libro_id" y el segundo valor es "usuario_id". Ahora se va a ejecutar
+
+	 SOURCE curso_db/sentencias.sql
+
+Para ejecutar el archivo de sentencias.
+
+	 
