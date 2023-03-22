@@ -1,0 +1,93 @@
+9.5. Right Join
+
+
+Para comenzar hay que dejar algo en claro RIGHT JOIN y RIGHT OUTER JOIN son exactamente lo mismo, asi que para esta secciṕon nos vamos a referir unicamenmte como RIGHT JOIN a la union.
+
+
+Cuando utilizamos RIGHT JOIN
+
+
+
+			 A 				  B
+
+	     ------------    ------------
+		/			 \ 	/////////////\	
+	   /			  \///////////////\
+	  /				 / \///////////////\
+	  |				 | |///////////////|		
+	  |				 | |///////////////|		
+	  |				 | |///////////////|			  	  
+	   \			  \/////////////////
+	   	\			  /\///////////////	 
+	   	 \			 /  \/////////////
+	      ------------   ------------	 
+
+Nosotros podremos obtener registros de la union de dos tablas, los registros pueden encontrarse en la intersección de ambas como en la tabla B, es decir la tabla de la derecha, 
+
+En la sección anterior obtuvimos el nombre completod e los usuarios y el Id de los libros prestados. Para ello usamos left join.
+
+La sentencia quedo de la siguiente manera:
+
+	SELECT 
+		CONCAT (nombre, " ", apellidos), 
+		libros_usuarios.libro_id 
+	FROM usuarios LEFT JOIN libros_usuarios 
+	ON usuarios.usuario_id = libros_usuarios.usuario_id
+	WHERE libros_usuarios.libro_id IS NULL;	      
+
+Donde usuarios era nuetra tabla A, y libos usuarios era la tabla B.
+
+si queremos resolver la misma problematica utilizando RIGHT JOIN, se deben hacer algunas modificaciones.
+
+Primero debemos de cambiar el orden de las tablas.
+
+
+vamos indicar que la tabla libros_usuarios es la tabla A, y la tabla usuarios es la tabla B
+
+	libros_usuarios = a
+	usuarios = b
+
+Por ello debemos cambiar el query
+
+
+Sentencia RIGTH JOIN
+
+	SELECT 
+		CONCAT (nombre, " ", apellidos), 
+		libros_usuarios.libro_id 
+	FROM libros_usuarios RIGHT JOIN usuarios
+	ON usuarios.usuario_id = libros_usuarios.usuario_id
+	WHERE libros_usuarios.libro_id IS NULL;	      
+
+
+Ejecutando nuevamente la sentencia.
+
+	CONCAT (nombre, " ", apellidos)		libro_id
+	klvst3r union						NULL
+
+
+Obtenemos al usuario que no ha prestado ningun libro.
+
+Si se elimina la condicional, ejecutando nuevamente
+
+	SELECT 
+		CONCAT (nombre, " ", apellidos), 
+		libros_usuarios.libro_id 
+	FROM libros_usuarios RIGHT JOIN usuarios
+	ON usuarios.usuario_id = libros_usuarios.usuario_id;
+
+
+
+Resultado:
+		CONCAT (nombre, " ", apellidos)		libro_id	
+	Ozkar Kozlov							1
+	Ozkar Kozlov							2
+	Ozkar Kozlov							3
+	klvst3r io 								NULL
+
+
+Se obtiene el mismo resultado, pero ahora estamos trabajando, con los registros que se encuentran a la derecha y en la intersección.
+
+
+El RIGHT JOIN es algo bastante sencillo de comprender si nosotros comprendimos los que es LEFT JOIN. basta con que sepamos que tabla, es la A y que tabla es la B.
+
