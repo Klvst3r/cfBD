@@ -32,8 +32,8 @@ En este caso la tabla tendra por nombre libros-usuarios. La definición queda de
 		libro_id INT UNSIGNED NOT NULL,
 		usuario_id INT UNSIGNED NOT NULL,
 
-		FOREING KEY (libro_id) REFERENCES libros(libro_id),
-		FOREING KEY (usuario_id) REFERENCES usuarios(usuario_id),
+		FOREIGN KEY (libro_id) REFERENCES libros(libro_id),
+		FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id),
 		fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
 	);
 
@@ -63,4 +63,76 @@ Recordando que el primer valor es el de "libro_id" y el segundo valor es "usuari
 
 Para ejecutar el archivo de sentencias.
 
-	 
+	system clear;
+
+
+Con esta nueva tabla podremos trabajar con el left join.
+
+Para que podamos trabajar con  left join, y para ello vamos a resolver una pequeña problematica. 
+
+Obtengamos el nombre completo de los usuarios y el id de los libros prestados. 
+
+Para ellos e trabajara con la tabla usuarios 
+
+	usuarios = a
+	libros_usuarios = b
+
+Si visualizamos el diagrama de Ben en esta ocacion la tabla usuarios sera la tabla a y la tabla libros_:usuarios sera la tabla b,
+
+La sentencia quedaria de la siguiente manera. (La tabla A)
+
+	SELECT 
+		CONCAT (nombre, " ", apellidos), 
+		libros_usuarios.libro_id 
+	FROM usuarios LEFT JOIN libros_usuarios 
+	ON usuarios.usuario_id = libros_usuarios.usuario_id;
+
+
+como se observa en el diagrama de Ben, Left join tambien nos permite obtener registros en la interseccion, asi que usaremos nuevamente la subclausula ON.	
+
+Obtenemos:
+
+	CONCAT (nombre, " ", apellidos)		libro_id	
+	Ozkar Kozlov							1
+	Ozkar Kozlov							2
+	Ozkar Kozlov							3
+	klvst3r io 								NULL
+
+Una vez con la unión nosotros podremos obtener el id del libro prestado.
+
+Podemos visualizar que Ozkar Kozlov ha prestado con el id 1, 2 y 3, por suparte Klvst3r io, no ha prestado ningun libro
+
+Los tres primeros registros, los obtenemos debido a que se encuentran en la intersección de las dos tablas, por su parte el ultimo registro lo obtenemos, por que no se encuentra en la intersección, se encuentra en la tabla de la izquierda, en la patabla A. Como se menciono anterioremente es la tabla usuarios.
+
+Como Klvt3r io, no ha prestado ningun libro visualizamos null, en libro id, si nostros queremos obtener todos los usuarios que han prestado un libro, podemos colocar:
+
+		SELECT 
+			CONCAT (nombre, " ", apellidos), 
+			libros_usuarios.libro_id 
+		FROM usuarios LEFT JOIN libros_usuarios 
+		ON usuarios.usuario_id = libros_usuarios.usuario_id
+		WHERE libros_usuarios.libro_id IS NOT NULL;
+
+
+Resultado:
+ CONCAT (nombre, " ", apellidos)		libro_id	
+	Ozkar Kozlov							1
+	Ozkar Kozlov							2
+	Ozkar Kozlov							3		
+
+
+Mostrando solamente que Ozkar Kozlov ha prestado libros.
+
+Si queremos mostrar los usuarios que no han prestado libros, colocamos:
+
+
+
+		SELECT 
+			CONCAT (nombre, " ", apellidos), 
+			libros_usuarios.libro_id 
+		FROM usuarios LEFT JOIN libros_usuarios 
+		ON usuarios.usuario_id = libros_usuarios.usuario_id
+		WHERE libros_usuarios.libro_id IS NULL;
+
+
+Recordemos que el LEFT JOIN nos permitira obntener registros de la intersección de ambas tablas, tanto como de la tabla A, La tabla a siempre sera nuestra tabla principal, la cual hayamos colocado en el FROM.
