@@ -1,0 +1,31 @@
+9.7 Productos Cartesianos
+
+Los productos cartesianos, lo cual es escencialmente el resultado de unir multiples tablas sin especificar ninguna condicion de unión, lo cual no es muy comun, sin embargo si necesitamos generar un producto cartesiano vamos a trabajar con:
+
+- CROSS JOIN
+
+
+Porejemplo, generemos un producto cartesiano entre usuarios y libros.
+
+	SELECT usuarios.username, libros.titulo FROM usuarios CROSS JOIN libros;
+
+Vamos a obtener muchos registros ya que a cada usuario le corresponde un libro, podemos visualizar mejor si ordenamos:
+
+	SELECT usuarios.username, libros.titulo FROM usuarios CROSS JOIN libros ORDER BY username DESC;
+
+Como observamos a cada usuario le corresponde un libro, 
+
+Esto nos puede ser muy util si lo que deseamos insertar estos registros a nuestra tabla libros usuarios.
+
+Si es asi, la sentencia quedaria de la siguiente forma:
+	
+	INSERT INTO libros_usuarios (libro_id, usuario_id) SELECT libro_id, usuario_id FROM usuarios CROSS JOIN libros;
+
+Como observamos en nuestro caso se han insertado en nuestra tabla 60 registros.
+
+Los registros de haber asignado a cada usuario un libro.
+
+De esta forma es como nostros podemos generar un producto cartesiano.
+
+Basta con utilizar CROSS JOIN.
+
