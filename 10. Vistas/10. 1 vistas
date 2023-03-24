@@ -1,0 +1,45 @@
+10. 1 vistas
+
+El tema de seguridad de Base de datos siempre es un tema de alta prioridad, debido a que habra ocaciones en que se tienen datos sensibles. Por ejemplo contraseñas, datos de cuentas bancarias, información bancaria, información medica, por algunos ejempl.
+
+Asi nosotros como diseñadores de base de datos debemos de mantener cierta información como privada de tal forma que no se exponga todos los datos a los usuarios.
+
+Imaghinemos un caso:
+
+Tenemos una tabla
+
+metodos_pago
+------------
+
+metodo_pago_id		usuario_id 		tipo_metod 		tipo_tarjeta 		numero_tarjeta 		fecha_expiración
+		1 				1 				T 				Crédito 		1234568901234 		 2018/12/31
+		2 				2 				T 				Debito 			1234568901235 		 2022/02/17
+		3 				3 				L 				Debito			1234568901236 		 2021/04/28
+		4 				4 				L 				Debito 			1234568901237 		 2019/12/31
+
+
+
+Como vemos esta tabla almacena mucha información sensible, si un usuario autenticado realizara una consulta a la tabla podria visualizar todos estos datos, lo cual no es una buena idea.
+
+Lo que se puede hacer es exponer algunas columnas, es ahi donde entran las vistas.
+
+Una vista no es mas que un mecanismo el cual permite consultar datos, a diferencias de las tablas en las vistas no se almacenan los datos, por lo tanto no debemos de preocuparnos que las vistas llenen nuestro espacio de memoria. La vista para nuestra tabla anterior pudiera quedar de la siguiente manera:
+
+Unicamente exponemos:
+
+vista_metodos_pago
+------------------
+
+
+usuario_id 			tipo_metodo 		tipo_tarjeta 	 	ultimos_digitos
+	1 					 T 					Crédito 			   1234
+	2 					 T 					Debito 				   1235
+	3 					 L 					Debito 				   1236
+	4 					 L 					Debito 				   1237
+
+
+Nosotros podemos generar vistas a partir de queries muy complejos, una vez esta se encunetre generada, realizar sera sumamente sencillo.
+
+En estas secciones se veran como crear nuestras propias vistas y como consumirlas.
+
+	
