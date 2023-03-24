@@ -1,0 +1,155 @@
+10.2 Crear vistas
+
+Para que podamos crear una nueva vista seguiremos una estructura bastante sencilla, ya que podemos generar vistas a partir de consultas muy complejas.
+
+Por ejemplo.
+
+Creamos una vista, la cual nos permita conocer a todos los usuarios, que han prestado libros en la ultima semana, asi como la cantidad de libros prestados. Solo la cantidad.
+
+Para este ejercicio no nos interesa los titulos prestados.
+
+Antes de generar nuestra vista debemos de generar nuestra consulta.
+
+La consulta quedaria de la siguiente manera:
+
+
+	SELECT 
+	 *
+	FROM usuarios
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id;
+
+La llave primaria es
+	usuarios.usuario_id
+
+La llave foranea es:
+	libros_usuarios.usuario_id
+
+
+
+Del usuario, vamos a obtener su nombre, se va a obtener el correo electronico y su username:
+
+	SELECT 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username 
+	FROM usuarios
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id;
+
+Obtenemos a todos los usuarios que han prestado libros.
+
+Como nos interesa la cantidad no se va a utilizar la clausula DISTINCT, sino la clausuala GROUP BY.
+
+Una vez agrupados los registros con el Id, lo que se va a hacer es contar los registros, asi sabemos que usuarios han prestado N cantidad de libros.
+
+Quedando:
+
+
+
+	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+	FROM usuarios
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+	GROUP BY usuarios.usuario_id;
+
+Resultado:
+
+	usuario_id			nombre		email				username		total_prestamos	
+		1 				Ozkar		klzlov@email.com 	kozlov 			6
+		3				Daenerys 	daeny@email.com 	daenerys 		1
+		4				Ned			ned@email.com 		ned 			2
+		5				Margaery	margaery@email.com  margaery 		2
+ 		6				Tyrion 		tyrion@email.com 	tyrion 			2
+
+system clear;
+
+esto visualizara en la ultima columna el numero de libros prestados por usuario.
+
+Ahora ya con la conslta hecha y para que nosotros generemos una vista hecha a partir de esta consulta.
+
+vamos a provocar:
+
+Una practica es utilizar un estandar al momento de generar vistas, por ejemplo que terminen con _vw, haciendo referencia a que son vistas.
+
+
+	CREATE VIEW prestamos_usuarios
+
+Una vez que se haya colocado el nombre de nuestra vista se coloca AS quedando:
+
+Quedando la sentencia final:	
+
+ 	
+	CREATE VIEW prestamos_usuarios_vw AS 
+ 	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+
+	FROM usuarios
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+	GROUP BY usuarios.usuario_id;
+
+
+Se procede a ejecutar:
+
+Devolviendo Ok
+
+Eso quiere decir que la vista se genero correctamente en el servidor.
+
+Para poder listar todas las vistas generadas.
+
+Vamos a ejecutar:
+
+	SHOW TABLES;
+
+Se vana  visualizar las vistas, de ahi la importancia de utilizar un estandar, sabemos que las tablas terminadas en _vw son vistas y los restantes son tablas.
+
+una vez generada nuestra vista podremos tratarla como una tabla y se puede:
+
+Hacer un select a la misma.
+
+	SELECT * FROM prestamos_usuarios_vw;
+
+Visualizamos el registro y siempre que queramos obtener los usuarios que han prestado libros en la ultima semana, nos apoyaremos de nuestravista.
+
+No hay que preocuparse ya que al quiery le hacen falta ciertas condiciones que se veran mas adelante.
+
+Como a la vista la podemos tratar como una tabla, nosotros podemos incluirle clausualas como el WHERE, GRPUO BY, ORDER BY, LIMIT y todas las que ya se han visto.
+
+Por ejemplo:
+
+Obtener todos los usuarios cuyos prestamos hayan sido mayor a cuatro
+
+
+	SELECT * FROM prestamos_usuarios_vw WHERE total_prestamos > 4;
+
+Eliminar vusta
+--------------
+
+Si queremos eliminar una vista, vamos a utilizar el siguiente comando:
+
+ DROP VIEW <nombre_vista_a_eliminar>
+
+ Ej.
+
+ 	DROP VIEW prestamos_usuarios_vw;
+
+Si ahora querremos visualizar que nuestra vista ya no se encuentra en el listado de tablas:
+
+	SHOW TABLES;
+
+De esta forma es como se generan y eliminan las vistas.
+
+sintaxis:
+
+	CREATE VIEW <nombre_vista_vw> AS
+	 <CONSULTA>
+
+	 
+
+
