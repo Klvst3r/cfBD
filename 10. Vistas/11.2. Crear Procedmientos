@@ -1,0 +1,207 @@
+11.2. Crear Procedmientos 
+
+
+Para que nosotros podamos generar un store procedure, usaremos una estructura bastante similar a la usada para generar funciones.
+
+En este caso vamos a generar un store procedure que nos permita prestar libros.
+
+1.El primer paso que tenemos que hacer es reemplarar el ; por el //
+
+	DELIMITER //
+
+	CREATE PROCEDURE prestamo
+
+	DELIMITER ;
+
+
+
+2. Posteriormente vamos a colocar el nombre de nuestro store procedure, en este caso prestamo.
+
+
+	DELIMITER //
+
+	CREATE PROCEDURE prestamo()
+
+	DELIMITER ;
+
+3. Dentro de los parentesis vamos a colocar los parametros que va a recibir este storewe procedure, en este caso de ejemplo seran 2, usuario_id, libro_id, usuario_id permitira saber a que usuario cvamos a prestar el libro, y libros_id me permitira saber que libro, vamos a prestar, en ambos casos sera de tipo INT. Seguido de BEGIN
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT)
+		BEGIN
+
+		END//
+
+		DELIMITER ;
+
+4. Lo que va  a hacer este store rpocedure es insertar un registro en la tabal libros_usuarios y posteriormente va a restar en uno el stock del libros.
+
+Por default contamos con 10.
+
+
+vamos a ejecutar dos senetencias:
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT)
+		BEGIN
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libro_id = libro_id;
+
+		END//
+
+		DELIMITER ;
+
+
+en este caso como nuestro parametro tiene el mismo nombre que una columna de la tabla libros, vamos a encontrar ambiguedad en esta parte, por ello vamos a especificar que libro_id	proviene de la tabal libros y que no es el parametro sino la columna.
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT)
+		BEGIN
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+		END//
+
+		DELIMITER ;
+
+
+Copiamos todo esto, o podemos ejecutar el archivo sentences.sql
+
+En nuestro caso vamos a proceder a pegar
+
+
+al recbior un OK, podemos entenerder que el store rpocedure se creo correctamente en el servidor.
+
+5. Vamos a listar todos los store procedure que posee la base de dat¿os, 
+
+
+Para ello nos vamos a apoyar de la sentencia que utilizamos para listar funciones, colocamos:
+
+SELECT name FROM mysql.proc WHERE  db = libreria_cf AND type = 'PROCEDURE';
+
+
+
+ejecutando.
+
+	SELECT name FROM mysql.proc WHERE  db = database() AND type = 'PROCEDURE';
+
+Resultado:
+
++----------+
+| name     |
++----------+
+| prestamo |
++----------+
+
+
+Ahora visualizamos que tenemos un store rpocedure con nombre "prestamos", Para que nosotrso mandemos a llalamar nuestro porcedure, vamos a seguir la siguiente estructura.
+
+Vamos a colocar:
+
+	CALL <nombre_store_procedure>()
+
+Si el store procedure recibe parametros, bnosotros vamos a colocar 	los argumentos.
+
+En este caso, vamos a colocar que el usuario con id 3 a realizado prestamos al libro con id 20, finalizamos con ;
+
+Ejecutamos:
+
+		CALL prestamo(3, 10);
+
+
+Resultado:
+	Query OK, 2 rows affected (0.004 sec)
+
+
+Indicandonos que dos registros fueron afectados. Este mensaje se refiere a la ultima sentencia ejecutada. En este caso a la sentencia UPDATE del procedimietno almacenado.
+
+
+
+	
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+Para verificar esto, vamos a hacer:
+
+			SELECT * FROM libros_usuarios;
+
+Resultado:
+
+	+----------+------------+---------------------+
+| libro_id | usuario_id | fecha_creacion      |
++----------+------------+---------------------+
+|        1 |          1 | 2023-03-21 11:49:24 |
+|        2 |          1 | 2023-03-21 11:49:24 |
+|        3 |          1 | 2023-03-21 11:49:24 |
+|        1 |          1 | 2023-03-22 12:09:26 |
+|        2 |          1 | 2023-03-22 12:09:26 |
+|        3 |          1 | 2023-03-22 12:09:26 |
+|        4 |          4 | 2023-03-22 12:09:26 |
+|        5 |          3 | 2023-03-22 12:09:26 |
+|        5 |          4 | 2023-03-22 12:09:26 |
+|        1 |          5 | 2023-03-22 12:09:26 |
+|        3 |          5 | 2023-03-22 12:09:26 |
+|        2 |          6 | 2023-03-22 12:09:26 |
+|        5 |          6 | 2023-03-22 12:09:26 |
+|       10 |          3 | 2023-03-27 12:54:29 |
++----------+------------+---------------------+
+14 rows in set (0.000 sec)
+
+
+
+Se visualizan los reistros generales, en el prestamo en el ultimo registro.
+
+
+Ahora, si hacemos un select 
+
+	SELECT * FROM libros WHERE libro_id = 10;
+
+Debemos visualizar en el stock 9
+
+
++----------+----------+-------------------------------------------+-------------+---------+-------------------+---------------------+--------+-------+
+| libro_id | autor_id | titulo                                    | descripcion | paginas | fecha_publicacion | fecha_creacion      | ventas | stock |
++----------+----------+-------------------------------------------+-------------+---------+-------------------+---------------------+--------+-------+
+|       10 |        2 | Harry Potter y las Reliquias de la Muerte | NULL        |    NULL | 2007-07-21        | 2023-02-17 09:37:52 |      0 |     9 |
++----------+----------+-------------------------------------------+-------------+---------+-------------------+---------------------+--------+-------+
+
+	SELECT * FROM libros WHERE libro_id = 10\G;
+
+
+*************************** 1. row ***************************
+         libro_id: 10
+         autor_id: 2
+           titulo: Harry Potter y las Reliquias de la Muerte
+      descripcion: NULL
+          paginas: NULL
+fecha_publicacion: 2007-07-21
+   fecha_creacion: 2023-02-17 09:37:52
+           ventas: 0
+            stock: 9
+1 row in set (0.000 sec)
+
+
+
+Esto quiere decir que mi stotre procedure se ejecuto de forma correcta, inserto el registro y posteriormente actualizo.
+
+
+De esta forma es como nostros podemos generar un store procedure.
+
+colocamos
+
+	CREATE PROCEDURE <nombre>(parametros_necesarios)
+	BEGIN
+		<logica>
+	END//
+
+
+como se observa se ejecuta dos sentencias. Para que nosotros mandemos a llamar a un store procedure en MySQL debemos colocar:
+
+	CALL <procedure>(argumentos_de_parametros);
+
+	
