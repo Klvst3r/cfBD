@@ -1,0 +1,31 @@
+11.3 eliminar Procedimientos
+
+
+Para que nosotros puedamos eliminar n store procedure, basta con ejecutar a sentencia.
+
+	DROP PROCEDURE<nombre_procedimiento>
+
+Primero	klistemos todos los store procedures que contamos en la base de datos;
+
+	SELECT name FROM mysql.proc WHERE db = database() AND TYPE = 'PROCEDURE';
+
+Resultado:
+	+----------+
+	| name     |
+	+----------+
+	| prestamo |
+	+----------+
+	1 row in set (0.006 sec)
+
+Visualizamos un procedimiento, si deseamos eliminarlo ejecutamos:
+
+	DROP PROCEDURE prestamo;
+
+Si visualizamos OK ya no contamos con ningun procedimento almacenado.
+
+
+De esta forma es como nostros podemos elimiar un store rpocedure-
+
+Esto se explica por aparte ya que no es posible que se modifique un store procedure ya generado, es necesario eliminarlo editarlo y posteriormente volverlo a crear.
+
+		
