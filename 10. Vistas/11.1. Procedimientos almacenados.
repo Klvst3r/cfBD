@@ -1,0 +1,12 @@
+11.1. Procedimientos almacenados.
+
+Los store Procedures o Procedimientos almacenados son rutinas, las cuales se ejecutan directamente en el motor de base de datos, estas rutinas pueden realizar trabajos sumamente complejas.
+
+Podemos ejecutar diferentes instrucciones, sentencias, trabajo con flujo de datos, ciclos y muchas cosas mas.
+
+al igual que las funciones, los store rpocedures pueden recirbir difrerentes tipos de parametros, sin embargo estos no reotrnan valores. Algo importante de mencionar es que cada manejador de base de datos posee su propia forma de trabajar con los store procedures.
+
+Un store procedure hecho en SQL Server no funcionaria en MariaDB o viceversa, una vez generado el store procedure, trabajaremos con el mismo gestor de base de datos.
+
+aprendamos a crear y ejecutar nuestros propios storee procedures.
+
