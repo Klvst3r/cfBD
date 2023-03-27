@@ -1,0 +1,223 @@
+11.5 Condicionales
+
+
+Los store procedures estan pensados para realizar tareas complejas, estas tareas complejas comunmente requieren condiciones y ciclos.
+
+
+Afortunadamente con MySQL podemos hacer uso de ellos.
+
+En esta sección se trabajaran con condicones.
+
+Vamos a condicionar nuestro store procedure de tal forma que solo podamos insertar y actualizar registros, cuando la cantidad de libros en stock sea mayor a cero.
+
+1. Lo primero que vamos a hacer es mover la linea SET, Colocandola en la parte superior:
+
+
+
+	DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);...
+
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+ 
+		END//
+
+		DELIMITER ;
+
+2. Posteriormente vamos acolocar la condición colocando IF cantidad >= 0 THEN Actualizamos
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+			if CANTIDAD > 0 THEN 
+
+				INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+				UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+ 			...
+
+		END//
+
+		DELIMITER ;
+
+
+3. Se termina la condición con END IF;
+
+
+	DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+			IF cantidad > 0 THEN 
+
+				INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+				UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+ 			
+ 			END IF;
+
+		END//
+
+		DELIMITER ;
+
+Visualizamos como no estamos colocando parantesis, simplemente se coloca la condición, de igual forma no se estan utilizando llaves. 
+
+Algo importante mencionar es que en las condiciones, nosotros podemos utilizar operadores logicos.
+
+
+Podemos utilizar AND OR  Y NOT
+
+Si la condición se cumple entonces inserta y actualiza, en caso contrario de que la condicioin no se cumpla lo que vamos a hacer es algo bastante sencillo.
+
+Se envia un mensaje.
+
+4. Modificando
+----
+	DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+			IF cantidad > 0 THEN 
+
+				INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+				UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+			ELSE
+				SELECT "No es posible realizar el prestamo" AS mensaje_error;
+ 			
+ 			END IF;
+
+		END//
+
+		DELIMITER ;
+
+
+Se coloca el alias como "mensaje_error"
+
+
+
+De esta forma es como nostros podemos condicionar, colocamos 
+
+	IF <condicion> o <condiciones> THEN
+
+		se coloca 
+
+	ENDIF
+
+El ELSE se ejecutara cuando la condicion no se cumpla.
+
+
+ya para finalizar vamos a modificar cada cantidad.
+
+
+
+5. OK
+----
+	DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+			IF cantidad > 0 THEN 
+
+				INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+				UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+				SET cantidad = cantidad -1;
+
+			ELSE
+				SELECT "No es posible realizar el prestamo" AS mensaje_error;
+ 			
+ 			END IF;
+
+		END//
+
+		DELIMITER ;
+
+
+
+		systenm clear;
+
+Vamos a declarar una variable 
+	set @cantidad = -1;
+
+6. Colocamos:
+
+	CALL prestamo(4, 6, @cantidad);
+
+7. Ejecutamos:
+
+8. Hacemos un select a cantidad
+	SELECT @cantidad;
+
+9. Y visualizamos que quedan 4 libros en Stock,
+
+10. Ejecutamos nuevamente 	
+	CALL prestamo(1, 2, @cantidad);
+
+
+11. Select 
+	SELECT @cantidad;
+
+Si se ejeuta N veces y hacer un select se visualizaria 0, eso quiere decir ya no es posible relizar el prestamo.
+
+Ya no tenemos libros en stock
+
+Si se vuelve a utilizar el store procedure, ahora vamos a visualizar el siguiente mensaje,
+
+	No es poisble realizar el prestamo.
+
+
+
+Entonces nuestra condición se esta ejecutando correctamente, si la cantidad es mayor = a cero entonces inserta y actualiza, posteriormente resta en 1 la cantidad, caso contrario vamos a visualizar el siguiente mensaje
+
+	No es poisble realizar el prestamo.
+
+Para finalizar es impoartante menionar que nosotros podemos utilizar ELSE IF. QUEDANDO LA SENTENCIA DE LA SIGUIENTE FORMA:
+
+
+
+
+
+	DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+			IF cantidad > 0 THEN 
+
+				INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+				UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+
+			ELSEIF <condicion>
+
+				SET cantidad = cantidad -1;
+
+			ELSE
+				SELECT "No es posible realizar el prestamo" AS mensaje_error;
+ 			
+ 			END IF;
+
+		END//
+
+		DELIMITER ;
+
+Nosotros podemos colocar N cantidad de ELSEIF		
