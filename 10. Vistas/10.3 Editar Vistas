@@ -1,0 +1,118 @@
+10.3 Editar Vistas
+
+Para que nosotros puedamos editar una vista van a existir dos maneras, lo primero que vamos a generar nuevamente la vista:
+
+ 	
+	CREATE VIEW prestamos_usuarios_vw AS 
+ 	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+
+	FROM usuarios
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+	GROUP BY usuarios.usuario_id;
+
+
+En caso de haberla eliminado
+
+Ahora verificamos con:
+
+	SHOW TABLES;
+
+Visualizamos nuestra vista.
+
+
+	system clear;
+
+en el ejericicio anterior no se completo la sentencia debido a que no se coloco la condicion de que los prestamos deben de haberse realizado la ultima semana.
+
+Entonces, vamos a modificar la vista, y lo primero que hay  que realizar son las modificaciones a la consulta, en nuestro caos colocaremos AND al INNER JOIN  condicionando libros_usuarios.fecha_creación, indicando que sea mayor o igual a la fecha actual menos cinco dias, aunque se puden colocar siete, debido a que la semana tiene siete dias, sin embargo se simulara que la libreria trabaja de lunes a viernes
+
+	CREATE VIEW prestamos_usuarios_vw AS 
+ 	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+
+	FROM usuarios 
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+		AND libros_usuarios.fecha_creacion >= CURDATE() - INTERVAL 5 DAY
+	GROUP BY usuarios.usuario_id;
+
+Ahora si nosotros queremos modificar nuestra vista, una vista ya creada, vamos a hacer es lo siguiente:
+
+Colocar 
+
+ CREATE OR REPLACE VIEW prestamos_usuarios_vw AS 
+ ...
+
+Quedando definida completamente:
+
+	CREATE OR REPLACE VIEW prestamos_usuarios_vw AS 
+	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+
+	FROM usuarios 
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+		AND libros_usuarios.fecha_creacion >= CURDATE() - INTERVAL 5 DAY
+	GROUP BY usuarios.usuario_id;
+
+
+Crea o reemplaza la vista, ahora copiamos nuevamente esta modificaión a la vista, vamos a ejecutar y visualizamos OK.
+
+Hacemos un select a nuestra vista:
+
+	SELECT * FROM prestamos_usuarios_vw;
+
+Resualtado:
+
+	usuario_id		nombre		email				username		total_prestamos		
+	1 				Ozkar		klzlov@email.com 	kozlov 			3
+	3				Daenerys 	daeny@email.com 	daenerys 		1
+	4 				Ned 		ned@email.com 		ned 			2
+	5 				Margaery 	margaery@email.com 	margaery 		2
+ 	6 				Tyrion 		tyrion@email.com 	tyrion 			2
+
+Tenemos los resultados deseados, con la modificación realizado. 
+
+
+Esa es la primera forma de como nostros podemos editar una vista, la siguiente forma es 
+
+ CREATE VIEW...
+
+
+ sin embargo esto implica realizar dos pasos, la primera es eliminar la vista 
+
+ 	DROP VIEW prestamos_usuarios_vw;
+
+y posteriormente volverla a crear;  	
+
+
+	CREATE VIEW prestamos_usuarios_vw AS 
+ 	SELECT 
+	 usuarios.usuario_id, 
+	 usuarios.nombre,
+	 usuarios.email,
+	 usuarios.username,
+	 COUNT(usuarios.usuario_id) AS total_prestamos 
+
+	FROM usuarios 
+	INNER JOIN libros_usuarios ON usuarios.usuario_id = libros_usuarios.usuario_id
+		AND libros_usuarios.fecha_creacion >= CURDATE() - INTERVAL 5 DAY
+	GROUP BY usuarios.usuario_id;
+
+
+Tampoco es tan complicado, pero aca eliminamos la vista y vlvemos agenerarla.
+
+De ambas formas se edita la vista, se recomienda utilizar CREATE OR REPLACE VIEW. Ya que nos ahorramos una sentencia.
+
+De esta forma es como podemos editar nuestras vistas.	
