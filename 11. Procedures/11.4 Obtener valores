@@ -1,0 +1,87 @@
+11.4 Obtener valores
+
+
+algo importante de mencionar, es que a diferencia de las funciones, los procedures no retornan valores, si recordamos cuando nostors definimos a una funcion, nosotrso colocamos returns y el tipo de dato que la funcion retorna, esto no sucede en los procedures. Lo que hace un procedure es tomar el valor de entrada, lo modifica para que posteriormente el usuario pueda obtener dicho valor ya modificado. Los valores de entrada no seran mas que los parametros.
+
+Para que nosotros puedamos obtener valores despues de haber ejecutado un procedure vamos a utilizar la palabra OUT,
+
+Modificando nuestro procedimiento almacenado, de tal forma que una vez que este se haya ejecutado nosotros sepamos cuantos libros quedan en stock.
+
+1. Borramos el procedimiento almacenado para realizar la modificación correspondiente:
+
+	DROP PROCEDURE prestamo;
+
+Para ello vamos a colocar un tercer paramtro
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, cantidad INT...)
+		BEGIN
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+		END//
+
+		DELIMITER ;
+
+2. Como se quiere que el parametro cantidad pueda ser obtenido despues de haber ejecutado el store rpocedure, vamos a anteponer OUT.Quedando de la siguiente forma:
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+		END//
+
+		DELIMITER ;
+
+
+3. Una vez que se haya hecho la inserción y se haya actualizado, vamos a modificar el paramtro, colocamos:
+
+
+		DELIMITER //
+
+		CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT, OUT cantidad INT)
+		BEGIN
+			INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES(libro_id, usuario_id);
+			UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+			SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+		END//
+
+		DELIMITER ;	
+
+Colocamos set cantidad y cantidad va a ser igual a lo que la sentenmcia select, stock from libros where libros.libros_id me retorne.
+
+De esta forma, nuestro store procedure.
+
+
+Vamos a generar nuestro store prodecure
+
+	system clear;
+
+4. ahora vamos a generar una nueva variable que tendra por nombre cantidad con el valor de menos 1
+
+	SET @cantidad = -1;
+
+
+Una vez con la variable creada, vamos a mandar  a llamar al store procedure prestamo y vamos a indicar que el usuario con id = 3 a realizado un prestamo al libro con Id = 10, y vamos a colocar nuestro tercer parametro.
+
+ 	CALL prestamo(3,20...);
+
+5. Vamos a utilizar nuestro tercer parmetro, @cantidad perop ahora nuestro segundo parametro sera 5 para no afectar el procedimiento anterior
+
+	CALL prestamo(3,5,@cantidad);
+
+Ejecutamos y donde vemos que no existe ningun tipode error.
+
+
+6. Vamos a visualizar que ahora el valor es 9
+	SELECT @cantidad;
+
+De esta forma es como nosotros podemos obtener valores de los store procedures, nosotros podemos obtener N cantidad de valores, simplemente la vamos a anteponer al parametro, la palabra out, en este caso solo fue uno, pero se puede obtner con 8,9, 10 parametros segun sea necesario.
+
