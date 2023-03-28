@@ -45,6 +45,7 @@ Este store tendra por nombre tipo_lector, y en esta ocacion este procedure recib
 
 3. El primer caso sera cuando la cantidad sea mayor a 20, si es mayor a 20 vamos a mandar el mensaje de fanatico, 
 
+		DELIMITER //
 
 		CREATE PROCEDURE tipo_lector(usuario_id INT) 
 		BEGIN
@@ -65,10 +66,11 @@ Este store tendra por nombre tipo_lector, y en esta ocacion este procedure recib
 
 4. El segundo caso sera cuando la cantidad sea mayor a 10 y la cantidad sea menor a 20, con el mensaje de "usuario Aficionado".
 
-
+	DELIMITER //
+	
 	CREATE PROCEDURE tipo_lector(usuario_id INT) 
 		BEGIN 
-			SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios
+			SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios 
 								WHERE libros_usuarios.usuario_id = usuario_id);
 
 		
@@ -91,3 +93,40 @@ Cuando el usuario no cumpla con ninguna de las condiciones, es decir no cumpla c
 
 
 5. Vamos a proceder a copiar y pegar para ejecutar.
+
+6. Para ejecutar el Caso de "tipo_lector" colocamos:
+	CALL tipo_lector(1); //Con el usuario 1
+
+	Resultado:
+
+	Mensaje
+	Promedio
+
+7. Vamos a hacer que este usuario preste mas libros.
+	SET @CANTIDAD = -1;
+
+8. 	CALL prestamo(1, 5, @cantidad);
+
+9. Ejecutamos cinco veces la ultma sentencia para indicar que realizo 5 prestamos mas.
+
+10. Nuevamente mandamos a llamar tipo_lector
+
+	CALL tipo_lector(1);
+
+11. Ahora el resultado cambia a
+
+	
+	mensaje
+	Aficionado	
+
+De esta forma es como  nosotros podemos condicionar bajo casos
+
+Colocamos CASE
+			WHEN
+			condicion
+
+si un caso se cumple podemos ejecutar ciertos casos
+
+
+Podemos hacer uso de los operadores logicos.
+
