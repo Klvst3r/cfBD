@@ -1,0 +1,93 @@
+11.6 Casos
+
+En MySql nosotros podemos condicionar bajo casos, es decir si algun caso se cumple, podemos realizar ciertas acciones; un caso no es mas que una o mas condiciones.
+
+Generemos un nuevo store procedure.
+
+Este store tendra por nombre tipo_lector, y en esta ocacion este procedure recibira un parametro el id del usuario, dependiendo de cuantos prestamos haya realizado el usuario, imprimiremos un mensaje diferente.
+
+	CREATE PROCEDURE tipo_lector(usuario_id INT) 
+	BEGIN
+	END//
+
+	DELIMITER ;
+
+
+1. Lo primero que vamos a hacer es obtener la cantidad de libros prestados por el usuario.Eso se almacena en una variable llamada cantidad. 
+
+
+	CREATE PROCEDURE tipo_lector(usuario_id INT) 
+	BEGIN
+		SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios
+							WHERE libros_usuarios.usuario_id = usuario_id);
+	END//
+
+	DELIMITER ;
+
+
+2. Una vez con la cantidad de libros prestados por el usuario, vamos a condicionar nuestros mensajes. Esto lo podemos hacer con el IF y con ELSEIF; sin embargo para ver un tema nuevo, vamos a trabajar con el CASE. Si se ha trabajado con algun lenguaje de programación sera muy sencillo comprender el CASE, que en un lenguaje de programación vendria ser el SWITCH, para ello colocamos:
+
+
+	CREATE PROCEDURE tipo_lector(usuario_id INT) 
+	BEGIN
+		SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios
+							WHERE libros_usuarios.usuario_id = usuario_id);
+	
+	CASE 
+		<casos>
+	ENDCASE;
+
+
+	END//
+
+	DELIMITER ;
+
+
+3. El primer caso sera cuando la cantidad sea mayor a 20, si es mayor a 20 vamos a mandar el mensaje de fanatico, 
+
+
+		CREATE PROCEDURE tipo_lector(usuario_id INT) 
+		BEGIN
+			SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios
+								WHERE libros_usuarios.usuario_id = usuario_id);
+
+		
+		CASE 
+			WHEN @cantidad > 20 THEN
+			 SELECT "Fantastico" AS mensaje;
+
+		ENDCASE;
+
+
+		END//
+
+		DELIMITER ;
+
+4. El segundo caso sera cuando la cantidad sea mayor a 10 y la cantidad sea menor a 20, con el mensaje de "usuario Aficionado".
+
+
+	CREATE PROCEDURE tipo_lector(usuario_id INT) 
+		BEGIN 
+			SET @cantidad = (SELECT COUNT(*) FROM libros_usuarios
+								WHERE libros_usuarios.usuario_id = usuario_id);
+
+		
+		CASE 
+			WHEN @cantidad > 20 THEN
+				SELECT "Fantastico" AS mensaje;
+			WHEN @cantidad  > 10 AND @cantidad < 20 THEN
+				SELECT "Aficionado" AS mensaje;
+			WHEN @cantidad > 5 AND @cantidad < 10 THEN
+				SELECT "Promedio" AS mensaje;
+			ELSE
+				SELECT "Nuevo" AS mensaje;
+		END CASE;
+
+		END//
+
+		DELIMITER ;
+
+Cuando el usuario no cumpla con ninguna de las condiciones, es decir no cumpla con ninguno de los casos, vamos a colocar n mensaje por default "nuevo".
+
+
+5. Vamos a proceder a copiar y pegar para ejecutar.
