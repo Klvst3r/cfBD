@@ -1,0 +1,85 @@
+12.2. Transacciones
+
+
+En nuestro día a dia estaremos realizando tareas que impactaran a mas de una tabla a la vez.
+
+Como es el caso de prestanmo debemos insertar un registro y actualizar otro. Operaciones que se hacen en diferentes tablas. 
+
+Este es un ejemplo muy sencillo, pero no hayq ue dudar que en el día a día se podra alterar 10, 20 o hasta 1200 tablas para un mismo proceso.
+
+Esto suena retador, tener bien ordenandas las sentencias a ejecutar no es tarea facil sabiendo que cualquiera de ellas puede fallar. Basta con que una sola sentencia falle para que todo el proceso falle.
+
+En un mundo ideal todas las sentencias se ejecutaran sin problema. sin embargo no vivimos en ese mundo.
+
+los gestores de base de datos lo saben y por ello nos permiten utilizar transacciones.
+
+
+Podemos definir a una transacción como el mecanismo que nos permite agrupar N cantidad de sentencias SQL en una sola. De modo que todas o ninguna de las sentencias tenmgan exito. Una propiedad llamada atimicidad. Utilizar transacciones nos permite a nosotrso poder  afectar a la base de datos de una forma segura. En una transaccion podemos definir tres estados, un antes, un durante y un despues de la transacción.
+
+Veamos un ejemplo a dos tablas.
+
+
+Queremos retirar 50 dolares de nuestra cuenta, esto implica afectar a dos tablas
+
+
+Cuentas 				Antes de la transacción
+
++-----------+------------+------------+---------------------+
+| cuenta_id | usuario_id | saldo	  | fecha_creacion      |
++-----------+------------+------------+---------------------+
+|        1  |          1 | 		100   | 2023-01-31 11:49:24 |
++-----------+------------+------------+---------------------+
+
+
+Transacciones
+
++------------------+------------+--------+----------+--------------------+
+| transacciones_id | cuenta_id  | tipo   |  Saldo   |fecha_creacion      |
++------------------+------------+-------------------+--------------------+
+|        1 		   |          1 | D      |   30     |  2023-01-31        |
+|        2 		   |          1 | D      |   70     |  2023-02-20        |
+|        3 		   |          1 | R      |   20     |  2023-02-27        |
+|        4 		   |          1 | R      |   80     |  2023-02-28        |
+|        5 		   |          1 | D      |   100    |  2023-02-22        |
++------------------+------------+--------+----------+--------------------+
+
+
+Un ejemplo bastante sencillo, antes de comenzar la transacción la cuenta tiene 100 dolares y existen cinco movimientos en dicha tabla, durante la transacción la cuenta decrece 50 dolares y se crea un nuevo registro en los movimientos, despues de la transccción la cuenta tendra 50 dolares y seis movimientos en dicha cuenta.
+
+El durante y el despues parecen estados muy similares sin embargo durante la transacción es cuando se ha hecho en la base de datos, pueden setr revertidos, dejando la base de datos a su estado inicial.
+
+
+ahora queremos retirar 100 dolares de nuestra cuenta
+
+
+Cuentas 				Antes de la transacción
+
++-----------+------------+------------+---------------------+
+| cuenta_id | usuario_id | saldo	  | fecha_creacion      |
++-----------+------------+------------+---------------------+
+|        1  |          1 | 		70    | 2023-01-31 			|
++-----------+------------+------------+---------------------+
+
+
+Transacciones
+
++------------------+------------+--------+----------+--------------------+
+| transacciones_id | cuenta_id  | tipo   |  Saldo   |fecha_creacion      |
++------------------+------------+-------------------+--------------------+
+|        1 		   |          1 | D      |   30     |  2023-01-31        |
+|        2 		   |          1 | D      |   70     |  2023-02-20        |
+|        3 		   |          1 | R      |   20     |  2023-02-27        |
+|        4 		   |          1 | R      |   80     |  2023-02-28        |
+|        5 		   |          1 | D      |   100    |  2023-02-28        |
+|        6 		   |          1 | R      |   30     |  2023-02-28        |
++------------------+------------+--------+----------+--------------------+
+
+
+Antes de comenzar con la transacción la cuenta posee 70 dolares y existen seis movimientos en dicha cuenta.
+
+Durante la transacción no es posible realizar retiro de 100 dolares de la cuenta debido a que no existen fondos suficientes para ello, debido al error en la transacción se regresa al estado inicial.
+
+Despues de la transación la cuenta sigue teniendo 70 dolares y existen solo seis movimiento para esa cuenta.
+
+Esta es la forma en la que se implementaran las transacciones, las usaremos siempre que queramos que un gripo de sentencias se ejecuten como un asola y solo se ejecutara de forma permanente a la base de datos, siempre y cuando todas las sentencias hayan tenido exito.
+
