@@ -1,0 +1,20 @@
+12.1 Bloque de Tablas
+
+
+Actualmente los Manejadores de Base de Datos, permiten que mas de un usuario pueda ejecutar diferentes sentencias a la misma base de datos, es decir al mismo tiempo que uno esta relizando una consulta, otro usuario puede estar modificando o eliminando registros.
+
+Un ejemplo de ello podria ser que en una sucursal bancaria, se esta realizando un reporte de la cuenta X, al mismo timepo se esta retirando el saldo total de dicha cuenta, y en otro punto geografico, se esta realizando un deposito a la misma. como se observa diferentes operaciones se realizan a la misma cuenta. cual sera el resultado final del reporte.
+
+Esto a primera instancia puede sonar algo peligroso y lo es. sin embargo los servidores de bases de datos se utilizan los bloqueos, conocidos como cierres.
+
+cuando r3ealizamos una operación por ejemplo en la inserción de un registro, una poricon de la base de datos se blioquea.
+
+De tal forma que no se permiten ejecutar sentencias a la misma en lo que el proceso termina, si una porcion de la base de datos se encunetra bloqueada cualquier otro usuario que desee consultar insertar, consultar o eliminar debera esperar a que el bloqueo finalice.
+
+Principalmente existen dos tipos de bloqueo el oprimer tipo ocurre cuando alguna de estas sentencias es ejecutada. Una consulta, inserción, actualización o eliminación.
+
+El segundo tipo ocurre cuando alguna de estas sentencias insercion, actualización o eliminación, en este tipo una consulta, no blouqea la base de datos.
+
+Regularmente los manejadores de base de datos, utilizan alguna de esta estrategia, donde la base de datos se bloque a por cualquier sentencia o se bloquea excluyendo la sentencia de consulta. ambas tienen sus ventajas y desvenajas. Desde la consistencia de los dato hasta el tiempo de ejecución de la sentencia.
+
+En MySQL se utilizan ambos mecanismos. Con el motor MyISAM exlcuimos del blouqe las consultas, y con el motor INNODB todas las sentencias ocacionaran un bloqueo.
