@@ -1,0 +1,100 @@
+12.3 Implementar transacciones
+
+
+Para que nosotros podamos generar una transaccion seguiremos una estructura bastante sencilla, el primer paso es tener presente que Queries vamos a ejecutar, ya sea para actualizar, insertar o eliminar registros.
+
+Todos aquellos que modifiquen nuestra base de datos, en este caso, vamos a ejecutar dos.
+
+El primero va  a actualizar la tabla libros, va a reducir en 1 el stock y el segundo va a insertar un nuevo registro en la tabla libros_usuarios.
+
+
+Quedando las sentencias:
+
+	SET @libro_id = 20, @usuario_id = 3;
+	
+	UPDATE libros SET stock = stock -1 WHERE libro_id = @libro_id;
+	SELECT stock FROM libros WHERE libro_id = @libro_id;
+
+
+	INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (@libro_id, @usuario_id);
+	SELECT * FROM libros_usuarios;
+
+
+Una vez que se tengan definidas las sentencias, los quieries, vamos a ejecutar:
+
+Ejecución OK
+------------
+
+	START TRANSACTION;
+
+Con esto le indicamos al gestor de base de datos, que todos los quieries se ejecutaran a partir de este momentos se ejecuten como uno solo, si nosotros lo deseamos, podemos desaser los cambios.
+
+
+Una vez comenzada la transacción podemos ejecutar nuestra sentencias como de costumbre. En este caso sera linea por linea declarando dos variabels, 
+
+
+		SET @libro_id = 20, @usuario_id = 3;
+
+actualizo el registro, visualizo que el stock se redujo 	
+	
+		UPDATE libros SET stock = stock -1 WHERE libro_id = @libro_id;
+		SELECT stock FROM libros WHERE libro_id = @libro_id;
+
+Insertamos el registro y visualizamos que el registro se inserto correctamente.
+
+		INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (@libro_id, @usuario_id);
+		SELECT * FROM libros_usuarios;
+
+
+START TRANSACTION
+    -> ;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [libreria_cf]> SET @libro_id = 20, @usuario_id = 3;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [libreria_cf]> UPDATE libros SET stock = stock -1 WHERE libro_id = @libro_id;
+Query OK, 0 rows affected (0.000 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [libreria_cf]> SELECT stock FROM libros WHERE libro_id = @libro_id;
+Empty set (0.000 sec)
+
+MariaDB [libreria_cf]> INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (@libro_id, @usuario_id);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [libreria_cf]> SELECT * FROM libros_usuarios;
++----------+------------+---------------------+
+| libro_id | usuario_id | fecha_creacion      |
++----------+------------+---------------------+
+|        1 |          1 | 2023-03-21 11:49:24 |
+|        2 |          1 | 2023-03-21 11:49:24 |
+|        3 |          1 | 2023-03-21 11:49:24 |
+|        1 |          1 | 2023-03-22 12:09:26 |
+|        2 |          1 | 2023-03-22 12:09:26 |
+|        3 |          1 | 2023-03-22 12:09:26 |
+|        4 |          4 | 2023-03-22 12:09:26 |
+|        5 |          3 | 2023-03-22 12:09:26 |
+|        5 |          4 | 2023-03-22 12:09:26 |
+|        1 |          5 | 2023-03-22 12:09:26 |
+|        3 |          5 | 2023-03-22 12:09:26 |
+|        2 |          6 | 2023-03-22 12:09:26 |
+|        5 |          6 | 2023-03-22 12:09:26 |
+|       10 |          3 | 2023-03-27 12:54:29 |
+|       10 |          3 | 2023-03-27 16:39:05 |
+|        5 |          3 | 2023-03-27 16:42:56 |
+|       10 |          4 | 2023-03-27 17:05:33 |
+|        6 |          4 | 2023-03-27 17:06:40 |
+|        2 |          1 | 2023-03-27 17:08:29 |
+|        5 |          1 | 2023-03-28 13:31:57 |
+|        5 |          1 | 2023-03-28 13:32:24 |
+|        5 |          1 | 2023-03-28 13:32:29 |
+|        5 |          1 | 2023-03-28 13:32:34 |
+|        5 |          1 | 2023-03-28 13:32:38 |
+|       20 |          3 | 2023-03-30 14:57:58 |
++----------+------------+---------------------+
+25 rows in set (0.000 sec)
+
+
+1min 38
+
