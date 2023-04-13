@@ -96,5 +96,83 @@ MariaDB [libreria_cf]> SELECT * FROM libros_usuarios;
 25 rows in set (0.000 sec)
 
 
-1min 38
+Una vez se hayan ejecutado todas nuestras sentencias y si no hubo ningun tipo de error, nosotros podemos persistir estos cambios, de forma permanente.
+
+Para ellos vamos a ejecutar commit;
+
+Con commit nosotros vamos a terminar una transacción y todos los cambios que se hayan hecho a la base de datos de van a persistir de forma permaeente.
+
+Ya no vamos a poder revertirlos, en este caso como vemos que todo se ejecuto correctamente me interesa mantener esos cambios. Asi que ejecuto commit.
+
+
+Visualizamos el Stock
+
+	SELECT stock FROM libros WHERE libro_id = @libro_id;
+
+Resultado:
+
+	+-------+
+	| stock |
+	+-------+
+	|     6 |
+	+-------+
+
+
+Una vez ejecutadas nuestras sentencias y si no hubo ningun tipo de error, podemos persistir estos cambios de forma permanente, para ello vamos a ejecutar commit.
+
+
+Con commit nosotros vamos a terminar la transacción y todos los cmabios que se hayan hecho a la base de datos se van a persistir de forma permanente.
+
+		START TRANSACTION;
+
+		SET @libro_id = 20, @usuario_id = 3;
+		UPDATE libros SET stock = stock -1 WHERE libro_id = @libro_id;
+		SELECT stock FROM libros WHERE libro_id = @libro_id;
+		INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (@libro_id, @usuario_id);
+		SELECT * FROM libros_usuarios;
+
+		COMMIT;
+
+Y ya no podremos revertirlos, en este caso como verificamos que todo se ejecuto correctamente, nos interesa mantener esos cambios, asi que ejecutamos 		
+	COMMIT;
+
+Visualizamos el stock sigue en 9, visualizamos libros_usuarios, y aun se encunetra ahi.
+
+Ahora vamos a hacer que la transacción falle.
+
+Vamos a colocar un usuario invalido.
+
+			SET @libro_id = 20, @usuario_id = 100;
+
+Como sabemos la tabla libros_usuarios tiene una llave foranea hacia usuarios, asi que no vamos a poder insertar un usuario que no exista.
+
+Vamos a comenzar la transacción declaando las variables, actualizando el stock, visualizamos que ahora es ocho e intentamos insertar, en este caso tenemos un error:
+
+
+		START TRANSACTION;
+
+		SET @libro_id = 20, @usuario_id = 100;
+		UPDATE libros SET stock = stock -1 WHERE libro_id = @libro_id;
+		SELECT stock FROM libros WHERE libro_id = @libro_id;
+		INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (@libro_id, @usuario_id);
+		SELECT * FROM libros_usuarios;
+
+		COMMIT;
+
+El error se presenta a la hora de querer insertar en libros_usuarios, por la llave foranea, como una sentencia se ejecuto de manera erronea en la transacción, lo que podemos es revertir los cambios. Para ello vamos a tener que utilizar 
+
+	ROLLBACK;
+
+Con ROLLBACK nosotros vamos aterminar la transacción, y vamos regresar a un estado donde la transacción aun no ha comenzado. Ejecutamos 
+
+Visualizamos OK
+
+Y ahora si volvemos a hcer la consulta, del stock visualizamos 9, es decir ningun cambio se persistio, en la base de datos los revertimos.
+
+De esta forma es como nosotros podemos ejecuta transacciones. Iniciamos la transacción ejecutamos todas nuestras sentencias. 	
+
+
+Y si queremos persistir permanentemente utilizamos COMMIT.
+
+Si queremos revertir utilizamos ROLLBACK, en ambos casos estas dos sentencias erminan la transacción.
 
