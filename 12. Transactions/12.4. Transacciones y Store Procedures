@@ -1,0 +1,348 @@
+12.4. Transacciones y Store Procedures
+
+En la mayoria de los casos, se implementara transacciones dentro de los store procedures; para esta seccion modificaremos nuestro 
+
+Store Procedure para prestamo  de tal forma que implementemos una transacción.
+
+Lo primero que se hara es eliminar el tercer parametro y la condición:
+-----
+
+
+Estado Inicial derivado de la sección anterior sin aplicar aun
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+	   SET cantidad = (SELECT stock FROM libros WHERE libros.libro_id = libro_id);
+
+	   IF cantidad > 0 THEN
+
+	     INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	     UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+	     SET cantidad = cantidad -1;
+
+	   ELSE
+
+	      SELECT "No es posible realizar el prestamo" AS mensaje_error;
+
+	   END IF;
+
+	END//
+
+
+----
+
+Quedando (sin aplicar aun):
+
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+
+	     INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	     UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+
+	END//
+
+
+Vamos a comenzar la transacción:
+
+
+
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+	    START TRANSACTION;
+
+	       INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	       UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+	    COMMIT;
+
+
+	END//
+
+
+recordando que COMMIT permite persistir de forma permanente todos los cambios.
+
+Todo parece bien, sin embargo, que pasa si ocurre un error.
+
+en esos casos como ya se ha visto debemos ejecutar ROLLBACK. Esto hara que si se sucita un error, el STORE PROCEDURE finalice y se EJECUTE EL ROLLBACK.
+
+
+Asi entonces:
+
+Escribimos lo siguiente:
+
+Vamos escribir DECLARE seguido de la acción que queremos que se ejecute, en este caso exit.
+
+
+asi pues, cuando queremos que se ejecute, cuando ocura un error. colocamos SQLExcelpion que es cuando ocurre un error.
+
+Colocando HANDLER FOR
+
+Colocamos BEGIN Y END
+
+
+Asi pues (temporal:
+
+---
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION  --oCURRE UN ERROR
+		BEGIN
+
+		END;
+
+	    START TRANSACTION;
+
+	       INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	       UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+	    COMMIT;
+	    ROLLBACK;
+
+
+	END//
+
+
+
+---
+
+
+
+Con esto le estamo indicando al servidor de base de datos que cuando ocurra un error dentro del procedure, este finalice, no sin antes ejecutar todo lo que se encuentre dentro del BEGIN y del END.
+
+En esta parte nosotros podemos ejecutar cualquier tipo de sentencias, podemos restablecer variables. Podemos mandar mensajes de error, en este caso colocar un ROLLBACK, 
+
+--- Ejemplo de rollback
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+		ROLLBACK;
+
+		END;
+
+	    START TRANSACTION;
+
+	       INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	       UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+	    COMMIT;
+	    ROLLBACK;
+
+
+	END//
+
+
+
+---
+
+
+
+
+
+
+Podemos insertar en tablas de errores o alguna otra acción.
+
+Todo lo que queremos que se ejecute cuando ocurra un error, lo debemos colocar dentro del BEGIN y el END;
+
+De la siguiente forma es como quedaria finalemnete nuestro store procedure, implementando un atransacción:
+
+--- Sentencia final a ejecutar:
+
+	DELIMITER//
+
+	CREATE PROCEDURE prestamo(usuario_id INT, libro_id INT) 
+	BEGIN
+
+		DECLARE EXIT HANDLER FOR SQLEXCEPTION  
+		BEGIN 
+			ROLLBACK;
+		END;
+
+	    START TRANSACTION;
+
+	       INSERT INTO libros_usuarios(libro_id, usuario_id) VALUES (libro_id, usuario_id);
+
+	       UPDATE libros SET stock = stock -1 WHERE libros.libro_id = libro_id;
+
+	    COMMIT;
+	    
+	END//
+
+	DELIMITER;
+
+---
+
+Vamos a coopiar y proceder a pegar.
+
+En nuestro caso nos indica que el procedimiento almacenado ya existe.
+
+Por lo que eliminamos 
+
+DROP PROCEDURE prestamo;
+
+y volvemos a cargar las sentencias antes mencionadas;
+
+
+Previo a la ejecuación restauramos la verion de la Base de datos "libreria_cf_respaldo previo.sql"
+
+
+
+
+Aca el store procedure se ha ejecutado correctamente.
+
+Ahora veamos el estao actual de la base de datos;
+
+
+SELECT * FROM libros_usuarios;
+
+
++----------+------------+---------------------+
+| libro_id | usuario_id | fecha_creacion      |
++----------+------------+---------------------+
+|        1 |          1 | 2023-03-21 11:49:24 |
+|        2 |          1 | 2023-03-21 11:49:24 |
+|        3 |          1 | 2023-03-21 11:49:24 |
+|        1 |          1 | 2023-03-22 12:09:26 |
+|        2 |          1 | 2023-03-22 12:09:26 |
+|        3 |          1 | 2023-03-22 12:09:26 |
+|        4 |          4 | 2023-03-22 12:09:26 |
+|        5 |          3 | 2023-03-22 12:09:26 |
+|        5 |          4 | 2023-03-22 12:09:26 |
+|        1 |          5 | 2023-03-22 12:09:26 |
+|        3 |          5 | 2023-03-22 12:09:26 |
+|        2 |          6 | 2023-03-22 12:09:26 |
+|        5 |          6 | 2023-03-22 12:09:26 |
+|       10 |          3 | 2023-03-27 12:54:29 |
+|       10 |          3 | 2023-03-27 16:39:05 |
+|        5 |          3 | 2023-03-27 16:42:56 |
+|       10 |          4 | 2023-03-27 17:05:33 |
+|        6 |          4 | 2023-03-27 17:06:40 |
+|        2 |          1 | 2023-03-27 17:08:29 |
+|        5 |          1 | 2023-03-28 13:31:57 |
+|        5 |          1 | 2023-03-28 13:32:24 |
+|        5 |          1 | 2023-03-28 13:32:29 |
+|        5 |          1 | 2023-03-28 13:32:34 |
+|        5 |          1 | 2023-03-28 13:32:38 |
+|        0 |          0 | 2023-04-15 14:06:27 |
++----------+------------+---------------------+
+
+
+Visaulizamos los registros anteriors.
+
+Hacemos un select 
+
+	SELECT stock FROM libros WHERE libro_id = 20;
+
+como nbos arroja vacio cambiamos de libro_id;
+
+SELECT stock FROM libros WHERE libro_id = 1;
++-------+
+| stock |
++-------+
+|     9 |
++-------+
+
+Este libro tiene en stock 9 ejemplares;
+
+ahora ejecutamos el stock procedure;
+
+colocamos al usuario como el id 3 y el libro con el id 1
+
+
+Visualizamos OK.
+
+
+Visualizamos que el registro
+
++----------+------------+---------------------+
+| libro_id | usuario_id | fecha_creacion      |
++----------+------------+---------------------+
+|        1 |          1 | 2023-03-21 11:49:24 |
+|        2 |          1 | 2023-03-21 11:49:24 |
+|        3 |          1 | 2023-03-21 11:49:24 |
+|        55|          3 | 2023-03-22 12:09:26 |
+|        55|          3 | 2023-03-22 12:09:26 |
+|        55|          3 | 2023-03-22 12:09:26 |
+|        20|          3 | 2023-03-22 12:09:26 |
++----------+------------+---------------------+
+
+
+Se inserto correctamente y ahora vamos a visualizar 
+
+	SELECT stock FROM libros WHERE libro_id = 20;
+
+	+-------+
+	| stock |
+	+-------+
+	|     9 |
+	+-------+
+
+El stock se redujo en 1
+
+Ahora si ejecutamos con valores invalidos, pr ejemplo 
+
+	CALL prestamos(300,20);
+
+No vamos a visualizar ningun tio de error.
+
+ahora si consultamos el stock aun sigue en 9.
+
+
+	SELECT stock FROM libros WHERE libro_id = 20;
+
+	+-------+
+	| stock |
+	+-------+
+	|     9 |
+	+-------+
+
+
+Si cinsultamos ibros:usuarios aun sigue poseyendo 7 registros. 		
+
+	select * from LIBROS_USUARIOS;
+
+
+	+----------+------------+---------------------+
+	| libro_id | usuario_id | fecha_creacion      |
+	+----------+------------+---------------------+
+	|        1 |          1 | 2023-03-21 11:49:24 |
+	|        2 |          1 | 2023-03-21 11:49:24 |
+	|        3 |          1 | 2023-03-21 11:49:24 |
+	|        55|          3 | 2023-03-22 12:09:26 |
+	|        55|          3 | 2023-03-22 12:09:26 |
+	|        55|          3 | 2023-03-22 12:09:26 |
+	|        20|          3 | 2023-03-22 12:09:26 |
+	+----------+------------+---------------------+
+
+
+
+	De esta forma es como implementaremos una trasacción dentro de un store rpocedure.
+
+	Comenzamos la trnasacción y la finalizamos con COMMIT;
+
+	En dado caso ocurra un error, lo que podemos hacer es salir del store procedure, nos isn antes sin hacer un rollback.
+	
