@@ -1,0 +1,100 @@
+13.1 Motores de almacenamiento en MySQL
+
+Afortunadamente para nosotros, los administradores de base de datos, MySQL nos permite trabajar con diferentes motores de almacenamiento, entre los que destacan MyISAM e InnoDB.
+
+¿Motor de almacenamiento?, ¿Qué es eso? 🤔, verás, un motor de almacenamiento se el encargado de almacenar, gestionar y recuperar toda la información de una tabla. Es por ello que es de suma importancia que nosotros conozcamos la existencia de estos motores, cuales son sus principales diferencias y en qué casos es bueno utilizar uno u otro, de esta forma que podamos garantizar un mejor performance en nuestras aplicaciones. 😉
+
+Para que nosotros conozcamos que motor de almacenamiento podemos utilizar basta con ejecutar la siguiente sentencia en nuestra terminal.
+
+SHOW ENGINES;
+
+Obtendremos el siguiente listado.
+
+    InnoDB
+    MRG_MYISAM
+    MEMORY
+    BLACKHOLE
+    MyISAM
+    CSV
+    ARCHIVE
+    PERFORMANCE_SCHEMA
+    FEDERATED
+
+
+
++--------------------+---------+-----------------------------------------------------------------------------------------+--------------+------+------------+
+| Engine             | Support | Comment                                                                                 | Transactions | XA   | Savepoints |
++--------------------+---------+-----------------------------------------------------------------------------------------+--------------+------+------------+
+| CSV                | YES     | Stores tables as CSV files                                                              | NO           | NO   | NO         |
+| MRG_MyISAM         | YES     | Collection of identical MyISAM tables                                                   | NO           | NO   | NO         |
+| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables                               | NO           | NO   | NO         |
+| Aria               | YES     | Crash-safe tables with MyISAM heritage. For internal temporary and privilege tables     | NO           | NO   | NO         |
+| MyISAM             | YES     | Non-transactional engine with good performance and small data footprint                 | NO           | NO   | NO         |
+| SEQUENCE           | YES     | Generated tables filled with sequential values                                          | YES          | NO   | YES        |
+| InnoDB             | DEFAULT | Supports transactions, row-level locking, foreign keys and encryption for tables        | YES          | YES  | YES        |
+| PERFORMANCE_SCHEMA | YES     | Performance Schema                                                                      | NO           | NO   | NO         |
++--------------------+---------+-----------------------------------------------------------------------------------------+--------------+------+------------+
+8 rows in set (0.001 sec)
+
+
+
+
+En esta ocasión nos centraremos en explicar los dos motores de almacenamiento más populares, me refiero a MyISAM e InnoDB.
+
+MyISAM es el motor por default de MySQL. Una de las principales ventajas de este motor es la velocidad al momento de recuperar información. MyISAM es una excelente opción cuando las sentencias predominantes en nuestra aplicación sean de consultas. Esta es una de las razones por las cuales MyISAM es tan popular en aplicaciones web.
+
+    Si tu aplicación necesita realizar búsquedas full-text MyISAM es un mejor opcion.
+
+La principal desventajas de MyISAM recae en la ausencia de atomocidad, ya que no se comprueba la integridad referencial de los datos. Se gana tiempo en la inserción, sí, pero perdemos confiabilidad en los datos.
+
+Por otro lado tenemos el motor de almacenamiento InnoDB. La principal ventaja de este motor recae en la seguridad de las operaciones. InnoDB permite la ejecución de transacciones, esto nos garantiza que los datos se persisten de forma correcta y si existe algún error podamos revertir todos los cambios realizados.
+
+Algo interesante a mencionar sobre InnoDB es que este motor realiza un bloqueo total sobre un tabla cuando es ejecutada una se las siguientes sentencias.
+
+    Select
+    Insert
+    Update
+    Delete
+
+Si deseamos trabajar con transacción y la integridad de los datos sea crucial nuestra mejor opción será InnoDB, por otro lado, sí lo que deseamos es una mayor rapidez al momento de obtener información será necesario utilizar MyISAM.
+
+
+Gestión
+
+Si nosotros así lo deseamos podemos cambiar el motor de almacenamiento. Existen dos formas de hacer esto. La primera, es modificar el archivo my.cnf.
+
+[mysqld]
+default-storage-engine = innodb
+
+La segunda forma es hacerlo directamente desde nuestra sección, basta con ejecutar la siguiente sentencia.
+
+SET storage_engine=INNODB;
+
+En ambos casos modificamos el motor de almacenamiento de MyISAM a InnoDB.
+
+Si nosotros deseamos conocer qué motor de almacenamiento utiliza una tabla en particular, podemos hacerlo ejecutando la siguiente sentencia.
+
+SHOW TABLE STATUS WHERE `Name` = 'tabla' \G;
+
+
+
+SHOW TABLE STATUS;
++-----------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+------------------+-----------+
+| Name            | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation          | Checksum | Create_options | Comment | Max_index_length | Temporary |
++-----------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+------------------+-----------+
+| autores         | InnoDB |      10 | Dynamic    |    4 |           4096 |       16384 |               0 |            0 |         0 |           NULL | 2023-04-15 14:05:53 | 2023-04-15 14:05:53 | NULL       | utf8_general_ci    |     NULL |                |         |                0 | N         |
+| libros          | InnoDB |      10 | Dynamic    |   10 |           1638 |       16384 |               0 |            0 |         0 |           NULL | 2023-04-15 14:05:53 | 2023-04-15 14:06:27 | NULL       | utf8_general_ci    |     NULL |                |         |                0 | N         |
+| libros_usuarios | InnoDB |      10 | Dynamic    |   25 |            655 |       16384 |               0 |            0 |         0 |           NULL | 2023-04-15 14:05:53 | 2023-04-15 14:06:27 | NULL       | utf8mb4_general_ci |     NULL |                |         |                0 | N         |
+| usuarios        | InnoDB |      10 | Dynamic    |    6 |           2730 |       16384 |               0 |            0 |         0 |           NULL | 2023-04-15 14:05:53 | 2023-04-15 14:05:53 | NULL       | utf8mb4_general_ci |     NULL |                |         |                0 | N         |
++-----------------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+------------------+-----------+
+4 rows in set (0.002 sec)
+
+
+
+Si deseamos crear una tabla utilizando un motor en particular, debemos seguir la siguiente estructura.
+
+CREATE TABLE tabla_innodb (id int, value int) ENGINE=INNODB;
+
+CREATE TABLE tabla_myisam (id int, value int) ENGINE=MYISAM;
+
+CREATE TABLE tabla_default (id int, value int);
