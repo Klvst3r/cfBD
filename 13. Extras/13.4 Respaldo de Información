@@ -1,0 +1,112 @@
+13.4 Respaldo de Información
+
+En MySQL nosotros podemos realizar respaldos de nuestra información, para ello, utilizaremos la aplicación mysqldump.
+
+
+Si queremos realizar el respaldo de una sola base de datos ejecutaremos el siguiente comando en nuestra terminal.
+
+	mysqldump base_de_datos > ruta/archivo_respaldo.sql
+
+
+
+Ej1.
+
+	mysqldump libreria_cf > /var/www/html/dev/cfBD/13. Extras/BD/libreria_cf.sql
+
+
+Ej2.
+
+	mysqldump -u root -p -x -A --lock-tables libreria_cf > /var/www/html/dev/cfBD/13. Extras/BD/libreria_cf.sql
+
+
+
+
+Si lo que necesitamos es realizar el respaldo de múltiples base de datos, modificaremos nuestro comando, agregando --databases.
+
+	mysqldump --databases db1 db2 db3 > ruta/archivo_respaldo.sql
+
+
+
+Separaremos las base de datos mediante un espacio.
+
+Si lo que necesitamos es realizar el respaldo de una o múltiples tablas el comando será el siguiente
+
+Para una sola tabla
+
+	mysqldump base_de_datos tabla1 > ruta/archivo_respaldo.sql
+
+Para múltiples tablas
+
+	mysqldump base_de_datos tabla1 tabla3 > ruta/archivo_respaldo.sql
+
+
+
+
+Hacer copias de seguridad con mysqldump
+
+Una de las mejores utilidades para hacer una copia de seguridad de los datos de MariaDB de un servidor es mysqldump. Viene con MariaDB, por lo que no le cuesta nada más. Lo mejor de todo es que no requiere que apague los servicios de MariaDB para hacer una copia de seguridad. Funciona de manera muy simple: recupera los datos y el esquema de cada base de datos y tabla y crea un archivo de texto de datos fuera de MariaDB. Este archivo de texto de datos (conocido como archivo de volcado) contendrá las instrucciones SQL necesarias para reconstruir las bases de datos y los datos. Si tuviera que abrir un archivo de volcado generado por mysqldump, vería declaraciones CREATE TABLE y una multitud de declaraciones INSERT, una para cada fila de datos.
+
+
+Copia de seguridad de todo
+Para exportar todas las bases de datos en MariaDB usando mysqldump, se ingresaría lo siguiente desde la línea de comandos del sistema de archivos:
+
+	mysqldump -u admin_backup -p -x -A > /data/backup/dbs.sql
+
+
+
+El primer conjunto de opciones aquí (-u admin_backup -p) le dice a MariaDB que esta utilidad debe ser ejecutada por el usuario admin_backup y que al usuario se le debe solicitar una contraseña, que deberá ingresar en la siguiente línea cuando se le solicite. 
+
+Por cierto, aunque podría estar tentado a usar solo el usuario root, debería crear un usuario administrativo especial como el que estamos usando aquí. Si cron va a ejecutar el volcado por medio de un script de shell, esta opción se puede cambiar a -pmypwd, 
+
+
+donde mypwd es la contraseña; no hay espacio entre -P y la contraseña. 
+
+La opción -X hace que MariaDB bloquee todas las tablas antes de realizar la copia de seguridad. El bloqueo no se liberará hasta que finalice el proceso. Para agrupar las sentencias INSERT junto cn cada tabla se añade la opcion -e . Esta opción de inserción extendida hará que el archivo de volcado sea más pequeño y permitirá que cualquier posible restauración futura se ejecute más rápido. La opción -A especifica que se exportarán todas las bases de datos. Finalmente, el signo mayor que es una redirección de shell de la salida estándar (STDOUT) a la ruta y el archivo que lleva su nombre.
+
+
+
+El ejemplo dado para hacer una copia de seguridad de toda la base de datos es la versión abreviada. La convención está migrando a opciones más largas, no a las opciones de una sola letra. De hecho, algunos están en desuso y no estarán disponibles en el futuro. Entonces, lo anterior podría y debería ingresarse así:
+
+ 	mysqldump --user=admin_backup --password --lock-tables --todas las bases de datos > /data/backup/dbs.sql
+
+
+Los nombres de opciones más largos son más fáciles de seguir y recordar. Nuevamente, si la copia de seguridad se va a ejecutar mediante un script de shell, la contraseña del usuario debe aparecer en la lista: . Tenga en cuenta que el signo igual se agrega cuando la contraseña se proporciona con la opción larga name.--password=mypwd
+
+
+Respaldo de una base de datos
+
+Hacer una copia de seguridad de todas las bases de datos a la vez con mysqldump puede generar un archivo de volcado grande. Esto podría tomar más tiempo para completar la copia de seguridad y hacer que la restauración sea un poco engorrosa más adelante. Por lo tanto, podría ser más útil escalonar las copias de seguridad basadas en bases de datos, lo que posiblemente genere varios archivos más pequeños. Luego, podría respaldar bases de datos más grandes durante tiempos de tráfico más lentos. También puede hacer una copia de seguridad de las bases de datos críticas o de las que cambian mucho durante los momentos más lentos del día para no disminuir la interacción del usuario.
+
+Para exportar solo una base de datos y no todas, ingrese algo como lo siguiente desde la línea de comando:
+
+	mysqldump --user=admin_backup --password --lock-tables --databases db1 > /data/backup/db1.sql
+
+
+
+La única diferencia significativa en esta línea es que se ha sustituido la opción -A por -Band se ha dado la base de datos a exportar. Para exportar varias bases de datos, simplemente introdúzcalas después de la opción -B, separadas por espacios (p. ej., -B db1 db2).
+
+
+
+Volcando tablas:
+
+Para bases de datos muy grandes, es posible que desee realizar una copia de seguridad de los datos en función de las tablas en lugar de la base de datos completa. Puede hacer una copia de seguridad semanal de una base de datos completa y luego solo hacer una copia de seguridad diaria de las tablas individuales para las que los datos cambian con frecuencia. Para respaldar solo una tabla, se puede ingresar lo siguiente desde la línea de comando:
+
+
+	mysqldump --user=admin_backup --password --lock-tables db1 table1 > /data/backup/db1_table1.sql
+
+
+
+Primero observe que la opción --databases no se ha incluido en la línea anterior. La utilidad asume que el primer nombre dado es una base de datos y el segundo nombre es un nombre de tabla y no otra base de datos. Para hacer una copia de seguridad de varias tablas de una base de datos, simplemente enumérelas después del nombre de la base de datos, separadas por espacios (por ejemplo, db1 table1 table2).
+
+
+Conclusión
+
+Como puede ver en este artículo, mysqldump es fácil de usar y muy poderoso. De hecho, puede destruir sus datos si no tiene cuidado. Por lo tanto, debe practicar su uso en una base de datos de prueba, incluso un servidor de prueba, varias veces hasta que se sienta cómodo haciendo copias de seguridad y restaurándolas. No espere hasta que haya perdido sus datos y entre en pánico para restaurar sus datos y descubra que no ha estado haciendo una copia de seguridad de sus datos correctamente o que no sabe cómo ajustar la restauración de datos. Desarrollar algunas habilidades con antelación y de forma segura y controlada. Para saber cómo restaurar archivos de volcado, consulte nuestro artículo sobre Restauración de datos.
+
+
+
+
+Referencia:
+
+
+https://mariadb.com/kb/en/making-backups-with-mysqldump/
