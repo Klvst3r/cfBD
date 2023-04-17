@@ -1,0 +1,319 @@
+14.2 Creación de Triggers
+
+Ahora vamos a crear nuestro primer trigger, para ello vamos a trabajar con un ejemplo bastante sencillo.
+
+
+Teniendo en cuenta que la estructura de la tabla autores es:
+
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `autores`
+--
+
+CREATE TABLE `autores` (
+  `autor_id` int(11) UNSIGNED NOT NULL,
+  `nombre` varchar(25) NOT NULL,
+  `appaterno` varchar(25) NOT NULL,
+  `apmaterno` varchar(25) NOT NULL,
+  `seudonimo` varchar(50) DEFAULT NULL,
+  `genero` enum('M','F') DEFAULT NULL,
+  `fecha_nacimiento` date NOT NULL,
+  `pais_origen` varchar(40) NOT NULL,
+  `fecha_creacion` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+
+
+Primero vamos a agregar un nueva columna a nuestra tabla autores, la columna tendra por nombre cantidad libros, sera de tipo entero y comenzara en 0.
+
+
+	ALTER TABLE autores ADD COLUMN cantidad_libros INT DEFAULT 0;
+
+
+La idea con esta columna es que cada vez que  nosotros insertemos un registro en la tabla autores, esta columna aumente en 1 dependiendo del autor, es decir.
+
+
+Si nosotros insertamos un libro del autor "Sthepeng King" Entonces el registro Sthepen King debe aumentar en 1 su columna "cantidad_libros"-
+
+
+Para que nosotros logremos esto vamos a trabajar con triggers y vamos a trabajar con el evento insert.
+
+
+Lo primero que vamos a hacer es agregar esa nueva columna a la tabla autores.
+
+Ejecutamos en consola de Mysql
+
+		ALTER TABLE autores ADD COLUMN cantidad_libros INT DEFAULT 0;
+
+
+Hacemos un select
+
+	SELECT * FROM autores\G;
+
+
+Resultado:
+
+*************************** 1. row ***************************
+        autor_id: 1
+          nombre: primer_nombre
+       appaterno: autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Primero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 0
+*************************** 2. row ***************************
+        autor_id: 2
+          nombre: segundo_nombre
+       appaterno: autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Segundo
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 0
+*************************** 3. row ***************************
+        autor_id: 3
+          nombre: tercero_nombre
+       appaterno: autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Tercero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 0
+*************************** 4. row ***************************
+        autor_id: 4
+          nombre: cuarto_nombre
+       appaterno: autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Cuarto
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 0
+4 rows in set (0.006 sec)
+
+
+Pudiendo visualizar que la nueva columna, se encuentra en todos los registros.
+
+System clear;
+
+ 
+
+ Una vez hecho esto creamos nuestro trigger.
+
+ Para que nosotros puedamos crear un trigger vamos a seguir una sentencia un poco compleja.
+
+ Lo primero sera:
+
+ 	CREATE TRIGGER <nombre_trigger>
+
+ 	Tiempo- --Cuando queramos que este trigger
+
+ 	Pudiendo ser
+
+ 	BEFORE | AFTER
+
+
+ 	Posterior a ello asociamos el trigger a una tabla
+
+Es decir el trigger se va a ejecutar despues de la inserción en la tabla libros.
+
+Una nomenclatura que podemos utilizar para nombrar a un trigger es la siguiente:
+
+
+CREATE TRIGGER tiempo_evento_accion-a-realizzar.
+
+Ejemplo
+
+Actualización
+
+
+Una vez colocado esa estructura, vamos a colocar un FOR EACH ROW
+
+La sentencia FOR EACH ROW define que se ejecutara cada vez que el trigger sea activado, lo cual ocurre una vez por cada registro afectado.
+Recordemos que las sentencias insert, update o delete, pueden afectar a mas de nu registro.
+
+Podemos insertar mas de un registro, actualizar mas de un registro o eliminar mas de un registro.
+
+Entonces, con FOR EACH ROW vamos a definir que vamos a hacer en cada uno de los registros afectados.
+
+Ejemplo:
+
+	CREATE TRIGGER after_insert_actualizacion_libros
+	AFTER INSERT ON libros
+	FOR EACH ROW
+	BEGIN
+	END;
+
+
+Para el trigger vamos a colocar ;. Como es costumbre entre el BEGIN Y el END, vamos a colocar las sentencias que se ejecuten. En esta ocaicon sera un update autores.
+
+
+Como vamos a estar trabajando en cada uno de los registros afectados, podemos utlizar NEW.atributo
+
+	CREATE TRIGGER after_insert_actualizacion_libros
+	AFTER INSERT ON libros
+	FOR EACH ROW
+	BEGIN
+		UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id;
+	END;
+
+
+El NEW hace referencia al registro actual, es decir el registro que se ha insertado.
+
+De esta forma es como quedaria nuestro trigger, y para que puedamos utilizarlo en el servidor, Debemos colocar
+
+DELIMITER //
+
+
+DELIMITER ;
+
+
+
+Quedando finalemnte nuestro trigger de la siguiente forma:
+
+	DELIMITER //
+
+	CREATE TRIGGER after_insert_actualizacion_libros 
+	AFTER INSERT ON libros 
+	FOR EACH ROW 
+	BEGIN 
+		UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id; 
+	END; 
+	//
+
+	DELIMITER ;
+
+
+Copiamosy pegamos 
+
+
+En realidad se ejecuto en SQL
+
+CREATE TRIGGER after_insert_actualizacion_libros AFTER INSERT ON libros FOR EACH ROW BEGIN UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id; END;; 
+
+
+Como podemos observar visualizamos que el trigger se ha generado correctamente, ponemos esto a prueba.
+
+Vamos a insertar un registro en la tabla libros.
+
+Si hacemos una consulta a la tabla autores.
+	
+	SELECT * FROM autores;
+
+
+Resultado;
+
++----------+-------------+-------------+-------------+-----------+--------+------------------+-------------+---------------------+-----------------+
+| autor_id | nombre      | appaterno   | apmaterno   | seudonimo | genero | fecha_nacimiento | pais_origen | fecha_creacion      | cantidad_libros |
++----------+-------------+-------------+-------------+-----------+--------+------------------+-------------+---------------------+-----------------+
+|        1 | primer_nom  | autor_appat | autor_apmat | Primero   | M      | 2018-01-03       | México      | 2022-12-06 18:05:42 |               0 |
+|        2 | segundo_nom | autor_appat | autor_apmat | Segundo   | M      | 2018-01-03       | México      | 2022-12-06 18:05:42 |               0 |
+|        3 | tercero_nom | autor_appat | autor_apmat | Tercero   | M      | 2018-01-03       | México      | 2022-12-06 18:05:42 |               0 |
+|        4 | cuarto_nom  | autor_appat | autor_apmat | Cuarto    | M      | 2018-01-03       | México      | 2022-12-06 18:05:42 |               0 |
++----------+-------------+-------------+-------------+-----------+--------+------------------+-------------+---------------------+-----------------+
+4 rows in set (0.001 sec)
+
+
+Vamos a visualizar que cada uno de ellos posee 0 en la columna cantidad_libros;
+
+	INSERT INTO libros(autor_id, titulo, fecha_publicacion) VALUES (1, 'Area 81', '2011-07-01');
+
+
+Al intentar insertar un nuevo registro a esta tabla 
+
+Este libro le pertenece al Autor Sthepen King, en nuestro caso primer_nom, con ID 1
+
+Ejecutamos y visualizamos y si ahora consultamos la tabla nuevamente de autores;
+
+	
+	SELECT * FROM autores\G;
+
+Generando un error:
+
+
+Error
+
+SQL query: Copy Edit Edit
+
+INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (' ', '1', 'Area 81', NULL, NULL, '2011-07-01', current_timestamp(), '', '10')
+
+MySQL said: Documentation
+#1366 - Incorrect integer value: ' ' for column `libreria_cf`.`libros`.`libro_id` at row 1
+Column	Type	Function	Null	Value
+libro_id	int(10) unsigned	
+	
+autor_id	int(10) unsigned	
+	
+titulo	varchar(50)	
+	
+descripcion	varchar(250)	
+	
+paginas	int(10) unsigned	
+	
+fecha_publicacion	date	
+	...
+fecha_creacion	datetime	
+	...
+ventas	int(10) unsigned	
+	
+stock	int(10) unsigned	
+	
+
+Ignore
+Column	Type	Function	Null	Value
+libro_id	int(10) unsigned	
+	
+autor_id	int(10) unsigned	
+	
+titulo	varchar(50)	
+	
+descripcion	varchar(250)	
+	
+paginas	int(10) unsigned	
+	
+fecha_publicacion	date	
+	...
+fecha_creacion	datetime	
+	...
+ventas	int(10) unsigned	
+	
+stock	int(10) unsigned	
+	
+
+   and then   	
+	
+
+Continue insertion with rows
+Error
+
+SQL query: Copy Edit Edit
+
+INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (' ', '1', 'Area 81', NULL, NULL, '2011-07-01', current_timestamp(), '', '10')
+
+MySQL said: Documentation
+#1366 - Incorrect integer value: ' ' for column `libreria_cf`.`libros`.`libro_id` at row 1
+Open new phpMyAdmin window
+MySQL accepts additional values not selectable by the datepicker; key in those values directly if desired
+Click to dismiss this notification
+phpMyAdmin
+Welcome to phpMyAdmin
+You have been automatically logged out due to inactivity of 1440 seconds. Once you log in again, you should be able to resume the work where you left off.
+Log in Documentation
+Username:
+Password:
+
+
+5.57
+	
