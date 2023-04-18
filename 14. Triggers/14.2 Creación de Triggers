@@ -182,7 +182,7 @@ DELIMITER ;
 
 
 Quedando finalemnte nuestro trigger de la siguiente forma:
-
+-----------
 	DELIMITER //
 
 	CREATE TRIGGER after_insert_actualizacion_libros 
@@ -195,7 +195,7 @@ Quedando finalemnte nuestro trigger de la siguiente forma:
 
 	DELIMITER ;
 
-
+-----------
 Copiamosy pegamos 
 
 
@@ -253,67 +253,134 @@ MySQL said: Documentation
 #1366 - Incorrect integer value: ' ' for column `libreria_cf`.`libros`.`libro_id` at row 1
 Column	Type	Function	Null	Value
 libro_id	int(10) unsigned	
-	
 autor_id	int(10) unsigned	
-	
 titulo	varchar(50)	
-	
 descripcion	varchar(250)	
-	
 paginas	int(10) unsigned	
-	
 fecha_publicacion	date	
-	...
 fecha_creacion	datetime	
-	...
 ventas	int(10) unsigned	
-	
 stock	int(10) unsigned	
 	
-
-Ignore
-Column	Type	Function	Null	Value
-libro_id	int(10) unsigned	
-	
-autor_id	int(10) unsigned	
-	
-titulo	varchar(50)	
-	
-descripcion	varchar(250)	
-	
-paginas	int(10) unsigned	
-	
-fecha_publicacion	date	
-	...
-fecha_creacion	datetime	
-	...
-ventas	int(10) unsigned	
-	
-stock	int(10) unsigned	
-	
-
-   and then   	
-	
-
-Continue insertion with rows
-Error
 
 SQL query: Copy Edit Edit
 
 INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (' ', '1', 'Area 81', NULL, NULL, '2011-07-01', current_timestamp(), '', '10')
 
 MySQL said: Documentation
+
 #1366 - Incorrect integer value: ' ' for column `libreria_cf`.`libros`.`libro_id` at row 1
+
 Open new phpMyAdmin window
+
 MySQL accepts additional values not selectable by the datepicker; key in those values directly if desired
-Click to dismiss this notification
-phpMyAdmin
-Welcome to phpMyAdmin
-You have been automatically logged out due to inactivity of 1440 seconds. Once you log in again, you should be able to resume the work where you left off.
-Log in Documentation
-Username:
-Password:
 
 
-5.57
+
+La estructura de la tabla es la siguiente:
+
+desc libros;
++-------------------+------------------+------+-----+---------------------+-------+
+| Field             | Type             | Null | Key | Default             | Extra |
++-------------------+------------------+------+-----+---------------------+-------+
+| libro_id          | int(10) unsigned | NO   |     | NULL                |       |
+| autor_id          | int(10) unsigned | NO   |     | NULL                |       |
+| titulo            | varchar(50)      | NO   |     | NULL                |       |
+| descripcion       | varchar(250)     | YES  |     | NULL                |       |
+| paginas           | int(10) unsigned | YES  |     | NULL                |       |
+| fecha_publicacion | date             | NO   |     | NULL                |       |
+| fecha_creacion    | datetime         | YES  |     | current_timestamp() |       |
+| ventas            | int(10) unsigned | NO   |     | NULL                |       |
+| stock             | int(10) unsigned | NO   |     | 10                  |       |
++-------------------+------------------+------+-----+---------------------+-------+
+
+
+El campo "libro_id" no es aun autoincrementable, por lo que lo modificamos para que sea autoincrementable.
+
+	ALTER TABLE `libros` CHANGE `libro_id` `libro_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`libro_id`);
+
+Ahora podemos hacer nuestra inserción.
+
+
+Por lo que no podremos dejar vacio los campos que no aceptan valores nulos
+
+2. La segunda parte de la ejecución del trigger es la inserción de un titulo, en la tabla libros.
+
+
+
+
+finalmente nuestra inserción sera:
+
+	INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (NULL, '1', 'Area 81', 'Libro', NULL, '2011-07-01', current_timestamp(), '1', '10'); 
+
+
+
+3. Ahora hacemos la conulta de la tabla autores.
+
+	SELECT * FROM autores;
+
+
+Pudiendo visualizar que cada uno d elos autores posee el valor 0 en el campo cantidad_libros.
+
+4. Se hace la inserción y este libro pertenece al autor 	
+
+
+Este libro le pertenece al Autor Sthepen King, en nuestro caso primer_nom, con ID 1
+
+Ejecutamos y visualizamos y si ahora consultamos la tabla nuevamente de autores;
+
+
+Ahora ejecutamos nuevamente la consulta sobre la tabla autores;
+	
+	SELECT * FROM autores WHERE autor_id = 1 \G;
+
+Podremos percatarnos que el valor de la columna de cantidad_libros para el autor_id = 1, tiene ahora un valor en 1 
+
+
+
+SELECT * FROM autores\G;
+*************************** 1. row ***************************
+        autor_id: 1
+          nombre: Test primer_nombre
+       appaterno: Test_autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Primero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 1
+
+
+El campo cantidad_libros ha aumentado en 1. Eso quiere decir que nuestro trigger esta funcionando correctamente.
+
+
+5. Podemos inserta un nuevo registro:
+
+
+	INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (NULL, '1', 'El misterio de Salems Lot', 'Libro', NULL, '1975-01-01', current_timestamp(), '1', '10'); 
+
+6. Verificamos el incremento del campo cantidad_libros:
+
+
+SELECT * FROM autores WHERE autor_id = 1 \G;
+*************************** 1. row ***************************
+        autor_id: 1
+          nombre: Test primer_nombre
+       appaterno: Test_autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Primero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 2
+1 row in set (0.001 sec)
+
+
+
+Ahora se tienen 2 libros.
+
+De esta forma es como nostros podemos crear un trigger.
+
 	
