@@ -1,0 +1,180 @@
+14.3 Evento Delete
+
+
+Ahora vamos a crear un nuevo trigger el cual permita decrecer la columna cantidad libros siempre que un libro sea eliminado de nuestra base de datos, la sentencia quedaria de la siguiente manera:
+
+
+
+Pudiendo ser inmediatamente despues dela sección anterior:
+
+
+-----------
+	DELIMITER //
+
+	CREATE TRIGGER after_insert_actualizacion_libros 
+	AFTER INSERT ON libros 
+	FOR EACH ROW 
+	BEGIN 
+		UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id; 
+	END; 
+	//
+
+	CREATE TRIGGER after_delete_actualizacion_libros
+
+	AFTER DELETE ON libros
+	FOR EACH ROW
+	BEGIN
+		UPDATE autores SET cantidad_libros = cantidad_libros - 1 WHERE autor_id = OLD.autor_id;
+	END;
+
+
+
+	DELIMITER ;
+
+-----------
+
+	
+
+En esta ocación el evento sera delete, y se asociara a la tabla libros.
+
+Se coloca FOR EACH ROW y nuestra acción dentro del BEGIN y END.
+
+
+El segundo cambio es que ahora decrementa en lugar de sumar y ya no se utilizara la entidad NEW, ya que ahora se eliminada y por tanto se utilizara OLD. Que hace referencia al registro eliminado.
+
+Ahora podemos crear este nuevo Trigger
+
+
+Copiamos solamente el nuevo trigger, por lo que pasamos:
+
+
+-----------
+	DELIMITER //
+
+	
+	CREATE TRIGGER after_delete_actualizacion_libros
+
+	AFTER DELETE ON libros
+	FOR EACH ROW
+	BEGIN
+		UPDATE autores SET cantidad_libros = cantidad_libros - 1 WHERE autor_id = OLD.autor_id;
+	END;
+	//
+
+
+	DELIMITER ;
+
+-----------
+
+En consola devuelve:
+
+CREATE TRIGGER after_delete_actualizacion_libros AFTER DELETE ON libros FOR EACH ROW BEGIN UPDATE autores SET cantidad_libros = cantidad_libros - 1 WHERE autor_id = OLD.autor_id; END;; 
+
+
+Ahora ya poseemos dos triggers, vamos a hacer unaconsulta a la tabla autores.
+
+	SELECT * FROM autores WHERE autor_id = 1;\G;
+
+
+Resultado:
+
+	*************************** 1. row ***************************
+        autor_id: 1
+          nombre: Test primer_nombre
+       appaterno: Test_autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Primero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 2
+1 row in set (0.001 sec)
+
+
+
+
+
+Ahora vamos a eliminar el ultimo libro insertado. Colocamos	
+
+	SELECT libro_id, titulo FROM libros;
++----------+-------------------------------------------+
+| libro_id | titulo                                    |
++----------+-------------------------------------------+
+|        1 | Carrie                                    |
+|        2 | El misterio de Salmes Lot                 |
+|        3 | El resplandor                             |
+|        4 | Harry Potter y la Piedra Filosofal        |
+|        5 | Harry Potter y la Cámara Secreta          |
+|        6 | Harry Potter y el prisionero de Azkaban   |
+|        7 | Harry Potter y el cáliz de fuego          |
+|        8 | Harry Potter y la Orden del Fénix         |
+|        9 | Harry Potter y el Misterio del Príncipe   |
+|       10 | Harry Potter y las Reliquias de la Muerte |
+|       11 | Area 81                                   |
+|       12 | El misterio de Salems Lot                 |
++----------+-------------------------------------------+
+12 rows in set (0.001 sec)
+
+
+
+
+El ultimo libro insertado tiene el ID = 12.
+
+Entonces ese es el que vamos a elilminar.
+
+		DELETE FROM libros WHERE libro_id = 12;
+		
+
+		Query OK, 1 row affected (0.002 sec)
+
+ Consultamos nuevamente a nuestra tabla autores y visualizamos que la cantidad de libros ha disminuido.
+
+
+
+
+
+SELECT libro_id, titulo FROM libros;
++----------+-------------------------------------------+
+| libro_id | titulo                                    |
++----------+-------------------------------------------+
+|        1 | Carrie                                    |
+|        2 | El misterio de Salmes Lot                 |
+|        3 | El resplandor                             |
+|        4 | Harry Potter y la Piedra Filosofal        |
+|        5 | Harry Potter y la Cámara Secreta          |
+|        6 | Harry Potter y el prisionero de Azkaban   |
+|        7 | Harry Potter y el cáliz de fuego          |
+|        8 | Harry Potter y la Orden del Fénix         |
+|        9 | Harry Potter y el Misterio del Príncipe   |
+|       10 | Harry Potter y las Reliquias de la Muerte |
+|       11 | Area 81                                   |
++----------+-------------------------------------------+
+11 rows in set (0.001 sec)
+
+
+
+Si eliminamos nuevamente el ultimo libro que tambien le pertenece al autor Sthepen Kng, vamos a poder visualizar que ahora tiene cero libros.
+
+
+SELECT * FROM autores WHERE autor_id = 1 \G;
+*************************** 1. row ***************************
+        autor_id: 1
+          nombre: Test primer_nombre
+       appaterno: Test_autor_appaterno
+       apmaterno: autor_apmaterno
+       seudonimo: Primero
+          genero: M
+fecha_nacimiento: 2018-01-03
+     pais_origen: México
+  fecha_creacion: 2022-12-06 18:05:42
+ cantidad_libros: 0
+1 row in set (0.001 sec)
+
+
+De esta forma es como  nosotros vamos a trabajar con el evento DELETE.
+
+Para DELETE vamos a utilizar OLD y para insert vamos a utilizar NEW.
+
+En ambos casos se hace referencia al registro afectado.
+
