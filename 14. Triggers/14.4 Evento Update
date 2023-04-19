@@ -1,0 +1,202 @@
+14.4 Evento Update
+
+
+Vamos a trabajar con el evento Update, sera un ejemplo bastante sencillo.
+
+Lo que vamos a hacer es generar un nuevo Trigger el cual se ejecute cuando se actualice un registro de la tabla libros.
+
+Si el libro modifica su autor, entonces, el trigger disminuira en uno la columna cantidad_libros del viejo autor, y va a aincrementar en 1 la cantidad libros del nuevo autor.
+
+Generamos lo siguiente:
+
+Se pude colocar como un nuevo trigger.
+
+
+---
+
+	DELIMITER //
+
+	CREATE TRIGGER after_update_actualización_libros
+	AFTER UPDATE ON libros
+	FOR EACH ROW
+	BEGIN
+
+		IF(NEW.autor_id != OLD.autor_id) THEN
+			UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id;
+			UPDATE autores SET cantidad_libros = cantidad_libros - 1 WHERE autor_id = OLD.autor_id;
+		END IF;
+	END;
+
+	//
+
+	DELIMITER :
+
+---
+
+
+Se compara si el nuevo registro, en su columna autor_ai es diferente al viejo registro, es decir, el registro despues de la actualización y el registro antes de la actualización.
+
+Entonces, si hubo cun cambio en dicha columna, se va a incrementar en 1 el nuevo autor, y se va a decrecer en 1 el viejo autor.
+
+
+Validando NEW y validando OLD, nosotros podemos saber si hubo algun cambio en alguna columna en especial en este caso autor_id.
+
+Se copia el trigger y se ejecuta en MySQL,
+
+Ejecutando en consola:
+
+
+---
+
+CREATE TRIGGER after_update_actualización_libros AFTER UPDATE ON libros FOR EACH ROW BEGIN IF(NEW.autor_id != OLD.autor_id) THEN UPDATE autores SET cantidad_libros = cantidad_libros + 1 WHERE autor_id = NEW.autor_id; UPDATE autores SET cantidad_libros = cantidad_libros - 1 WHERE autor_id = OLD.autor_id; END IF; END;; 
+
+---
+
+
+SELECT libro_id, titulo, autor_id FROM libros;
++----------+-------------------------------------------+----------+
+| libro_id | titulo                                    | autor_id |
++----------+-------------------------------------------+----------+
+|        1 | Carrie                                    |        1 |
+|        2 | El misterio de Salmes Lot                 |        1 |
+|        3 | El resplandor                             |        1 |
+|        4 | Harry Potter y la Piedra Filosofal        |        2 |
+|        5 | Harry Potter y la Cámara Secreta          |        2 |
+|        6 | Harry Potter y el prisionero de Azkaban   |        2 |
+|        7 | Harry Potter y el cáliz de fuego          |        2 |
+|        8 | Harry Potter y la Orden del Fénix         |        2 |
+|        9 | Harry Potter y el Misterio del Príncipe   |        2 |
+|       10 | Harry Potter y las Reliquias de la Muerte |        2 |
++----------+-------------------------------------------+----------+
+10 rows in set (0.001 sec)
+
+
+Agregando otros libros del mismo autor insertamos dos registros adicionales con los que se trabajara.
+
+INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (NULL, '1', 'Area 81', NULL, NULL, '2011-07-01', current_timestamp(), '1', '10'); 
+
+
+
+y un segundo registro insertado
+
+INSERT INTO `libros` (`libro_id`, `autor_id`, `titulo`, `descripcion`, `paginas`, `fecha_publicacion`, `fecha_creacion`, `ventas`, `stock`) VALUES (NULL, '1', 'El misterio de Salems Lot', NULL, NULL, '1975-01-01', current_timestamp(), '1', '10'); 
+
+
+Consultando la tabla libros con el autor_id =1;
+
+
+	SELECT * FROM autores WHERE autor_id = 1 \G;
+	*************************** 1. row ***************************
+	        autor_id: 1
+	          nombre: Test primer_nombre
+	       appaterno: Test_autor_appaterno
+	       apmaterno: autor_apmaterno
+	       seudonimo: Primero
+	          genero: M
+	fecha_nacimiento: 2018-01-03
+	     pais_origen: México
+	  fecha_creacion: 2022-12-06 18:05:42
+	 cantidad_libros: 2
+	1 row in set (0.001 sec)
+
+
+
+
+La nueva consulta para el autor 1 o dos sera:
+
+	SELECT nombre, cantidad_libros FROM autores WHERE autor_id = 1 OR autor_id = 2;
+	+---------------------+-----------------+
+	| nombre              | cantidad_libros |
+	+---------------------+-----------------+
+	| Test primer_nombre  |               2 |
+	| Test segundo_nombre |               0 |
+	+---------------------+-----------------+
+
+
+
+Vamos modificar algun libro especificamente con el ID = 14
+
+
+
+UPDATE libros SET autor_id = 2 WHERE libro_id = 14;
+Query OK, 1 row affected (0.003 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+Ahora hacemos una consulta a esos dos autores:
+
+
+	SELECT autor_id, nombre, cantidad_libros FROM autores; 
+
+	SELECT autor_id, nombre, cantidad_libros FROM autores;
+	+----------+---------------------+-----------------+
+	| autor_id | nombre              | cantidad_libros |
+	+----------+---------------------+-----------------+
+	|        1 | Test primer_nombre  |               1 |
+	|        2 | Test segundo_nombre |               1 |
+	|        3 | Test tercero_nombre |               0 |
+	|        4 | Test cuarto_nombre  |               0 |
+	+----------+---------------------+-----------------+
+
+
+Podemos observar que se ha decrecido en uno el autor 1 y a aumentado el autor 2, la misma cantidad de libros.
+
+Hagamo otra actualización.
+
+ahora para el libro con el Id 13.
+
+
+	UPDATE libros SET autor_id = 2 WHERE libro_id = 13;
+
+
+Hacemos la consulta:
+
+		 SELECT autor_id, nombre, cantidad_libros FROM autores;
+	+----------+---------------------+-----------------+
+	| autor_id | nombre              | cantidad_libros |
+	+----------+---------------------+-----------------+
+	|        1 | Test primer_nombre  |               0 |
+	|        2 | Test segundo_nombre |               2 |
+	|        3 | Test tercero_nombre |               0 |
+	|        4 | Test cuarto_nombre  |               0 |
+	+----------+---------------------+-----------------+
+	4 rows in set (0.001 sec)
+
+
+Ahora visualizamos, los valores para el primer autor 0 y para el segundo 2.
+
+Actualizamos un campo el cual no sea autor_id;
+
+
+	
+
+	UPDATE libros SET titulo = "Nuevo titulo" WHERE libro_id = 13;
+	Query OK, 1 row affected (0.001 sec)
+	Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+Cnsultando los autores;
+
+	 SELECT autor_id, nombre, cantidad_libros FROM autores;
+	+----------+---------------------+-----------------+
+	| autor_id | nombre              | cantidad_libros |
+	+----------+---------------------+-----------------+
+	|        1 | Test primer_nombre  |               0 |
+	|        2 | Test segundo_nombre |               2 |
+	|        3 | Test tercero_nombre |               0 |
+	|        4 | Test cuarto_nombre  |               0 |
+	+----------+---------------------+-----------------+
+	4 rows in set (0.000 sec)
+
+
+
+
+Podemos visualizar que la cantidad de libros se conserva en 2, ya que no se actualizo y quedo tal cual se ejecuto en la utlima actualización.
+
+
+
+De esta forma es como nostros podemos generar triggers para cada uno de los eventos, para INSERT, DELETE y UPDATE.
+
+Vamos a utilizar NEW o se va a utilizar OLD dependiendo cual se  requiera.
+
