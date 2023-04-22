@@ -1,0 +1,31 @@
+14.5 Listado y eliminación de Triggers
+
+Como sabemos que triggers tenemos en nuestro servidor, para ello y para conocer la cantidad de triggers y para saber cuales son utilizaremos la sentencia SHOW TRIGGERS
+
+	SHOW TRIGGERS
+
+Tiene un formato no muy amigable asi que lo que podemos hacer es colocar 
+
+	SHOW TRIGGERS \G;
+
+De Esta forma podemos apreciar un poco mejor los triggers.
+
+en esta ocaicon se poseen 3.
+
+	- after_insert_actualizacion_libros
+	- after_update_actualizacion_libros
+	- after delete_actualizacion_libros
+
+Si nosotros queremos eliminar un TRIGGER ejecutaresmo la siguiente sentencia:
+
+Podemos validar si existe o no con la siguiente sentencia.
+
+DROP TRIGGER IF EXISTS <BD>.<NOMBRE_TRIGGER>
+
+Ej
+
+ DROP TRIGGER ID EXISTS libreria_cf.after_delete_actualizacion_libros;
+
+ Volvemos a listar los trigger y ahora unicamente poseemos 2 triggers.
+
+ De esta forma es como podemos listar y eliminar triggers de nuestro servidor de base de datos.
