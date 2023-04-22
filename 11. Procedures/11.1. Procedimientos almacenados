@@ -1,4 +1,4 @@
-11.1. Procedimientos almacenados.
+11.1. Procedimientos almacenados
 
 Los store Procedures o Procedimientos almacenados son rutinas, las cuales se ejecutan directamente en el motor de base de datos, estas rutinas pueden realizar trabajos sumamente complejas.
 
