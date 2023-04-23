@@ -1,0 +1,90 @@
+* Contratir utilizaSET @cantidad = (SELECT COUNT(*) FROM libros);do para almacenamiento de numeros positivos (revisar)
+	NOIT NULL(revisar)
+
+Sentencia la cual nos permite obtener todos los registros los cuales no peeen un valor en el campo nombre;
+	SELECT * FROM alumnos WHERE nombre IS NULL;
+
+Sentencia que nos permite obtener los nombres de los alumnos sin repetir
+	SELECT DISCTINCT nombre FROM alumnos;
+
+Constrait el cual nospermite establecer un campo como llave primaria
+	PRIMARY KEY
+
+Sentencia la cual nos permitirá crear la tabla alumnos si esta no existe
+	CREATE TABLE IF NOT EXISTS alumnos
+
+* cual de las siguientes sentencias es correcta (revisar)
+	SET @cantidad = (SELECT COUNT(*) FROM libros);
+	SET @cantidad = SELECT COUNT(*) FROM libros; -CORRECTA
+	DECLARE @cantidad = (SELECT COUNT(*) FROM libros);
+	DECLARE @cantidad = SELECT COUNT(*) FROM libros;
+
+Sentencia la cual nos permite actualizar el promedia de todos los alumnos cuya calificación sea mayor a 5
+	UPDATE alumnos SET promedio = promedio(id) WHERE calificacion > 5;
+
+Sentencia que permite concatenar el nombre y el apellido de un alumno;
+	SELECT CONCAT(nombre, " ", apellido);
+
+Clausula la cual nos permite unir el resultado de diferentes sentencias SQL(revisar)
+	JOIN(revisar)
+
+Sentencia que nos permite obtener el nombre de un alumno de forma aleatoria(revisar)
+	SELECT RAND(nombre FROM alumnos) FROM ALUMNOS LIMIT 1;(revisar)
+
+Sentencia que nos permite llamar al store procedure promedio
+	CALL promedio();
+
+Nos permite terminar una transaccion revirtiendo cualquier cambnio	
+	ROLLBACK
+
+Tipo de dato que nos permite almacenar un valor dado una lista de opciones
+	ENUM
+
+Cláusula la cual nos permite obtener valores del serviro
+	SELECT
+
+Función que nos permite conocer si un registro existe o no(revisar)
+	HAS(revisar)
+
+Qué es un gestor de base de datos
+	Un conjunto de rpogramas que nos permiten administrar y gestionar la información que contiene una base de datos
+
+clausula la cual nos permite realizar busquedas mediante expresiones regulares(revisar)
+	REGEX(revisar)
+
+Qué es SQL
+	Es un lenguaje de consultas con el cual podemos tener interacción con una base de datos
+
+Cláusula SQL que nos permite agrupar un conjunto de tuplas
+	GROUP BY
+
+Sentencia que nos permite comenzar una transeccion
+	STAR TRANSACCION;
+
+Funcion de agregación que nos permite contar registros
+	COUNT
+
+Sub-clausula la cual nos permite renombrar una tabla o un campo(revisar)
+	RENAME(revisar)
+
+Sentencia la cual nos permite re nombrar una tabla alumno por alumnos
+	ALTER TABLE alumno RENAME alumnos;
+
+Puerto por default que utiliza el servidor MySQL
+	3306
+
+Nos permite terminar una transacción permitiendo los cmabios de forma permanente
+	COMMIT;
+
+Calificaion obtenida 7
+
+Revisar
+
+
+1. ¿cual de las siguientes sentencias es correcta?
+2. Contrait utilizado para valida el almacenamiento de números positivos
+3. clausula la cual nos permite realizar busquedas mediante expresiones regulares
+4. Cláusula la cual nos permite unir el resultado de diferentes sentencias SQL
+5. Sub-clausula la cual nos permite re nombrar una tabla o un campo
+6. Función que nos permite conocer si un reistro existe o no
+7. Senetencia que nos permite obtener el nombre de forma aleatoria.
