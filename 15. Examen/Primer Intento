@@ -26,7 +26,7 @@ Sentencia que permite concatenar el nombre y el apellido de un alumno;
 	SELECT CONCAT(nombre, " ", apellido);
 
 Clausula la cual nos permite unir el resultado de diferentes sentencias SQL(revisar)
-	JOIN(revisar)
+	JOIN(revisar)->union
 
 Sentencia que nos permite obtener el nombre de un alumno de forma aleatoria(revisar)
 	SELECT RAND(nombre FROM alumnos) FROM ALUMNOS LIMIT 1;(revisar)
@@ -37,7 +37,7 @@ Sentencia que nos permite llamar al store procedure promedio
 Nos permite terminar una transaccion revirtiendo cualquier cambnio	
 	ROLLBACK
 
-Tipo de dato que nos permite almacenar un valor dado una lista de opciones
+Tipo de dato que nos permite almacenar un valofr dado una lista de opciones
 	ENUM
 
 Cláusula la cual nos permite obtener valores del serviro
@@ -65,7 +65,7 @@ Funcion de agregación que nos permite contar registros
 	COUNT
 
 Sub-clausula la cual nos permite renombrar una tabla o un campo(revisar)
-	RENAME(revisar)
+	RENAME(revisar)-> AS 
 
 Sentencia la cual nos permite re nombrar una tabla alumno por alumnos
 	ALTER TABLE alumno RENAME alumnos;
@@ -82,9 +82,36 @@ Revisar
 
 
 1. ¿cual de las siguientes sentencias es correcta?
+	SET @cantidad = (SELECT COUNT(*) FROM libros); - correcta
 2. Contrait utilizado para valida el almacenamiento de números positivos
+	Puse NOT NULL pero no es esta
+
 3. clausula la cual nos permite realizar busquedas mediante expresiones regulares
+	LIKE
+
 4. Cláusula la cual nos permite unir el resultado de diferentes sentencias SQL
+	UNION
+
+
 5. Sub-clausula la cual nos permite re nombrar una tabla o un campo
+	AS	
+
 6. Función que nos permite conocer si un reistro existe o no
+	IF EXISTS
+
 7. Senetencia que nos permite obtener el nombre de forma aleatoria.
+	SELECT NOMBRE where = RAND - MODIFICAR POR QU ESTA MAL
+
+Segundo intento
+
+
+
+1 Constraint utilizado para validar el almacenamiento de números positivos.
+	Puse NOT NULL
+2 Sentencia que nos permite obtener los nombres de los alumnos sin repetir.
+
+
+3Sentencia que nos permite obtener el nombre de un alumno de forma aleatoria.
+	Seleccione where nombre = RAND
+		SELECT RAND(nombre FROM alumnos) FROM ALUMNOS LIMIT 1;(revisar)
+		SELECT NOMBRE where = RAND
